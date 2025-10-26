@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+httpx
+psycopg2-binary
+sqlalchemy
+pydantic
+python-multipart
+python-dotenv
+langchain
+langchain-core
+langchain-community
+langchain-openai
+langchain-ollama
+jsonschema
+python-dateutil

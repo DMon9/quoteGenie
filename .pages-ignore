@@ -1,0 +1,54 @@
+# Cloudflare Pages - Files to ignore during deployment
+
+# Backend/AI services (not static assets)
+backend/
+orchestrator/
+model_server/
+models/
+D:/
+
+# Python
+*.pyc
+__pycache__/
+*.py
+venv/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (deploy separately or as static)
+*.md
+!README.md
+
+# Config files
+.env
+.env.*
+*.toml
+requirements*.txt
+
+# Scripts
+scripts/
+setup_sdcard.ps1
+download_models.py
+test_chains.py
+
+# Uploads and temp
+uploads/
+*.tmp
+*.log
+
+# Node modules (if any)
+node_modules/
+package-lock.json

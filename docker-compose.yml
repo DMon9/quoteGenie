@@ -1,0 +1,193 @@
+version: '3.9'
+services:
+  orchestrator:
+    build: ./orchestrator
+    container_name: orchestrator
+    ports:
+      - "8010:8000"
+    env_file:
+      - .env
+    # models are optional; orchestrator will call them by name when they exist
+    volumes:
+      - ./orchestrator:/app
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+  # Model servers using locally mounted Hugging Face models (no Docker registry pulls)
+  # Set MODELS_DIR environment variable to use custom location (e.g., D:\quoteGenie_models)
+  llama3:
+    build: ./model_server
+    container_name: llama3
+    ports:
+      - "11400:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/llama3:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+    profiles: ["models"]
+
+  mistral:
+    build: ./model_server
+    container_name: mistral
+    ports:
+      - "11401:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/mistral:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+    profiles: ["models"]
+
+  qwen2:
+    build: ./model_server
+    container_name: qwen2
+    ports:
+      - "11402:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/qwen2:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+    profiles: ["models"]
+
+  moondream2:
+    build: ./model_server
+    container_name: moondream2
+    ports:
+      - "11403:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/moondream2:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=vision
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+    profiles: ["models"]
+
+  gemma2:
+    build: ./model_server
+    container_name: gemma2
+    ports:
+      - "11404:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/gemma2:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+    profiles: ["models"]
+
+  llama31:
+    build: ./model_server
+    container_name: llama31
+    ports:
+      - "11405:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/llama31:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+    profiles: ["models"]
+
+  tinyllama:
+    build: ./model_server
+    container_name: tinyllama
+    ports:
+      - "11406:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/tinyllama:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    profiles: ["models"]
+
+  qwen25_0_5b:
+    build: ./model_server
+    container_name: qwen25_0_5b
+    ports:
+      - "11407:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/qwen25_0_5b:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    profiles: ["models"]
+
+  smolvlm:
+    build: ./model_server
+    container_name: smolvlm
+    ports:
+      - "11408:11434"
+    volumes:
+      - ${MODELS_DIR:-./models}/smolvlm:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=vision
+      - PORT=11434
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+    profiles: ["models"]
+
+  storage:
+    image: postgres:15
+    container_name: eg-postgres
+    environment:
+      POSTGRES_DB: estimategenie
+      POSTGRES_USER: eg_user
+      POSTGRES_PASSWORD: eg_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,10 @@
+name = "estimategenie-api"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# Environment variables
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }

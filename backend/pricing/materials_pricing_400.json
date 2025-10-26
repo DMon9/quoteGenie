@@ -1,0 +1,4002 @@
+[
+  {
+    "Material":"2x4x8 Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":4.92,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":4.5,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":4.14,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":4.34,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":5.28,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":6.56,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":5.98,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":5.64,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":5.6,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":6.85,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"3\/4\" Plywood",
+    "Category":"Lumber",
+    "Base_Cost_USD":48.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":56.28,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"3\/4\" Plywood",
+    "Category":"Lumber",
+    "Base_Cost_USD":48.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":52.4,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"3\/4\" Plywood",
+    "Category":"Lumber",
+    "Base_Cost_USD":48.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":47.08,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"3\/4\" Plywood",
+    "Category":"Lumber",
+    "Base_Cost_USD":48.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":47.8,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"3\/4\" Plywood",
+    "Category":"Lumber",
+    "Base_Cost_USD":48.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":57.37,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":17.42,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":15.46,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":13.9,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":15.44,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":17.91,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 5\/8\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":17.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":20.06,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 5\/8\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":17.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":18.35,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 5\/8\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":17.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":16.05,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 5\/8\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":17.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":17.59,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 5\/8\"",
+    "Category":"Drywall",
+    "Base_Cost_USD":17.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":21.12,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":37.39,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":33.47,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":30.95,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":33.45,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":39.59,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":46.82,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":43.54,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":37.27,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":40.49,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":46.6,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":28.88,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":26.14,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":23.78,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":25.93,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":30.05,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":5.88,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":5.69,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":5.23,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":5.5,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":6.55,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.06,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.82,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.68,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.7,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.06,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.48,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.25,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.18,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.21,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.75,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.77,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.56,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.34,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.37,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.93,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.27,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.99,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.76,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.95,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.25,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Tile",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":1.42,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Tile",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.28,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Tile",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.23,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Tile",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.25,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.3,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Tile",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":1.52,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":16.76,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":16.32,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":14.39,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":15.63,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":18.18,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Grout",
+    "Category":"Flooring",
+    "Base_Cost_USD":9.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":10.79,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Grout",
+    "Category":"Flooring",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":9.94,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Grout",
+    "Category":"Flooring",
+    "Base_Cost_USD":9.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":9.35,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Grout",
+    "Category":"Flooring",
+    "Base_Cost_USD":9.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":9.22,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Grout",
+    "Category":"Flooring",
+    "Base_Cost_USD":9.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":11.84,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":14.22,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":13.55,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":11.63,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":12.35,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":15.58,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":150.78,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":140.05,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":128.65,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":126.55,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":159.39,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":163.27,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":153.62,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":134.32,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":152.21,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":179.7,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":10.84,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":10.09,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":9.16,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":9.3,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":11.66,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Wire Mesh Roll",
+    "Category":"Concrete",
+    "Base_Cost_USD":85.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":100.67,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Wire Mesh Roll",
+    "Category":"Concrete",
+    "Base_Cost_USD":85.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":92.32,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Wire Mesh Roll",
+    "Category":"Concrete",
+    "Base_Cost_USD":85.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":81.28,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Wire Mesh Roll",
+    "Category":"Concrete",
+    "Base_Cost_USD":85.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":87.58,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Wire Mesh Roll",
+    "Category":"Concrete",
+    "Base_Cost_USD":85.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":106.9,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":123.08,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":107.17,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":98.3,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":103.67,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":127.21,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":73.36,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":67.3,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":62.83,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":67.66,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":80.08,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":5.62,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":5.42,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":4.63,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":5.13,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":6.21,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.03,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.95,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.68,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.87,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.24,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.76,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.54,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.0,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":3.27,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.86,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":1.14,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.01,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.9,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":0.95,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":1.17,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.05,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.85,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.68,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.83,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.17,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PVC Pipe 3in",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.1,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.37,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PVC Pipe 3in",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.1,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.23,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PVC Pipe 3in",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.1,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.05,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PVC Pipe 3in",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.1,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.14,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PVC Pipe 3in",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.1,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.49,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":0.47,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":0.41,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.38,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":0.4,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":0.48,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":1.47,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.35,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.19,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.22,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":1.56,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.48,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.13,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.81,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.83,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\"",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.56,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":158.2,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":143.11,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":128.36,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":132.82,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":160.07,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":212.04,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":200.44,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":174.86,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":188.85,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":219.28,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":114.09,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":103.51,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":93.81,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":95.2,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":119.53,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":73.99,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":70.22,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":61.9,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":66.01,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":80.9,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":72.1,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":63.77,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":57.06,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":59.57,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":71.17,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Electrical Outlet",
+    "Category":"Electrical",
+    "Base_Cost_USD":3.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":4.19,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Electrical Outlet",
+    "Category":"Electrical",
+    "Base_Cost_USD":3.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.78,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Electrical Outlet",
+    "Category":"Electrical",
+    "Base_Cost_USD":3.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.38,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Electrical Outlet",
+    "Category":"Electrical",
+    "Base_Cost_USD":3.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":3.54,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Electrical Outlet",
+    "Category":"Electrical",
+    "Base_Cost_USD":3.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":4.18,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.26,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.86,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.55,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.69,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.21,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":10.06,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":9.28,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":8.46,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":8.76,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":10.62,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":0.56,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":0.53,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.5,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":0.5,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":0.58,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"HVAC Duct 6in",
+    "Category":"HVAC",
+    "Base_Cost_USD":9.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":10.85,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"HVAC Duct 6in",
+    "Category":"HVAC",
+    "Base_Cost_USD":9.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":9.75,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"HVAC Duct 6in",
+    "Category":"HVAC",
+    "Base_Cost_USD":9.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":8.96,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"HVAC Duct 6in",
+    "Category":"HVAC",
+    "Base_Cost_USD":9.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":9.04,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"HVAC Duct 6in",
+    "Category":"HVAC",
+    "Base_Cost_USD":9.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":10.48,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":97.97,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":92.36,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":82.14,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":84.62,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":99.56,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":11.47,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":10.54,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":9.92,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":10.38,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":12.35,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":4.15,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.63,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.29,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":3.42,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":4.1,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.48,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.17,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.79,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":3.13,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.7,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":0.73,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":0.71,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.64,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":0.66,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":0.79,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gravel",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":61.57,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gravel",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":58.73,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gravel",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":51.72,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gravel",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":53.51,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gravel",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":66.8,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":53.52,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":47.83,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":44.38,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":45.06,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":55.15,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Wood",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":64.57,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Wood",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":58.51,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Wood",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":52.81,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Wood",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":55.61,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Wood",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":68.43,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Vinyl",
+    "Category":"Landscaping",
+    "Base_Cost_USD":78.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":88.4,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Vinyl",
+    "Category":"Landscaping",
+    "Base_Cost_USD":78.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":85.16,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Vinyl",
+    "Category":"Landscaping",
+    "Base_Cost_USD":78.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":74.49,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Vinyl",
+    "Category":"Landscaping",
+    "Base_Cost_USD":78.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":77.58,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Vinyl",
+    "Category":"Landscaping",
+    "Base_Cost_USD":78.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":94.22,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":11.08,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":9.74,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":8.85,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":9.43,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":11.34,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gate Hardware Kit",
+    "Category":"Landscaping",
+    "Base_Cost_USD":22.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":25.13,
+    "Unit_Type":"kit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gate Hardware Kit",
+    "Category":"Landscaping",
+    "Base_Cost_USD":22.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":23.82,
+    "Unit_Type":"kit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gate Hardware Kit",
+    "Category":"Landscaping",
+    "Base_Cost_USD":22.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":20.81,
+    "Unit_Type":"kit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gate Hardware Kit",
+    "Category":"Landscaping",
+    "Base_Cost_USD":22.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":22.49,
+    "Unit_Type":"kit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gate Hardware Kit",
+    "Category":"Landscaping",
+    "Base_Cost_USD":22.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":26.23,
+    "Unit_Type":"kit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.06,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum (Premium)",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":6.49,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch (Premium)",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.74,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.34,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.28,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom (Budget)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":76.5,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":224.68,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\" (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.05,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":9.32,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13) (Standard)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.11,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding (Budget)",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.9,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":164.59,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber (Standard)",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":7.61,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":3.59,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch (Standard)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.9,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle) (Standard)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":101.67,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":15.15,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.74,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil (Premium)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.94,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.53,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI (Standard)",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":179.36,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Tile (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":1.56,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk (Premium)",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":5.61,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\" (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.4,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch (Budget)",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.81,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A (Standard)",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":9.79,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":42.81,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim (Standard)",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.18,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\" (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.77,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand (Standard)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":55.88,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.46,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":13.33,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board (Premium)",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":12.19,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Switch (Standard)",
+    "Category":"Electrical",
+    "Base_Cost_USD":2.75,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.7,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle) (Premium)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":107.15,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation (Premium)",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.12,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim (Premium)",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.01,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll (Standard)",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":61.79,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":18.02,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gutter Aluminum (Premium)",
+    "Category":"Roofing",
+    "Base_Cost_USD":5.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":5.62,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat (Budget)",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":112.81,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":141.05,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":5.56,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Panel Wood (Premium)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":55.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":64.81,
+    "Unit_Type":"panel",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Grout (Premium)",
+    "Category":"Flooring",
+    "Base_Cost_USD":9.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":8.32,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI (Standard)",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":185.41,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga (Premium)",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":0.48,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Wire Mesh Roll (Budget)",
+    "Category":"Concrete",
+    "Base_Cost_USD":85.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":83.45,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.09,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":55.58,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thin-set Mortar 50lb (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":14.99,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":15.17,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\" (Premium)",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":17.11,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch (Premium)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.85,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint (Premium)",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":31.77,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":108.77,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Cement Backer Board (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":12.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":14.51,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post (Standard)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":11.58,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":1.4,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint (Budget)",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":37.3,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1 (Standard)",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":9.95,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI (Premium)",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":142.78,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Caulk (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":5.25,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":5.71,
+    "Unit_Type":"tube",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber (Budget)",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":6.77,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand (Standard)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":50.12,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI (Standard)",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":136.8,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Wire 12ga (Standard)",
+    "Category":"Electrical",
+    "Base_Cost_USD":0.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":0.54,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":63.1,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.69,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Exterior Paint (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":40.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":50.53,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll (Standard)",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":81.62,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding (Premium)",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":4.46,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat (Standard)",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":113.77,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Fitting (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":1.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":1.6,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.11,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":211.32,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll (Standard)",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":69.23,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer (Premium)",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":24.02,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post (Standard)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":10.12,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding (Budget)",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.91,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture (Premium)",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":65.26,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Copper Pipe 1\/2\" (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.9,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":3.47,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture (Standard)",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":67.33,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Insulation Roll (R-13) (Budget)",
+    "Category":"Insulation",
+    "Base_Cost_USD":0.95,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":1.15,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll (Budget)",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":81.66,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1 (Standard)",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":11.37,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Breaker 15A (Budget)",
+    "Category":"Electrical",
+    "Base_Cost_USD":9.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":8.24,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 3000 PSI (Budget)",
+    "Category":"Concrete",
+    "Base_Cost_USD":130.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":141.36,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Shingles (Bundle) (Budget)",
+    "Category":"Roofing",
+    "Base_Cost_USD":105.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":125.0,
+    "Unit_Type":"bundle",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":77.81,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":2.93,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1 (Budget)",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":12.81,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet (Premium)",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":1.94,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Topsoil (Premium)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":2.99,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":3.38,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Baseboard Trim (Standard)",
+    "Category":"Trim",
+    "Base_Cost_USD":1.75,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":1.91,
+    "Unit_Type":"linear_ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Light Fixture (Premium)",
+    "Category":"Electrical",
+    "Base_Cost_USD":60.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":65.47,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI (Budget)",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":200.45,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen (Budget)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":106.83,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Electrical Outlet (Standard)",
+    "Category":"Electrical",
+    "Base_Cost_USD":3.5,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.87,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 1\/2\" (Standard)",
+    "Category":"Drywall",
+    "Base_Cost_USD":15.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":14.38,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Kitchen (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":95.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":88.21,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.82,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sod Grass (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":0.65,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":0.65,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4 (Premium)",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":9.32,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet High Efficiency (Budget)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":185.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":199.99,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Concrete 4000 PSI (Budget)",
+    "Category":"Concrete",
+    "Base_Cost_USD":145.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":177.38,
+    "Unit_Type":"cubic_yard",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":2.12,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Primer (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":25.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":29.87,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard (Budget)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":166.18,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Faucet Bathroom (Premium)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":65.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":66.39,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Fence Post (Premium)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":9.5,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":12.19,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":35.54,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"AC Filter 20x25x1 (Premium)",
+    "Category":"HVAC",
+    "Base_Cost_USD":10.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":11.71,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Laminate Flooring (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.4,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":2.73,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Lumber (Premium)",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.9,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Lumber (Standard)",
+    "Category":"Lumber",
+    "Base_Cost_USD":4.25,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":4.34,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"HVAC Duct 6in (Budget)",
+    "Category":"HVAC",
+    "Base_Cost_USD":9.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":9.04,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding (Standard)",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":3.14,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Gate Hardware Kit (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":22.0,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":21.23,
+    "Unit_Type":"kit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":29.14,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PVC Pipe 3in (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":2.1,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.81,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Rebar #4 (Premium)",
+    "Category":"Concrete",
+    "Base_Cost_USD":9.5,
+    "Region":"Southeast",
+    "Regional_Adjustment_Percent":105.0,
+    "Final_Price_USD":11.76,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Hardie Board Siding (Standard)",
+    "Category":"Exterior",
+    "Base_Cost_USD":3.25,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":4.65,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Roof Underlayment Roll (Premium)",
+    "Category":"Roofing",
+    "Base_Cost_USD":65.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":89.12,
+    "Unit_Type":"roll",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Mulch (Standard)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":3.5,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":3.58,
+    "Unit_Type":"bag",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Drywall 5\/8\" (Premium)",
+    "Category":"Drywall",
+    "Base_Cost_USD":17.0,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":17.16,
+    "Unit_Type":"sheet",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Plank Flooring (Standard)",
+    "Category":"Flooring",
+    "Base_Cost_USD":2.2,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.46,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Spray Foam Insulation (Standard)",
+    "Category":"Insulation",
+    "Base_Cost_USD":1.8,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":2.24,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Vinyl Siding (Budget)",
+    "Category":"Exterior",
+    "Base_Cost_USD":1.8,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":1.71,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Interior Paint (Standard)",
+    "Category":"Paint",
+    "Base_Cost_USD":32.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":29.87,
+    "Unit_Type":"gallon",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Sand (Budget)",
+    "Category":"Landscaping",
+    "Base_Cost_USD":45.0,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":61.53,
+    "Unit_Type":"ton",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Thermostat (Premium)",
+    "Category":"HVAC",
+    "Base_Cost_USD":85.0,
+    "Region":"West Coast",
+    "Regional_Adjustment_Percent":120.0,
+    "Final_Price_USD":106.23,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Toilet Standard (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":135.0,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":131.11,
+    "Unit_Type":"unit",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"PEX Pipe 1\/2\" (Standard)",
+    "Category":"Plumbing",
+    "Base_Cost_USD":0.4,
+    "Region":"Southwest",
+    "Regional_Adjustment_Percent":100.0,
+    "Final_Price_USD":0.41,
+    "Unit_Type":"ft",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"2x4x8 Pressure Treated Lumber (Standard)",
+    "Category":"Lumber",
+    "Base_Cost_USD":5.75,
+    "Region":"Midwest",
+    "Regional_Adjustment_Percent":95.0,
+    "Final_Price_USD":6.49,
+    "Unit_Type":"piece",
+    "Updated":"2025-10-25"
+  },
+  {
+    "Material":"Carpet (Budget)",
+    "Category":"Flooring",
+    "Base_Cost_USD":1.9,
+    "Region":"Northeast",
+    "Regional_Adjustment_Percent":115.0,
+    "Final_Price_USD":2.14,
+    "Unit_Type":"sqft",
+    "Updated":"2025-10-25"
+  }
+]

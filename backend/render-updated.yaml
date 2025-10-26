@@ -1,0 +1,37 @@
+# Render.com deployment configuration for QuoteGenie backend
+# Deploy: Connect GitHub repo to Render and it will auto-detect this file
+# Note: Set GOOGLE_API_KEY via Render dashboard Secrets
+
+services:
+  # Main backend API with Gemini LLM and hot-reload pricing
+  - type: web
+    name: quotegenie-api
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: GOOGLE_API_KEY
+        sync: false # Set this via Render dashboard Secrets
+      - key: PRICE_LIST_FILE
+        value: /data/pricing/materials_pricing_400.json
+      - key: PRICE_LIST_RELOAD_SEC
+        value: 10
+      - key: ALLOW_ORIGINS
+        value: https://f5ed7926.estimategenie.pages.dev,https://estimategenie-api.thesportsdugout.workers.dev
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
+    disk:
+      name: pricing-data
+      mountPath: /data/pricing
+      sizeGB: 1

@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8000"  # avoid host port 8000 conflict
+    # Override dependencies in dev so we can run API without pulling Ollama
+    depends_on: []
+    environment:
+      - OLLAMA_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2:1b
+
+  # Make Ollama opt-in via profile to avoid large image pulls for quick dev
+  ollama:
+    profiles: ["ollama"]
+    ports:
+      - "11435:11434"  # expose Ollama on host port 11435

@@ -1,0 +1,48 @@
+# Render.com deployment configuration for EstimateGenie backend
+# Deploy: Connect GitHub repo to Render and it will auto-detect this file
+
+services:
+  # Main backend API
+  - type: web
+    name: estimategenie-backend
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: OLLAMA_URL
+        value: http://localhost:11434
+      - key: DATABASE_URL
+        sync: false
+    healthCheckPath: /health
+
+  # Orchestrator service
+  - type: web
+    name: estimategenie-orchestrator
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: orchestrator
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: OLLAMA_BASE_URL
+        value: http://localhost:11435
+      - key: OLLAMA_MODEL
+        value: llama3.2:1b
+    healthCheckPath: /
+
+  # PostgreSQL database
+  - type: pserv
+    name: estimategenie-db
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerCommand: postgres

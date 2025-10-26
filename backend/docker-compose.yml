@@ -1,0 +1,26 @@
+services:
+  api:
+    build: .
+    volumes:
+      - ./uploads:/app/uploads
+      - ./estimategenie.db:/app/estimategenie.db
+    environment:
+      - OLLAMA_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - PRICE_LIST_FILE=${PRICE_LIST_FILE:-./pricing/materials_pricing_400.json}
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    command: serve
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+
+      

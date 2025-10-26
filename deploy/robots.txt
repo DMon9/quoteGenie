@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Disallow dev-only paths (none currently)
+# Disallow: /admin
+
+Sitemap: https://estimategenie.net/sitemaps.xml

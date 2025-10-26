@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body class="bg-gray-50 font-sans antialiased">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center space-x-8">
+            <div class="flex-shrink-0 flex items-center">
+              <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+              <span class="ml-2 text-xl font-bold text-gray-900"
+                >EstimateGenie</span
+              >
+            </div>
+            <nav
+              class="hidden md:flex items-center space-x-6 text-sm font-medium"
+            >
+              <a href="dashboard.html" class="text-purple-600">Dashboard</a>
+              <a href="index.html" class="text-gray-500 hover:text-gray-900"
+                >Home</a
+              >
+              <a href="features.html" class="text-gray-500 hover:text-gray-900"
+                >Features</a
+              >
+              <a
+                href="case-studies.html"
+                class="text-gray-500 hover:text-gray-900"
+                >Case Studies</a
+              >
+              <a href="docs.html" class="text-gray-500 hover:text-gray-900"
+                >Docs</a
+              >
+            </nav>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <div class="hidden lg:block">
+              <label for="dashboard-search" class="sr-only">Search</label>
+              <div class="relative text-gray-400 focus-within:text-gray-500">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i data-feather="search" class="h-4 w-4"></i>
+                </span>
+                <input
+                  id="dashboard-search"
+                  type="search"
+                  placeholder="Search quotes, clients, files"
+                  class="pl-9 pr-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+            <!-- Notifications -->
+            <button class="relative p-2 text-gray-400 hover:text-gray-500">
+              <i data-feather="bell"></i>
+              <span
+                class="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"
+              ></span>
+            </button>
+
+            <!-- User Menu -->
+            <div class="relative">
+              <button
+                class="flex items-center space-x-3 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face"
+                  alt="User"
+                  class="h-8 w-8 rounded-full"
+                />
+                <span class="text-gray-700 font-medium">John Doe</span>
+                <i
+                  data-feather="chevron-down"
+                  class="h-4 w-4 text-gray-400"
+                ></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex h-screen bg-gray-50">
+      <!-- Sidebar -->
+      <div class="hidden md:flex md:w-64 md:flex-col">
+        <div
+          class="flex flex-col flex-grow bg-white shadow-sm border-r border-gray-200"
+        >
+          <nav class="flex-1 px-4 py-6 space-y-2">
+            <a
+              href="#"
+              class="bg-purple-50 text-purple-700 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            >
+              <i data-feather="home" class="text-purple-500 mr-3 h-5 w-5"></i>
+              Dashboard
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                data-feather="file-text"
+                class="text-gray-400 mr-3 h-5 w-5"
+              ></i>
+              My Quotes
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            >
+              <i data-feather="folder" class="text-gray-400 mr-3 h-5 w-5"></i>
+              Projects
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                data-feather="bar-chart-3"
+                class="text-gray-400 mr-3 h-5 w-5"
+              ></i>
+              Analytics
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            >
+              <i data-feather="users" class="text-gray-400 mr-3 h-5 w-5"></i>
+              Clients
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+            >
+              <i data-feather="settings" class="text-gray-400 mr-3 h-5 w-5"></i>
+              Settings
+            </a>
+          </nav>
+
+          <div class="px-4 py-4 border-t border-gray-200">
+            <div class="bg-purple-50 rounded-lg p-4">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+                </div>
+                <div class="ml-3 flex-1">
+                  <p class="text-sm font-medium text-purple-900">
+                    Credits Remaining
+                  </p>
+                  <p class="text-lg font-bold text-purple-700">47</p>
+                </div>
+              </div>
+              <button
+                class="mt-3 w-full px-3 py-2 bg-purple-600 text-white text-sm font-medium rounded-md hover:bg-purple-700 transition duration-300"
+              >
+                Buy More
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex-1 overflow-auto">
+        <div class="p-6">
+          <!-- Header -->
+          <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p class="text-gray-600">
+              Welcome back, John! Here's what's happening with your projects.
+            </p>
+          </div>
+
+          <!-- Stats Cards -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          >
+            <div class="metric-card success dashboard-card">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i
+                      data-feather="file-check"
+                      class="h-5 w-5 text-green-600"
+                    ></i>
+                  </div>
+                </div>
+                <div class="ml-4 flex-1">
+                  <p class="text-sm font-medium text-gray-500">Total Quotes</p>
+                  <p class="text-2xl font-bold text-gray-900">143</p>
+                  <p class="text-sm text-green-600">+12% from last month</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric-card warning dashboard-card">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i data-feather="clock" class="h-5 w-5 text-yellow-600"></i>
+                  </div>
+                </div>
+                <div class="ml-4 flex-1">
+                  <p class="text-sm font-medium text-gray-500">
+                    Pending Quotes
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900">8</p>
+                  <p class="text-sm text-yellow-600">Processing</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric-card info dashboard-card">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i
+                      data-feather="dollar-sign"
+                      class="h-5 w-5 text-blue-600"
+                    ></i>
+                  </div>
+                </div>
+                <div class="ml-4 flex-1">
+                  <p class="text-sm font-medium text-gray-500">Total Value</p>
+                  <p class="text-2xl font-bold text-gray-900">$2.4M</p>
+                  <p class="text-sm text-blue-600">+18% from last month</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="metric-card purple dashboard-card">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <div
+                    class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center"
+                  >
+                    <i
+                      data-feather="trending-up"
+                      class="h-5 w-5 text-purple-600"
+                    ></i>
+                  </div>
+                </div>
+                <div class="ml-4 flex-1">
+                  <p class="text-sm font-medium text-gray-500">Accuracy Rate</p>
+                  <p class="text-2xl font-bold text-gray-900">94.2%</p>
+                  <p class="text-sm text-purple-600">+2.1% improvement</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Quote Volume Chart -->
+            <div class="dashboard-card">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Quote Volume
+                </h3>
+                <select
+                  class="text-sm border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option>Last 30 days</option>
+                  <option>Last 90 days</option>
+                  <option>Last year</option>
+                </select>
+              </div>
+              <canvas id="quoteVolumeChart" height="200"></canvas>
+            </div>
+
+            <!-- Project Types -->
+            <div class="dashboard-card">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Project Types
+                </h3>
+                <button class="text-purple-600 text-sm hover:text-purple-700">
+                  View All
+                </button>
+              </div>
+              <canvas id="projectTypesChart" height="200"></canvas>
+            </div>
+          </div>
+
+          <!-- Pipeline & Conversion -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 dashboard-card">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Quote Pipeline Overview
+                </h3>
+                <span class="text-sm text-gray-500"
+                  >Updated 12 minutes ago</span
+                >
+              </div>
+              <div class="space-y-5">
+                <div>
+                  <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Submitted</span>
+                    <span>84%</span>
+                  </div>
+                  <div class="h-2 rounded-full bg-gray-200">
+                    <div
+                      class="h-2 rounded-full bg-purple-500"
+                      style="width: 84%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Sent</span>
+                    <span>68%</span>
+                  </div>
+                  <div class="h-2 rounded-full bg-gray-200">
+                    <div
+                      class="h-2 rounded-full bg-blue-500"
+                      style="width: 68%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Negotiation</span>
+                    <span>41%</span>
+                  </div>
+                  <div class="h-2 rounded-full bg-gray-200">
+                    <div
+                      class="h-2 rounded-full bg-yellow-500"
+                      style="width: 41%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Won</span>
+                    <span>29%</span>
+                  </div>
+                  <div class="h-2 rounded-full bg-gray-200">
+                    <div
+                      class="h-2 rounded-full bg-green-500"
+                      style="width: 29%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-card">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Conversion Trend
+                </h3>
+                <select
+                  class="text-sm border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option>Quarter</option>
+                  <option>Month</option>
+                  <option>Year</option>
+                </select>
+              </div>
+              <canvas id="conversionChart" height="220"></canvas>
+            </div>
+          </div>
+
+          <!-- Recent Activity and Quick Actions -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Recent Quotes -->
+            <div class="lg:col-span-2">
+              <div class="dashboard-card">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-lg font-semibold text-gray-900">
+                    Recent Quotes
+                  </h3>
+                  <a
+                    href="#"
+                    class="text-purple-600 text-sm hover:text-purple-700"
+                    >View All</a
+                  >
+                </div>
+                <div class="space-y-4">
+                  <div
+                    class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200"
+                  >
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center"
+                      >
+                        <i
+                          data-feather="home"
+                          class="h-5 w-5 text-blue-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900">
+                          Kitchen Renovation
+                        </p>
+                        <p class="text-sm text-gray-500">Created 2 hours ago</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-semibold text-gray-900">
+                        $15,400 - $22,100
+                      </p>
+                      <span class="status-badge completed">Completed</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200"
+                  >
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center"
+                      >
+                        <i
+                          data-feather="wrench"
+                          class="h-5 w-5 text-green-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900">Plumbing Repair</p>
+                        <p class="text-sm text-gray-500">Created 4 hours ago</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-semibold text-gray-900">$850 - $1,200</p>
+                      <span class="status-badge processing">Processing</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200"
+                  >
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center"
+                      >
+                        <i
+                          data-feather="zap"
+                          class="h-5 w-5 text-purple-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900">
+                          Electrical Upgrade
+                        </p>
+                        <p class="text-sm text-gray-500">Created yesterday</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-semibold text-gray-900">$3,200 - $4,500</p>
+                      <span class="status-badge completed">Completed</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200"
+                  >
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center"
+                      >
+                        <i
+                          data-feather="paint-bucket"
+                          class="h-5 w-5 text-yellow-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900">
+                          Interior Painting
+                        </p>
+                        <p class="text-sm text-gray-500">Created 2 days ago</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-semibold text-gray-900">$2,800 - $3,400</p>
+                      <span class="status-badge pending">Pending</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dashboard-card">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                Quick Actions
+              </h3>
+              <div class="space-y-3">
+                <button
+                  class="w-full flex items-center justify-center px-4 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition duration-300"
+                >
+                  <i data-feather="plus" class="mr-2 h-4 w-4"></i>
+                  New Quote
+                </button>
+
+                <button
+                  class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition duration-300"
+                >
+                  <i data-feather="upload" class="mr-2 h-4 w-4"></i>
+                  Upload Images
+                </button>
+
+                <button
+                  class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition duration-300"
+                >
+                  <i data-feather="users" class="mr-2 h-4 w-4"></i>
+                  Add Client
+                </button>
+
+                <button
+                  class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition duration-300"
+                >
+                  <i data-feather="bar-chart-3" class="mr-2 h-4 w-4"></i>
+                  View Reports
+                </button>
+              </div>
+
+              <!-- Tips Section -->
+              <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <div class="flex items-start">
+                  <i
+                    data-feather="lightbulb"
+                    class="h-5 w-5 text-blue-600 mt-0.5 mr-3"
+                  ></i>
+                  <div>
+                    <h4 class="text-sm font-semibold text-blue-900">Pro Tip</h4>
+                    <p class="text-sm text-blue-700 mt-1">
+                      Upload multiple angles of your project for more accurate
+                      AI estimates.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Account Status -->
+              <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-green-900">
+                      Professional Plan
+                    </p>
+                    <p class="text-xs text-green-700">
+                      Active until Dec 31, 2025
+                    </p>
+                  </div>
+                  <button class="text-green-600 text-sm hover:text-green-700">
+                    Upgrade
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks & Insights -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <div class="lg:col-span-2 dashboard-card">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Upcoming Tasks
+                </h3>
+                <button class="text-purple-600 text-sm hover:text-purple-700">
+                  View Calendar
+                </button>
+              </div>
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3"
+                >
+                  <div>
+                    <p class="font-medium text-gray-900">
+                      Client follow-up: GreenScapes
+                    </p>
+                    <p class="text-sm text-gray-500">
+                      Send revised landscaping proposal
+                    </p>
+                  </div>
+                  <span class="status-badge pending">Due today</span>
+                </div>
+                <div
+                  class="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3"
+                >
+                  <div>
+                    <p class="font-medium text-gray-900">Upload site photos</p>
+                    <p class="text-sm text-gray-500">
+                      Kitchen renovation project
+                    </p>
+                  </div>
+                  <span class="status-badge processing">Tomorrow</span>
+                </div>
+                <div
+                  class="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3"
+                >
+                  <div>
+                    <p class="font-medium text-gray-900">Team stand-up</p>
+                    <p class="text-sm text-gray-500">
+                      Review AI suggestions and approvals
+                    </p>
+                  </div>
+                  <span class="status-badge completed">Friday</span>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-card">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                AI Insights
+              </h3>
+              <ul class="space-y-4 text-sm text-gray-600">
+                <li class="flex items-start">
+                  <i
+                    data-feather="alert-triangle"
+                    class="h-4 w-4 text-yellow-500 mt-0.5 mr-3"
+                  ></i>
+                  Quotes pending approval are trending 18% higher than average.
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="trending-up"
+                    class="h-4 w-4 text-purple-500 mt-0.5 mr-3"
+                  ></i>
+                  Electrical upgrades are converting 11% better this month.
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="clock"
+                    class="h-4 w-4 text-blue-500 mt-0.5 mr-3"
+                  ></i>
+                  Average turnaround time is 29 minutes faster than peers.
+                </li>
+              </ul>
+              <button
+                class="mt-6 w-full px-4 py-2 border border-purple-200 text-purple-600 font-medium rounded-lg hover:bg-purple-50 transition duration-300"
+              >
+                View Recommendations
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      feather.replace();
+
+      // Quote Volume Chart
+      const ctx1 = document.getElementById("quoteVolumeChart").getContext("2d");
+      new Chart(ctx1, {
+        type: "line",
+        data: {
+          labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+          datasets: [
+            {
+              label: "Quotes Created",
+              data: [12, 19, 15, 25],
+              borderColor: "rgb(147, 51, 234)",
+              backgroundColor: "rgba(147, 51, 234, 0.1)",
+              tension: 0.4,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: "rgba(0,0,0,0.05)",
+              },
+            },
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+          },
+        },
+      });
+
+      // Project Types Chart
+      const ctx2 = document
+        .getElementById("projectTypesChart")
+        .getContext("2d");
+      new Chart(ctx2, {
+        type: "doughnut",
+        data: {
+          labels: [
+            "Renovation",
+            "Plumbing",
+            "Electrical",
+            "Landscaping",
+            "Other",
+          ],
+          datasets: [
+            {
+              data: [35, 25, 20, 15, 5],
+              backgroundColor: [
+                "rgb(147, 51, 234)",
+                "rgb(59, 130, 246)",
+                "rgb(16, 185, 129)",
+                "rgb(245, 158, 11)",
+                "rgb(107, 114, 128)",
+              ],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      });
+
+      // Conversion Trend Chart
+      const ctx3 = document.getElementById("conversionChart");
+      if (ctx3) {
+        new Chart(ctx3.getContext("2d"), {
+          type: "bar",
+          data: {
+            labels: ["Q1", "Q2", "Q3", "Q4"],
+            datasets: [
+              {
+                label: "Conversion %",
+                data: [24, 27, 31, 35],
+                backgroundColor: [
+                  "rgba(147, 51, 234, 0.8)",
+                  "rgba(59, 130, 246, 0.8)",
+                  "rgba(16, 185, 129, 0.8)",
+                  "rgba(250, 204, 21, 0.8)",
+                ],
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                suggestedMax: 40,
+                ticks: {
+                  callback: (value) => `${value}%`,
+                },
+                grid: {
+                  color: "rgba(0,0,0,0.05)",
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                },
+              },
+            },
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

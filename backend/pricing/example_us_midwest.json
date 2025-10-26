@@ -1,0 +1,17 @@
+{
+  "tile": {"price": 4.25, "unit": "sqft", "description": "Porcelain/Ceramic tile"},
+  "thin_set_mortar": {"price": 19.50, "unit": "bag", "description": "Thin-set mortar 50lb"},
+  "grout": {"price": 21.00, "unit": "bag", "description": "Tile grout 25lb"},
+  "grout_sealer": {"price": 17.50, "unit": "quart", "description": "Grout sealer"},
+  "cement_backer_board": {"price": 15.75, "unit": "sheet", "description": "3'x5' cement backer"},
+  "concrete_3000psi": {"price": 138.00, "unit": "cubic_yard", "description": "Ready-mix 3000 PSI"},
+  "lumber_2x4": {"price": 5.95, "unit": "piece", "description": "2x4x8 SPF"},
+  "lumber_2x4_treated": {"price": 6.95, "unit": "piece", "description": "2x4x8 Treated"},
+  "paint": {"price": 38.00, "unit": "gallon", "description": "Interior paint"},
+  "primer": {"price": 26.00, "unit": "gallon", "description": "Primer"},
+  "drywall": {"price": 13.25, "unit": "sheet", "description": "4x8 drywall"},
+  "joint_compound": {"price": 16.50, "unit": "bucket", "description": "Joint compound"},
+  "cabinets": {"price": 165.00, "unit": "linear_foot", "description": "Stock cabinets"},
+  "countertop": {"price": 49.00, "unit": "sqft", "description": "Laminate countertop"},
+  "backsplash": {"price": 9.50, "unit": "sqft", "description": "Backsplash tile"}
+}

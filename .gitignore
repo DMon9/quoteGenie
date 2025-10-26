@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Models (too large)
+models/*/
+!models/README.md
+
+# Pricing data (sensitive)
+pricing/*.json
+!pricing/README.md
+
+# Database
+*.db
+*.sqlite3
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads
+uploads/
+backend/uploads/
+frontend/uploads/
+
+# Temporary deployment directory
+frontend-deploy/
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+.wrangler/
+
+# Cache
+.cache/

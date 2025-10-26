@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body class="font-sans antialiased text-gray-800">
+    <div id="vanta-bg" class="fixed inset-0 z-0"></div>
+
+    <div class="relative z-10">
+      <!-- Navigation -->
+      <nav class="bg-white bg-opacity-90 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 flex items-center">
+                <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+                <span class="ml-2 text-xl font-bold text-gray-900"
+                  >EstimateGenie</span
+                >
+              </div>
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <a
+                  href="index.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Home</a
+                >
+                <a
+                  href="features.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Features</a
+                >
+                <a
+                  href="about.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >About</a
+                >
+                <a
+                  href="blog.html"
+                  class="nav-link-active inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Blog</a
+                >
+                <a
+                  href="case-studies.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Case Studies</a
+                >
+                <a
+                  href="docs.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Docs</a
+                >
+                <a
+                  href="contact.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Contact</a
+                >
+              </div>
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Log In
+              </button>
+              <button
+                class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Start Free Trial
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <div class="gradient-bg text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1
+            class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 fade-in-up"
+          >
+            Insights & <span class="text-yellow-300">Intelligence</span>
+          </h1>
+          <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+            Stay ahead with the latest trends in AI-powered estimation, industry
+            insights, and practical tips to grow your business.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <div
+              class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg px-6 py-3"
+            >
+              <span class="text-sm">📚 50+ Articles</span>
+            </div>
+            <div
+              class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg px-6 py-3"
+            >
+              <span class="text-sm">⚡ Weekly Updates</span>
+            </div>
+            <div
+              class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg px-6 py-3"
+            >
+              <span class="text-sm">🎯 Industry Experts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Article -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12">
+            <span class="text-purple-600 font-semibold">FEATURED ARTICLE</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 mt-2">
+              Latest Insights
+            </h2>
+          </div>
+
+          <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+            <div class="mb-8 lg:mb-0">
+              <img
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop"
+                alt="AI in Construction"
+                class="w-full h-64 object-cover rounded-xl"
+              />
+            </div>
+            <div>
+              <div class="flex items-center text-sm text-gray-500 mb-4">
+                <span
+                  class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                  >AI & Technology</span
+                >
+                <span>December 15, 2025</span>
+                <span class="mx-2">•</span>
+                <span>8 min read</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                How AI is Revolutionizing Project Estimation in 2025
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Discover the latest developments in artificial intelligence that
+                are transforming how businesses approach project estimation.
+                From computer vision to predictive analytics, learn how these
+                technologies are delivering unprecedented accuracy and speed.
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+                    alt="Alex Chen"
+                    class="w-10 h-10 rounded-full mr-3"
+                  />
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">Alex Chen</p>
+                    <p class="text-xs text-gray-500">CEO, EstimateGenie</p>
+                  </div>
+                </div>
+                <button
+                  class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300"
+                >
+                  Read More
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-wrap justify-center gap-4">
+            <button
+              class="px-6 py-2 bg-purple-600 text-white rounded-full text-sm font-medium"
+            >
+              All Posts
+            </button>
+            <button
+              class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-purple-100"
+            >
+              AI & Technology
+            </button>
+            <button
+              class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-purple-100"
+            >
+              Industry Trends
+            </button>
+            <button
+              class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-purple-100"
+            >
+              Best Practices
+            </button>
+            <button
+              class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-purple-100"
+            >
+              Case Studies
+            </button>
+            <button
+              class="px-6 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-purple-100"
+            >
+              Product Updates
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Article 1 -->
+            <article class="blog-card bg-white border border-gray-200">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop"
+                alt="Business Analytics"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <span
+                    class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                    >Best Practices</span
+                  >
+                  <span>Dec 12, 2025</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  5 Ways to Improve Your Estimation Accuracy
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  Learn proven strategies that top contractors use to create
+                  more accurate project estimates and win more bids.
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img
+                      src="https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=32&h=32&fit=crop&crop=face"
+                      alt="Sarah Rodriguez"
+                      class="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <p class="text-xs font-medium text-gray-900">
+                        Sarah Rodriguez
+                      </p>
+                      <p class="text-xs text-gray-500">6 min read</p>
+                    </div>
+                  </div>
+                  <i
+                    data-feather="arrow-right"
+                    class="h-4 w-4 text-purple-600"
+                  ></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="blog-card bg-white border border-gray-200">
+              <img
+                src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=400&h=250&fit=crop"
+                alt="Construction Site"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <span
+                    class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                    >Industry Trends</span
+                  >
+                  <span>Dec 10, 2025</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  The Future of Construction: Digital Transformation
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  Explore how digital tools are reshaping the construction
+                  industry and what it means for your business.
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
+                      alt="Marcus Johnson"
+                      class="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <p class="text-xs font-medium text-gray-900">
+                        Marcus Johnson
+                      </p>
+                      <p class="text-xs text-gray-500">4 min read</p>
+                    </div>
+                  </div>
+                  <i
+                    data-feather="arrow-right"
+                    class="h-4 w-4 text-purple-600"
+                  ></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="blog-card bg-white border border-gray-200">
+              <img
+                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=250&fit=crop"
+                alt="Team Meeting"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <span
+                    class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                    >Case Studies</span
+                  >
+                  <span>Dec 8, 2025</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  How ABC Construction Increased Revenue by 40%
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  A detailed look at how one company transformed their
+                  estimation process and dramatically improved their bottom
+                  line.
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img
+                      src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face"
+                      alt="Emily Watson"
+                      class="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <p class="text-xs font-medium text-gray-900">
+                        Emily Watson
+                      </p>
+                      <p class="text-xs text-gray-500">7 min read</p>
+                    </div>
+                  </div>
+                  <i
+                    data-feather="arrow-right"
+                    class="h-4 w-4 text-purple-600"
+                  ></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="blog-card bg-white border border-gray-200">
+              <img
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop"
+                alt="AI Technology"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <span
+                    class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                    >AI & Technology</span
+                  >
+                  <span>Dec 5, 2025</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  Understanding Computer Vision in Project Analysis
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  Deep dive into how AI analyzes project images to identify
+                  materials, assess scope, and generate accurate estimates.
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img
+                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=32&h=32&fit=crop&crop=face"
+                      alt="David Park"
+                      class="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <p class="text-xs font-medium text-gray-900">
+                        David Park
+                      </p>
+                      <p class="text-xs text-gray-500">5 min read</p>
+                    </div>
+                  </div>
+                  <i
+                    data-feather="arrow-right"
+                    class="h-4 w-4 text-purple-600"
+                  ></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 5 -->
+            <article class="blog-card bg-white border border-gray-200">
+              <img
+                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop"
+                alt="Business Growth"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <span
+                    class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                    >Product Updates</span
+                  >
+                  <span>Dec 3, 2025</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  Introducing EstimateGenie 2.0: Enhanced AI Capabilities
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  Discover the latest features and improvements that make our AI
+                  even more powerful and accurate.
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img
+                      src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=32&h=32&fit=crop&crop=face"
+                      alt="Lisa Thompson"
+                      class="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <p class="text-xs font-medium text-gray-900">
+                        Lisa Thompson
+                      </p>
+                      <p class="text-xs text-gray-500">3 min read</p>
+                    </div>
+                  </div>
+                  <i
+                    data-feather="arrow-right"
+                    class="h-4 w-4 text-purple-600"
+                  ></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Article 6 -->
+            <article class="blog-card bg-white border border-gray-200">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop"
+                alt="Business Success"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <span
+                    class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium mr-3"
+                    >Best Practices</span
+                  >
+                  <span>Nov 30, 2025</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  Building Client Trust Through Transparent Estimates
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  Learn how detailed, AI-generated estimates help build stronger
+                  relationships with your clients and win more projects.
+                </p>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face"
+                      alt="Alex Chen"
+                      class="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <p class="text-xs font-medium text-gray-900">Alex Chen</p>
+                      <p class="text-xs text-gray-500">6 min read</p>
+                    </div>
+                  </div>
+                  <i
+                    data-feather="arrow-right"
+                    class="h-4 w-4 text-purple-600"
+                  ></i>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Load More Button -->
+          <div class="text-center mt-12">
+            <button
+              class="px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300"
+            >
+              Load More Articles
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Newsletter Signup -->
+      <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <i
+              data-feather="mail"
+              class="h-12 w-12 text-purple-600 mx-auto mb-4"
+            ></i>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">
+              Stay in the Loop
+            </h2>
+            <p class="text-lg text-gray-600 mb-8">
+              Get the latest insights, tips, and updates delivered straight to
+              your inbox. Join 10,000+ professionals who trust our content.
+            </p>
+            <div class="max-w-md mx-auto">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+                <button
+                  class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300"
+                >
+                  Subscribe
+                </button>
+              </div>
+              <p class="text-sm text-gray-500 mt-3">
+                Weekly newsletter • No spam • Unsubscribe anytime
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Resources -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900">
+              Explore More Resources
+            </h2>
+            <p class="mt-4 text-xl text-gray-500">
+              Dive deeper into our comprehensive resource library
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8">
+            <div
+              class="interactive-card bg-purple-50 p-8 rounded-xl text-center"
+            >
+              <i
+                data-feather="book"
+                class="h-12 w-12 text-purple-600 mx-auto mb-4"
+              ></i>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
+                Documentation
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Complete guides, API docs, and implementation tutorials.
+              </p>
+              <a
+                href="docs.html"
+                class="inline-flex items-center text-purple-600 font-semibold"
+              >
+                Explore Docs
+                <i data-feather="arrow-right" class="ml-2 h-4 w-4"></i>
+              </a>
+            </div>
+
+            <div class="interactive-card bg-blue-50 p-8 rounded-xl text-center">
+              <i
+                data-feather="video"
+                class="h-12 w-12 text-blue-600 mx-auto mb-4"
+              ></i>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
+                Video Tutorials
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Step-by-step video guides to master EstimateGenie features.
+              </p>
+              <a
+                href="#"
+                class="inline-flex items-center text-blue-600 font-semibold"
+              >
+                Watch Now
+                <i data-feather="arrow-right" class="ml-2 h-4 w-4"></i>
+              </a>
+            </div>
+
+            <div
+              class="interactive-card bg-green-50 p-8 rounded-xl text-center"
+            >
+              <i
+                data-feather="users"
+                class="h-12 w-12 text-green-600 mx-auto mb-4"
+              ></i>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Community</h3>
+              <p class="text-gray-600 mb-6">
+                Join our community of professionals sharing tips and insights.
+              </p>
+              <a
+                href="#"
+                class="inline-flex items-center text-green-600 font-semibold"
+              >
+                Join Community
+                <i data-feather="arrow-right" class="ml-2 h-4 w-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-purple-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-extrabold sm:text-4xl mb-6">
+            Ready to Transform Your Business?
+          </h2>
+          <p class="text-xl opacity-90 mb-8">
+            Put these insights into action with EstimateGenie's powerful AI
+            estimation platform.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <button
+              class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="zap" class="mr-2"></i> Start Free Trial
+            </button>
+            <button
+              class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="phone" class="mr-2"></i> Schedule Demo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Product
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="features.html" class="hover:text-white">Features</a>
+                </li>
+                <li>
+                  <a href="index.html#pricing" class="hover:text-white"
+                    >Pricing</a
+                  >
+                </li>
+                <li><a href="docs.html" class="hover:text-white">API</a></li>
+                <li>
+                  <a href="docs.html" class="hover:text-white">Integrations</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Resources
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="docs.html" class="hover:text-white">Documentation</a>
+                </li>
+                <li><a href="blog.html" class="hover:text-white">Guides</a></li>
+                <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                <li>
+                  <a href="contact.html" class="hover:text-white">Support</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Company
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="about.html" class="hover:text-white">About</a></li>
+                <li><a href="#" class="hover:text-white">Careers</a></li>
+                <li><a href="#" class="hover:text-white">Privacy</a></li>
+                <li><a href="#" class="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Connect
+              </h3>
+              <div class="flex space-x-4 mb-4">
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="facebook"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="linkedin"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="instagram"></i>
+                </a>
+              </div>
+              <p class="text-sm">
+                Subscribe to our newsletter for updates and tips.
+              </p>
+              <div class="mt-4 flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-4 py-2 rounded-l-lg w-full text-gray-900 focus:outline-none"
+                />
+                <button
+                  class="bg-purple-600 text-white px-4 py-2 rounded-r-lg hover:bg-purple-700"
+                >
+                  <i data-feather="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="flex items-center mb-4 md:mb-0">
+              <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+              <span class="ml-2 text-lg font-bold text-white"
+                >EstimateGenie</span
+              >
+            </div>
+            <p class="text-sm">
+              &copy; 2025 EstimateGenie, Inc. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x7c5cf1,
+        backgroundColor: 0x0,
+        points: 10.0,
+        maxDistance: 22.0,
+        spacing: 17.0,
+      });
+    </script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

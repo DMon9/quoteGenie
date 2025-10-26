@@ -1,0 +1,118 @@
+version: '3.9'
+services:
+  orchestrator:
+    build: ./orchestrator
+    ports:
+      - "8000:8000"
+    depends_on:
+      - llama3
+      - qwen2
+      - moondream2
+      - mistral
+      - phi4
+      - deepseek
+      - granite
+    volumes:
+      - ./orchestrator:/app
+    working_dir: /app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  # All models now use locally mounted Hugging Face models
+  # Set MODELS_DIR environment variable to use custom location (e.g., SD card)
+  llama3:
+    build: ./model_server
+    ports: ["11400:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/llama3:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+          
+  mistral:
+    build: ./model_server
+    ports: ["11401:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/mistral:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+          
+  qwen2:
+    build: ./model_server
+    ports: ["11402:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/qwen2:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+          
+  moondream2:
+    build: ./model_server
+    ports: ["11403:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/moondream2:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=vision
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+          
+  deepseek:
+    build: ./model_server
+    ports: ["11404:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/deepseek:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+          
+  granite:
+    build: ./model_server
+    ports: ["11405:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/granite:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+          
+  phi4:
+    build: ./model_server
+    ports: ["11406:11434"]
+    volumes:
+      - ${MODELS_DIR:-./models}/phi4:/model:ro
+    environment:
+      - MODEL_PATH=/model
+      - MODEL_TYPE=text
+      - PORT=11434
+    deploy:
+      resources:
+        limits:
+          memory: 6g

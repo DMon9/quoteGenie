@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Quote Upload - EstimateGenie</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        color: #667eea;
+        margin-bottom: 10px;
+        font-size: 32px;
+      }
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+      }
+      .status {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+      }
+      .status.info {
+        background: #e3f2fd;
+        color: #1976d2;
+      }
+      .status.success {
+        background: #e8f5e9;
+        color: #388e3c;
+      }
+      .status.error {
+        background: #ffebee;
+        color: #c62828;
+      }
+      .status.loading {
+        background: #fff3e0;
+        color: #f57c00;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+      input[type="file"],
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      button {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+      }
+      button:hover:not(:disabled) {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+      .preview {
+        margin: 20px 0;
+        text-align: center;
+      }
+      .preview img {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .result {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 8px;
+      }
+      .result h2 {
+        color: #667eea;
+        margin-bottom: 15px;
+      }
+      .result-item {
+        margin-bottom: 12px;
+        padding: 12px;
+        background: white;
+        border-radius: 6px;
+      }
+      .result-item strong {
+        color: #333;
+      }
+      .backend-status {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .backend-status .badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .badge.online {
+        background: #e8f5e9;
+        color: #388e3c;
+      }
+      .badge.offline {
+        background: #ffebee;
+        color: #c62828;
+      }
+      .json-view {
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧞 EstimateGenie Test</h1>
+      <p class="subtitle">Upload an image to test the AI estimation API</p>
+
+      <div class="backend-status" id="backendStatus">
+        <span class="badge offline">Backend: Checking...</span>
+        <span class="badge offline">LLM: Checking...</span>
+        <span class="badge offline">Vision: Checking...</span>
+      </div>
+
+      <div id="status" class="status info">
+        Ready to upload. Select an image below.
+      </div>
+
+      <form id="uploadForm">
+        <div class="form-group">
+          <label for="imageFile">📷 Project Image</label>
+          <input type="file" id="imageFile" accept="image/*" required />
+        </div>
+
+        <div class="preview" id="preview"></div>
+
+        <div class="form-group">
+          <label for="projectType">🏗️ Project Type</label>
+          <select id="projectType" required>
+            <option value="general">General Renovation</option>
+            <option value="bathroom">Bathroom</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="roofing">Roofing</option>
+            <option value="flooring">Flooring</option>
+            <option value="painting">Painting</option>
+            <option value="landscaping">Landscaping</option>
+            <option value="electrical">Electrical</option>
+            <option value="plumbing">Plumbing</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="description">📝 Description (Optional)</label>
+          <textarea
+            id="description"
+            placeholder="Add any additional details about the project..."
+          ></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">Generate AI Estimate</button>
+      </form>
+
+      <div id="result" style="display: none">
+        <div class="result">
+          <h2>📊 Quote Results</h2>
+          <div id="resultContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Show a helpful notice if opened directly from file:// (will fail CORS)
+      if (window.location.protocol === "file:") {
+        const statusDiv = document.getElementById("status");
+        statusDiv.className = "status error";
+        statusDiv.textContent =
+          "This page is opened via file:// which blocks API calls. Please open http://localhost:8080/test-upload.html (served over HTTP).";
+      }
+
+      // API Configuration - using local backend
+      const API_BASE = "http://localhost:8001";
+
+      // Check backend status on load
+      async function checkBackendStatus() {
+        const statusDiv = document.getElementById("backendStatus");
+
+        // Check backend
+        try {
+          const response = await fetch(`${API_BASE}/health`);
+          if (response.ok) {
+            const data = await response.json();
+            statusDiv.children[0].textContent = `Backend: ✅ ${data.status}`;
+            statusDiv.children[0].className = "badge online";
+
+            // Update service statuses
+            if (data.services) {
+              statusDiv.children[1].textContent = `LLM: ${
+                data.services.llm ? "✅ Ready" : "❌ Offline"
+              }`;
+              statusDiv.children[1].className = data.services.llm
+                ? "badge online"
+                : "badge offline";
+
+              statusDiv.children[2].textContent = `Vision: ${
+                data.services.vision ? "✅ Ready" : "❌ Offline"
+              }`;
+              statusDiv.children[2].className = data.services.vision
+                ? "badge online"
+                : "badge offline";
+            }
+          }
+        } catch (error) {
+          statusDiv.children[0].textContent = "Backend: ❌ Offline";
+          statusDiv.children[0].className = "badge offline";
+          updateStatus(
+            "error",
+            "❌ Backend not reachable. Make sure Docker containers are running on localhost:8001"
+          );
+        }
+      }
+
+      // Preview image
+      document
+        .getElementById("imageFile")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              const preview = document.getElementById("preview");
+              preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      // Form submission
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const fileInput = document.getElementById("imageFile");
+          const projectType = document.getElementById("projectType").value;
+          const description = document.getElementById("description").value;
+          const submitBtn = document.getElementById("submitBtn");
+          const resultDiv = document.getElementById("result");
+          const resultContent = document.getElementById("resultContent");
+
+          if (!fileInput.files[0]) {
+            updateStatus("error", "❌ Please select an image");
+            return;
+          }
+
+          // Prepare form data
+          const formData = new FormData();
+          formData.append("file", fileInput.files[0]);
+          formData.append("project_type", projectType);
+          if (description) {
+            formData.append("description", description);
+          }
+
+          // Update UI
+          submitBtn.disabled = true;
+          submitBtn.textContent = "⏳ Analyzing image...";
+          updateStatus(
+            "loading",
+            "⏳ Uploading image and generating estimate... This may take 30-60 seconds."
+          );
+          resultDiv.style.display = "none";
+
+          try {
+            const response = await fetch(`${API_BASE}/v1/quotes`, {
+              method: "POST",
+              body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              updateStatus("success", "✅ Quote generated successfully!");
+              displayResults(data);
+              resultDiv.style.display = "block";
+            } else {
+              updateStatus(
+                "error",
+                `❌ Error: ${data.detail || "Unknown error"}`
+              );
+              resultContent.innerHTML = `<div class="json-view">${JSON.stringify(
+                data,
+                null,
+                2
+              )}</div>`;
+              resultDiv.style.display = "block";
+            }
+          } catch (error) {
+            updateStatus(
+              "error",
+              `❌ Network error: ${error.message}. Make sure backend is running on localhost:8001`
+            );
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Generate AI Estimate";
+          }
+        });
+
+      function updateStatus(type, message) {
+        const statusDiv = document.getElementById("status");
+        statusDiv.className = `status ${type}`;
+        statusDiv.textContent = message;
+      }
+
+      function displayResults(data) {
+        const content = document.getElementById("resultContent");
+
+        let html = `
+                <div class="result-item">
+                    <strong>Quote ID:</strong> ${data.id || "N/A"}
+                </div>
+                <div class="result-item">
+                    <strong>Status:</strong> ${data.status || "N/A"}
+                </div>
+                <div class="result-item">
+                    <strong>💰 Total Cost:</strong> $${
+                      data.total_cost?.toFixed(2) || "0.00"
+                    }
+                </div>
+                <div class="result-item">
+                    <strong>⏱️ Timeline:</strong> ${data.timeline || "N/A"}
+                </div>
+                <div class="result-item">
+                    <strong>🎯 Confidence Score:</strong> ${
+                      data.confidence_score
+                        ? (data.confidence_score * 100).toFixed(1) + "%"
+                        : "N/A"
+                    }
+                </div>
+            `;
+
+        if (data.materials && data.materials.length > 0) {
+          html += `
+                    <div class="result-item">
+                        <strong>🧱 Materials:</strong>
+                        <ul style="margin-top: 8px; padding-left: 20px;">
+                            ${data.materials
+                              .map(
+                                (m) =>
+                                  `<li>${m.name || m}: ${m.quantity || ""} ${
+                                    m.unit || ""
+                                  }</li>`
+                              )
+                              .join("")}
+                        </ul>
+                    </div>
+                `;
+        }
+
+        if (data.steps && data.steps.length > 0) {
+          html += `
+                    <div class="result-item">
+                        <strong>📋 Steps:</strong>
+                        <ol style="margin-top: 8px; padding-left: 20px;">
+                            ${data.steps.map((s) => `<li>${s}</li>`).join("")}
+                        </ol>
+                    </div>
+                `;
+        }
+
+        html += `
+                <div class="result-item">
+                    <strong>📄 Full JSON Response:</strong>
+                    <div class="json-view" style="margin-top: 8px;">${JSON.stringify(
+                      data,
+                      null,
+                      2
+                    )}</div>
+                </div>
+            `;
+
+        content.innerHTML = html;
+      }
+
+      // Check status on load
+      checkBackendStatus();
+    </script>
+  </body>
+</html>

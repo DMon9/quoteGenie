@@ -1,0 +1,52 @@
+# Exclude large model files and backend
+models/
+backend/
+orchestrator/
+model_server/
+__pycache__/
+
+# Exclude development files
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+*.log
+
+# Exclude git and IDE
+.git/
+.vscode/
+.idea/
+
+# Exclude Python virtual environments
+venv/
+env/
+ENV/
+
+# Exclude Docker files
+docker-compose*.yml
+Dockerfile*
+
+# Exclude documentation (keep only essential)
+*.md
+!README.md
+
+# Exclude test files
+test_*.py
+*_test.py
+test_*.html
+!test-upload-v2.html
+
+# Exclude pricing data (will be on backend)
+pricing/
+
+# Exclude scripts
+*.ps1
+*.sh
+
+# Keep only frontend files
+# Everything else is excluded above
