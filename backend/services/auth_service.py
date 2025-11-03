@@ -11,8 +11,9 @@ from models.user import User
 
 # Security Configuration
 # List of known weak/default keys that should trigger warnings
+# These are exact string matches to avoid false positives
 # Add common weak keys here to help detect insecure configurations
-WEAK_KEYS = [
+WEAK_KEYS = {
     "your-secret-key-change-in-production", 
     "secret", 
     "test", 
@@ -21,7 +22,7 @@ WEAK_KEYS = [
     "INSECURE_DEVELOPMENT_KEY_DO_NOT_USE_IN_PRODUCTION",
     "changeme",
     "change-me-to-a-secure-random-32-char-key"
-]
+}
 
 # Minimum recommended key length for JWT secrets
 MIN_KEY_LENGTH = 32
@@ -42,7 +43,9 @@ if not SECRET_KEY:
     SECRET_KEY = "INSECURE_DEVELOPMENT_KEY_DO_NOT_USE_IN_PRODUCTION"
 
 # Warn if using a weak or default secret key
-if SECRET_KEY in WEAK_KEYS or len(SECRET_KEY) < MIN_KEY_LENGTH:
+# Check length first (most important) or exact match against known weak keys
+is_weak_key = len(SECRET_KEY) < MIN_KEY_LENGTH or SECRET_KEY in WEAK_KEYS
+if is_weak_key:
     print("=" * 70, file=sys.stderr)
     print("SECURITY WARNING: JWT_SECRET_KEY is weak or uses default value!", file=sys.stderr)
     print("This is a critical security vulnerability in production.", file=sys.stderr)

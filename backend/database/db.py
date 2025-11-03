@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import sys
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 from pathlib import Path
@@ -162,7 +163,6 @@ class DatabaseService:
             
             # Log security event if invalid fields were attempted
             if invalid_field_count > 0:
-                import sys
                 print(f"Security: Rejected {invalid_field_count} invalid field(s) in update attempt", file=sys.stderr)
             
             if not fields:
