@@ -1,6 +1,6 @@
 # QuoteGenie Deployment Summary
 
-## 🎉 You're Ready to Deploy!
+## 🎉 You're Ready to Deploy
 
 All configuration files and documentation have been created for deploying QuoteGenie to production.
 
@@ -9,17 +9,20 @@ All configuration files and documentation have been created for deploying QuoteG
 ## 📋 What's Been Prepared
 
 ### ✅ Frontend Deployment (Cloudflare Pages)
+
 - **Guide:** `DEPLOY_CLOUDFLARE.md` - Complete step-by-step instructions
 - **Config:** `_redirects` - Security headers, caching rules
 - **Automation:** `deploy_cloudflare.ps1` - PowerShell deployment script
 - **Worker:** `api-worker/index.js` - API proxy with CORS handling
 
 ### ✅ Backend Deployment (Choose One)
+
 - **Render:** `backend/render-updated.yaml` ⭐ Easiest, recommended for first deployment
 - **Railway:** `backend/railway.json` - Best performance on free tier
 - **Fly.io:** `backend/fly.toml` - Best for scale and global traffic
 
 ### ✅ Documentation
+
 - **DEPLOY_CLOUDFLARE.md** - Frontend + Worker + Backend deployment guide
 - **BACKEND_HOSTING.md** - Detailed comparison of Render vs Railway vs Fly.io
 - **PRICING_HOT_RELOAD.md** - How the pricing system works
@@ -109,21 +112,25 @@ Backend API (Render/Railway/Fly.io)
 ## 🔑 Required Secrets
 
 ### Backend
+
 ```bash
-GOOGLE_API_KEY=your_gemini_api_key_here
+GOOGLE_API_KEY=AIzaSyBan9TR_G6naHIEWmu_ABvEMR0JNBRFMi4
 ```
 
 Set via:
+
 - **Render:** Dashboard → Environment → Add Secret
 - **Railway:** `railway variables set GOOGLE_API_KEY=...`
 - **Fly.io:** `flyctl secrets set GOOGLE_API_KEY=...`
 
 ### Worker
+
 ```bash
 BACKEND_URL=https://your-deployed-backend-url
 ```
 
 Set in `api-worker/wrangler.toml` or via:
+
 ```bash
 npx wrangler secret put BACKEND_URL
 ```
@@ -133,9 +140,11 @@ npx wrangler secret put BACKEND_URL
 ## 📁 Files to Upload After Deployment
 
 ### Pricing Data (Required)
+
 Upload `pricing/materials_pricing_400.json` to backend persistent disk:
 
 **Render:**
+
 ```bash
 # Via Render Shell (Dashboard → Shell)
 mkdir -p /data/pricing
@@ -143,6 +152,7 @@ mkdir -p /data/pricing
 ```
 
 **Railway:**
+
 ```bash
 railway run bash
 mkdir -p /data/pricing
@@ -150,6 +160,7 @@ mkdir -p /data/pricing
 ```
 
 **Fly.io:**
+
 ```bash
 flyctl ssh console
 mkdir -p /data/pricing
@@ -163,10 +174,13 @@ mkdir -p /data/pricing
 After deployment, verify each component:
 
 ### 1. Backend Health
+
 ```bash
 curl https://your-backend-url/health
 ```
+
 Expected:
+
 ```json
 {
   "status": "healthy",
@@ -180,10 +194,13 @@ Expected:
 ```
 
 ### 2. Pricing System
+
 ```bash
 curl https://your-backend-url/v1/pricing/status
 ```
+
 Expected:
+
 ```json
 {
   "external_price_keys": 134,
@@ -194,13 +211,17 @@ Expected:
 ```
 
 ### 3. Worker Proxy
+
 ```bash
 curl https://your-worker-url/api/health
 ```
+
 Should return backend health response
 
 ### 4. Frontend
+
 Open `https://estimategenie.pages.dev/test-upload-v2.html`
+
 - Backend status should be green
 - Upload test image
 - Verify quote generation
@@ -210,6 +231,7 @@ Open `https://estimategenie.pages.dev/test-upload-v2.html`
 ## 💰 Cost Estimate
 
 ### Recommended Setup (Free)
+
 - **Cloudflare Pages:** $0 (unlimited requests)
 - **Cloudflare Worker:** $0 (100k requests/day free)
 - **Render Backend:** $0 (750 hours/month, spins down after 15min)
@@ -218,6 +240,7 @@ Open `https://estimategenie.pages.dev/test-upload-v2.html`
 **Total: $0/month** for low-traffic usage
 
 ### Production Setup (Paid)
+
 - **Cloudflare Pages:** $0 (still free)
 - **Cloudflare Worker:** $0 (rarely exceed free tier)
 - **Railway Backend:** ~$10/month (always-on, better performance)
@@ -229,7 +252,7 @@ Open `https://estimategenie.pages.dev/test-upload-v2.html`
 
 ## 🎯 Next Steps
 
-### Immediate Actions:
+### Immediate Actions
 
 1. **Choose Backend Provider**
    - First time? → Use **Render** (easiest)
@@ -247,14 +270,15 @@ Open `https://estimategenie.pages.dev/test-upload-v2.html`
 
 4. **Deploy Frontend**
    - Run `.\deploy_cloudflare.ps1` or manual wrangler
-  - Test at `https://estimategenie.pages.dev`
+
+- Test at `https://estimategenie.pages.dev`
 
 5. **Verify End-to-End**
    - Upload test construction image
    - Confirm quote generation
    - Check pricing breakdown
 
-### Documentation to Read:
+### Documentation to Read
 
 - **Start here:** `BACKEND_HOSTING.md` - Choose your backend provider
 - **Then:** `DEPLOY_CLOUDFLARE.md` - Complete deployment guide
@@ -265,29 +289,33 @@ Open `https://estimategenie.pages.dev/test-upload-v2.html`
 
 ## 🆘 Need Help?
 
-### Common Issues:
+### Common Issues
 
 **Backend won't start:**
+
 - Check logs for GOOGLE_API_KEY
 - Verify requirements.txt installed
 - Check Python version (3.11+)
 
 **Pricing not loading:**
+
 - Verify file uploaded to `/data/pricing/`
 - Check PRICE_LIST_FILE environment variable
 - Review logs: `railway logs` or `flyctl logs`
 
 **CORS errors:**
+
 - Update ALLOW_ORIGINS with frontend URL
 - Verify worker CORS headers
 - Check browser console for exact error
 
 **LLM timeout:**
+
 - Increase timeout in llm_service.py
 - Try smaller test images
 - Check GOOGLE_API_KEY is valid
 
-### Debug Commands:
+### Debug Commands
 
 ```bash
 # View backend logs
@@ -307,7 +335,7 @@ curl https://backend-url/v1/pricing/lookup?key=lumber_2x4
 
 ---
 
-## 🎉 You're All Set!
+## 🎉 You're All Set
 
 All configuration files are ready in your workspace:
 

@@ -38,7 +38,13 @@
           <span id="error-text"></span>
         </div>
         <p class="text-gray-500 text-sm">
-          Powered by <a href="https://stripe.com" target="_blank" class="text-purple-600 hover:underline">Stripe</a>
+          Powered by
+          <a
+            href="https://stripe.com"
+            target="_blank"
+            class="text-purple-600 hover:underline"
+            >Stripe</a
+          >
         </p>
       </div>
 
@@ -57,36 +63,38 @@
     <script>
       feather.replace();
 
-      document.addEventListener('DOMContentLoaded', async () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('session');
-        const errorMessageDiv = document.getElementById('error-message');
-        const errorTextSpan = document.getElementById('error-text');
-        const loadingMessageDiv = document.getElementById('loading-message');
+        const sessionId = urlParams.get("session");
+        const errorMessageDiv = document.getElementById("error-message");
+        const errorTextSpan = document.getElementById("error-text");
+        const loadingMessageDiv = document.getElementById("loading-message");
 
         if (sessionId) {
           try {
-            const stripe = Stripe('pk_test_your_key_here'); // Replace with your actual Stripe Publishable Key
+            const stripe = Stripe("pk_test_your_key_here"); // Replace with your actual Stripe Publishable Key
             const { error } = await stripe.redirectToCheckout({
               sessionId: sessionId,
             });
 
             if (error) {
               errorTextSpan.textContent = error.message;
-              errorMessageDiv.classList.remove('hidden');
-              loadingMessageDiv.classList.add('hidden');
-              console.error('Stripe checkout error:', error);
+              errorMessageDiv.classList.remove("hidden");
+              loadingMessageDiv.classList.add("hidden");
+              console.error("Stripe checkout error:", error);
             }
           } catch (e) {
-            errorTextSpan.textContent = 'An unexpected error occurred during checkout.';
-            errorMessageDiv.classList.remove('hidden');
-            loadingMessageDiv.classList.add('hidden');
-            console.error('Client-side checkout error:', e);
+            errorTextSpan.textContent =
+              "An unexpected error occurred during checkout.";
+            errorMessageDiv.classList.remove("hidden");
+            loadingMessageDiv.classList.add("hidden");
+            console.error("Client-side checkout error:", e);
           }
         } else {
-          errorTextSpan.textContent = 'No checkout session found. Please try signing up again.';
-          errorMessageDiv.classList.remove('hidden');
-          loadingMessageDiv.classList.add('hidden');
+          errorTextSpan.textContent =
+            "No checkout session found. Please try signing up again.";
+          errorMessageDiv.classList.remove("hidden");
+          loadingMessageDiv.classList.add("hidden");
         }
       });
     </script>

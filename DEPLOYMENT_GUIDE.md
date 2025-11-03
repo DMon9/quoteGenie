@@ -1,31 +1,36 @@
 # Deployment Guide - EstimateGenie Authentication & Payments
 
 ## Overview
+
 Complete deployment checklist for EstimateGenie with JWT authentication and Stripe payments.
 
 ## Pre-Deployment Setup
 
 ### 1. Generate JWT Secret Key
+
 ```bash
 openssl rand -hex 32
 ```
+
 Save this value - you'll need it for environment variables.
 
 ### 2. Configure Stripe
 
 #### Create Products in Stripe Dashboard
-1. Go to: https://dashboard.stripe.com/products
+
+1. Go to: <https://dashboard.stripe.com/products>
 2. Click "Add Product"
 3. Product details:
    - Name: EstimateGenie Professional
    - Description: Unlimited quotes and API access
 4. Add pricing:
    - **Monthly:** $49/month (recurring)
-   - **Annual:** $468/year (recurring) 
+   - **Annual:** $468/year (recurring)
 5. Copy both Price IDs (starts with `price_...`)
 
 #### Set Up Webhook Endpoint
-1. Go to: https://dashboard.stripe.com/webhooks
+
+1. Go to: <https://dashboard.stripe.com/webhooks>
 2. Click "Add endpoint"
 3. Endpoint URL: `https://api.estimategenie.net/api/v1/webhooks/stripe`
 4. Description: EstimateGenie subscription events
@@ -49,7 +54,7 @@ fly secrets set STRIPE_SECRET_KEY=sk_test_your_stripe_key
 fly secrets set STRIPE_WEBHOOK_SECRET=whsec_5QeFbR28kakRecPOwobpgIuKbpgGq6GB
 fly secrets set STRIPE_PRICE_ID_PRO_MONTHLY=price_1SOE2YENa3zBKoIjGn0yD5mN
 fly secrets set STRIPE_PRICE_ID_PRO_ANNUAL=price_1SOE2YENa3zBKoIjVmHFP2GX
-fly secrets set GOOGLE_API_KEY=your-google-api-key
+fly secrets set GOOGLE_API_KEY=AIzaSyBan9TR_G6naHIEWmu_ABvEMR0JNBRFMi4
 fly secrets set GEMINI_MODEL=gemini-1.5-flash
 fly secrets set LLM_PROVIDER=google
 fly secrets set ALLOW_ORIGINS=https://estimategenie.net,https://f00e471b.estimategenie.pages.dev
@@ -65,11 +70,13 @@ fly deploy
 ```
 
 Verify deployment:
+
 ```bash
 curl https://api.estimategenie.net/health
 ```
 
 Expected response:
+
 ```json
 {
   "status": "healthy",
@@ -104,20 +111,23 @@ Copy-Item -Recurse assets frontend-deploy/
 ```
 
 Deploy:
+
 ```bash
 cd frontend-deploy
 npx wrangler pages deploy . --project-name=estimategenie
 ```
 
 Your site will be available at:
-- Custom domain: https://estimategenie.net
-- Cloudflare domain: https://f00e471b.estimategenie.pages.dev
+
+- Custom domain: <https://estimategenie.net>
+- Cloudflare domain: <https://f00e471b.estimategenie.pages.dev>
 
 ## Post-Deployment Testing
 
 ### Test 1: User Registration (Free Plan)
 
 Using curl:
+
 ```bash
 curl -X POST https://api.estimategenie.net/api/v1/auth/register \
   -H "Content-Type: application/json" \
@@ -129,7 +139,7 @@ curl -X POST https://api.estimategenie.net/api/v1/auth/register \
   }'
 ```
 
-Or visit: https://estimategenie.net/signup.html
+Or visit: <https://estimategenie.net/signup.html>
 
 ### Test 2: User Login
 
@@ -163,7 +173,7 @@ curl -X POST https://api.estimategenie.net/v1/quotes \
 
 ### Test 5: Pro Plan Registration with Stripe
 
-1. Go to: https://estimategenie.net/signup.html
+1. Go to: <https://estimategenie.net/signup.html>
 2. Fill in registration form
 3. Select "Professional" plan ($49/month)
 4. Click "Get Started"
@@ -179,7 +189,8 @@ curl -X POST https://api.estimategenie.net/v1/quotes \
 ### Test 6: Webhook Processing
 
 Check Stripe Dashboard:
-1. Go to: https://dashboard.stripe.com/webhooks
+
+1. Go to: <https://dashboard.stripe.com/webhooks>
 2. Click on your endpoint
 3. View "Recent deliveries"
 4. Should see `checkout.session.completed` event
@@ -187,22 +198,25 @@ Check Stripe Dashboard:
 
 ### Test 7: Dashboard Features
 
-Visit: https://estimategenie.net/dashboard.html
+Visit: <https://estimategenie.net/dashboard.html>
 
 Test each tab:
 
 **Overview:**
+
 - [ ] User stats load correctly
 - [ ] Chart displays usage data
 - [ ] Plan information shows
 
 **API Keys:**
+
 - [ ] API key displays (hidden by default)
 - [ ] Show/Hide toggle works
 - [ ] Copy to clipboard works
 - [ ] Regenerate creates new key
 
 **Settings:**
+
 - [ ] Update profile name
 - [ ] Change password works
 - [ ] "Manage Billing" opens Stripe portal
@@ -211,6 +225,7 @@ Test each tab:
 ### Test 8: Usage Limits
 
 **Free Plan Limit (5 quotes/month):**
+
 ```bash
 # Generate 5 quotes
 for i in {1..5}; do
@@ -228,6 +243,7 @@ curl -X POST https://api.estimategenie.net/v1/quotes \
 ```
 
 Expected response:
+
 ```json
 {
   "detail": "Quote limit reached. Your free plan allows 5 quotes per month. Upgrade your plan to continue."
@@ -235,25 +251,30 @@ Expected response:
 ```
 
 **Pro Plan (Unlimited):**
+
 - Should never hit quote limit
 - Test by generating 10+ quotes
 
 ## Monitoring
 
 ### Check Application Logs
+
 ```bash
 fly logs --app quotegenie-api
 ```
 
 ### Monitor Stripe Events
-Dashboard: https://dashboard.stripe.com/events
+
+Dashboard: <https://dashboard.stripe.com/events>
 
 Watch for:
+
 - Failed payments
 - Subscription updates
 - Webhook failures
 
 ### Health Check
+
 ```bash
 # Automated monitoring
 curl https://api.estimategenie.net/health
@@ -266,6 +287,7 @@ Set up monitoring service (e.g., UptimeRobot) to ping every 5 minutes.
 ### Issue: "Authentication required" error on quote generation
 
 **Solution:**
+
 1. Check Authorization header is present
 2. Verify token format: `Bearer <token>`
 3. Token may be expired (7-day lifetime)
@@ -274,6 +296,7 @@ Set up monitoring service (e.g., UptimeRobot) to ping every 5 minutes.
 ### Issue: Stripe webhook returns 400 error
 
 **Solution:**
+
 1. Verify `STRIPE_WEBHOOK_SECRET` matches Stripe Dashboard
 2. Check webhook endpoint URL is correct
 3. Review Stripe Dashboard webhook logs
@@ -282,6 +305,7 @@ Set up monitoring service (e.g., UptimeRobot) to ping every 5 minutes.
 ### Issue: User can't access dashboard after payment
 
 **Solution:**
+
 1. Check Stripe webhook was received and processed
 2. Query user in database to verify subscription_status
 3. Verify checkout.session.completed event contains user_id in metadata
@@ -290,6 +314,7 @@ Set up monitoring service (e.g., UptimeRobot) to ping every 5 minutes.
 ### Issue: Quote generation fails after authentication
 
 **Solution:**
+
 1. Verify LLM service is configured (GOOGLE_API_KEY)
 2. Check vision service health endpoint
 3. Review Fly.io logs for specific errors
@@ -309,20 +334,24 @@ Set up monitoring service (e.g., UptimeRobot) to ping every 5 minutes.
 ## Maintenance Tasks
 
 ### Daily
+
 - Monitor Fly.io application health
 - Check Stripe dashboard for failed payments
 
 ### Weekly
+
 - Review application logs for errors
 - Check webhook delivery success rate
 - Monitor user registration trends
 
 ### Monthly
+
 - Review usage statistics
 - Check database size
 - Backup database
 
 ### Database Backup
+
 ```bash
 fly ssh console --app quotegenie-api
 cd /app
@@ -332,15 +361,16 @@ sqlite3 estimategenie.db ".backup backup-$(date +%Y%m%d).db"
 ## Support & Documentation
 
 - **Authentication docs:** See AUTHENTICATION_SETUP.md
-- **API docs:** https://estimategenie.net/docs.html
-- **Stripe docs:** https://stripe.com/docs/billing
-- **Fly.io docs:** https://fly.io/docs/
+- **API docs:** <https://estimategenie.net/docs.html>
+- **Stripe docs:** <https://stripe.com/docs/billing>
+- **Fly.io docs:** <https://fly.io/docs/>
 
 ## Next Steps
 
 After successful deployment:
 
 1. **Switch to production Stripe keys:**
+
    ```bash
    fly secrets set STRIPE_SECRET_KEY=sk_live_your_key
    fly secrets set STRIPE_PRICE_ID_PRO_MONTHLY=price_live_monthly
@@ -375,6 +405,7 @@ fly releases rollback <version> --app quotegenie-api
 ```
 
 For frontend (Cloudflare Pages):
+
 - Go to Cloudflare Dashboard → Pages → estimategenie
 - View deployments
 - Click "Rollback" on previous working deployment
