@@ -1,11 +1,18 @@
 import sqlite3
 import json
+import sys
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 from pathlib import Path
 
 class DatabaseService:
     """Handles all database operations"""
+    
+    # Allowed fields for update_quote method to prevent SQL injection
+    _ALLOWED_UPDATE_FIELDS = {
+        "project_type", "image_path", "vision_results", 
+        "reasoning", "estimate", "status"
+    }
     
     def __init__(self, db_path: str = "estimategenie.db"):
         self.db_path = Path(db_path)
@@ -137,14 +144,30 @@ class DatabaseService:
         cursor = conn.cursor()
         
         try:
-            # Build dynamic update query
+            # Build dynamic update query with validated fields
             fields = []
             values = []
+            invalid_field_count = 0
+            
             for key, value in updates.items():
+                # Validate field name against whitelist
+                if key not in self._ALLOWED_UPDATE_FIELDS:
+                    # Count invalid fields without logging field names (security)
+                    invalid_field_count += 1
+                    continue
+                    
                 if key in ["estimate", "vision_results", "reasoning"]:
                     value = json.dumps(value)
                 fields.append(f"{key} = ?")
                 values.append(value)
+            
+            # Log security event if invalid fields were attempted
+            if invalid_field_count > 0:
+                print(f"Security: Rejected {invalid_field_count} invalid field(s) in update attempt", file=sys.stderr)
+            
+            if not fields:
+                # No valid fields to update
+                return False
             
             fields.append("updated_at = ?")
             values.append(datetime.utcnow().isoformat())

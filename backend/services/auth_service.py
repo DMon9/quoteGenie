@@ -6,9 +6,54 @@ from typing import Optional
 import jwt
 import os
 import sqlite3
+import sys
 from models.user import User
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key-change-in-production")
+# Security Configuration
+# List of known weak/default keys that should trigger warnings
+# These are exact string matches to avoid false positives
+# Add common weak keys here to help detect insecure configurations
+WEAK_KEYS = {
+    "your-secret-key-change-in-production", 
+    "secret", 
+    "test", 
+    "dev", 
+    "development",
+    "INSECURE_DEVELOPMENT_KEY_DO_NOT_USE_IN_PRODUCTION",
+    "changeme",
+    "change-me-to-a-secure-random-32-char-key"
+}
+
+# Minimum recommended key length for JWT secrets
+MIN_KEY_LENGTH = 32
+
+# Get JWT secret key from environment
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+
+# Validate that JWT_SECRET_KEY is set and secure
+if not SECRET_KEY:
+    print("=" * 70, file=sys.stderr)
+    print("SECURITY WARNING: JWT_SECRET_KEY environment variable is not set!", file=sys.stderr)
+    print("Using an insecure default for development only.", file=sys.stderr)
+    print("=" * 70, file=sys.stderr)
+    print("For production, set a secure random key:", file=sys.stderr)
+    print("  export JWT_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(32))')", file=sys.stderr)
+    print("=" * 70, file=sys.stderr)
+    # Use a development-only fallback that is clearly insecure
+    SECRET_KEY = "INSECURE_DEVELOPMENT_KEY_DO_NOT_USE_IN_PRODUCTION"
+
+# Warn if using a weak or default secret key
+# Check if key is too short OR matches known weak keys
+is_weak_key = len(SECRET_KEY) < MIN_KEY_LENGTH or SECRET_KEY in WEAK_KEYS
+if is_weak_key:
+    print("=" * 70, file=sys.stderr)
+    print("SECURITY WARNING: JWT_SECRET_KEY is weak or uses default value!", file=sys.stderr)
+    print("This is a critical security vulnerability in production.", file=sys.stderr)
+    print("=" * 70, file=sys.stderr)
+    print("Generate a strong key with:", file=sys.stderr)
+    print("  python -c 'import secrets; print(secrets.token_urlsafe(32))'", file=sys.stderr)
+    print("=" * 70, file=sys.stderr)
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 

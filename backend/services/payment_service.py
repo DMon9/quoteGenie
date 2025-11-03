@@ -2,11 +2,25 @@
 Stripe payment service for subscription management
 """
 import os
+import sys
 import stripe
 from typing import Optional, Dict
 
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "sk_test_your_key_here")
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "whsec_5QeFbR28kakRecPOwobpgIuKbpgGq6GB")
+# Get Stripe keys from environment variables
+stripe_key = os.getenv("STRIPE_SECRET_KEY")
+if not stripe_key:
+    print("WARNING: STRIPE_SECRET_KEY environment variable is not set!", file=sys.stderr)
+    print("Payment functionality will not work without a valid Stripe key.", file=sys.stderr)
+else:
+    # Warn if using test keys in production
+    if stripe_key.startswith("sk_test_"):
+        print("WARNING: Using Stripe test key. Ensure this is not production!", file=sys.stderr)
+    stripe.api_key = stripe_key
+
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+if not STRIPE_WEBHOOK_SECRET:
+    print("WARNING: STRIPE_WEBHOOK_SECRET environment variable is not set!", file=sys.stderr)
+    print("Webhook signature verification will fail without this secret.", file=sys.stderr)
 
 class PaymentService:
     PLANS = {

@@ -95,20 +95,6 @@ async def get_current_user(authorization: str = Header(None)):
     
     return user
 
-# Debug endpoint for environment variables
-@app.get("/debug/env")
-async def debug_env():
-    """Debug endpoint to check environment variables"""
-    return {
-        "llm_provider": os.getenv("LLM_PROVIDER", "not_set"),
-        "google_api_key_present": bool(os.getenv("GOOGLE_API_KEY")),
-        "google_api_key_length": len(os.getenv("GOOGLE_API_KEY", "")),
-        "gemini_model": os.getenv("GEMINI_MODEL", "not_set"),
-        "llm_service_ready": llm_service.is_ready(),
-        "llm_service_provider": getattr(llm_service, 'provider', 'unknown'),
-        "llm_service_google_api_key_present": bool(getattr(llm_service, 'google_api_key', None))
-    }
-
 # Health check endpoint
 @app.get("/")
 async def root():
