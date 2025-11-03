@@ -43,7 +43,7 @@ if not SECRET_KEY:
     SECRET_KEY = "INSECURE_DEVELOPMENT_KEY_DO_NOT_USE_IN_PRODUCTION"
 
 # Warn if using a weak or default secret key
-# Check length first (most important) or exact match against known weak keys
+# Check if key is too short OR matches known weak keys
 is_weak_key = len(SECRET_KEY) < MIN_KEY_LENGTH or SECRET_KEY in WEAK_KEYS
 if is_weak_key:
     print("=" * 70, file=sys.stderr)
