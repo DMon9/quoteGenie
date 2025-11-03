@@ -72,7 +72,12 @@
 
         if (sessionId) {
           try {
-            const stripe = Stripe("pk_test_your_key_here"); // Replace with your actual Stripe Publishable Key
+            // IMPORTANT: Replace with your actual Stripe Publishable Key from Stripe Dashboard
+            // Test key format: pk_test_51...
+            // Live key format: pk_live_51...
+            const stripe = Stripe(
+              "pk_test_51HqLKDGz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZg"
+            );
             const { error } = await stripe.redirectToCheckout({
               sessionId: sessionId,
             });
