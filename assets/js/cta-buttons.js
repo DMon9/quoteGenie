@@ -40,7 +40,7 @@
   `;
 
     // Demo video URL (you can replace this with your actual demo video)
-    const DEMO_VIDEO_URL = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'; // Replace with actual video
+    const DEMO_VIDEO_URL = 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1'; // Replace with actual video
 
     // Initialize modal on first call
     let modalInjected = false;

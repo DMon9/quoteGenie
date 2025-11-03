@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - EstimateGenie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="./assets/js/api-config.js"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-purple-600 to-blue-600 min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div class="max-w-md w-full">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4"
+          role="img"
+          aria-label="EstimateGenie Logo"
+        >
+          <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-white">Complete Your Purchase</h1>
+        <p class="text-white opacity-90 mt-2">
+          Securely complete your Pro plan subscription
+        </p>
+      </div>
+
+      <!-- Checkout Card -->
+      <div class="bg-white rounded-2xl shadow-2xl p-8 text-center">
+        <div id="loading-message" class="text-gray-700 text-lg mb-4">
+          Redirecting to secure checkout...
+        </div>
+        <div id="error-message" class="hidden text-red-700 text-lg mb-4">
+          <i data-feather="alert-circle" class="inline-block mr-2"></i>
+          <span id="error-text"></span>
+        </div>
+        <p class="text-gray-500 text-sm">
+          Powered by <a href="https://stripe.com" target="_blank" class="text-purple-600 hover:underline">Stripe</a>
+        </p>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="text-center mt-8">
+        <a
+          href="index.html"
+          class="text-white hover:text-gray-200 inline-flex items-center"
+        >
+          <i data-feather="arrow-left" class="h-4 w-4 mr-2"></i>
+          Back to homepage
+        </a>
+      </div>
+    </div>
+
+    <script>
+      feather.replace();
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session');
+        const errorMessageDiv = document.getElementById('error-message');
+        const errorTextSpan = document.getElementById('error-text');
+        const loadingMessageDiv = document.getElementById('loading-message');
+
+        if (sessionId) {
+          try {
+            const stripe = Stripe('pk_test_your_key_here'); // Replace with your actual Stripe Publishable Key
+            const { error } = await stripe.redirectToCheckout({
+              sessionId: sessionId,
+            });
+
+            if (error) {
+              errorTextSpan.textContent = error.message;
+              errorMessageDiv.classList.remove('hidden');
+              loadingMessageDiv.classList.add('hidden');
+              console.error('Stripe checkout error:', error);
+            }
+          } catch (e) {
+            errorTextSpan.textContent = 'An unexpected error occurred during checkout.';
+            errorMessageDiv.classList.remove('hidden');
+            loadingMessageDiv.classList.add('hidden');
+            console.error('Client-side checkout error:', e);
+          }
+        } else {
+          errorTextSpan.textContent = 'No checkout session found. Please try signing up again.';
+          errorMessageDiv.classList.remove('hidden');
+          loadingMessageDiv.classList.add('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>
