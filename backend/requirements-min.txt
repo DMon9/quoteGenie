@@ -9,3 +9,7 @@ python-dotenv==1.0.0
 pillow==11.3.0
 google-generativeai==0.7.2
 trino==0.329.0
+# Authentication and payments
+pyjwt==2.8.0
+stripe==7.8.0
+bcrypt==4.1.2

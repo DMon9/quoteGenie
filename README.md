@@ -7,6 +7,7 @@ This repository contains the static website and documentation for EstimateGenie,
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js v16+ (for Wrangler CLI deployment)
 - Cloudflare account
 - estimategenie.net domain (configured on Cloudflare)
@@ -23,7 +24,7 @@ python -m http.server 8000
 npx http-server -p 8000
 ```
 
-Visit: http://localhost:8000
+Visit: <http://localhost:8000>
 
 ---
 
@@ -119,12 +120,14 @@ Add these DNS records:
 ## 🧪 Verification
 
 ### DNS
+
 ```powershell
 Resolve-DnsName estimategenie.net
 Resolve-DnsName www.estimategenie.net
 ```
 
 ### HTTP/HTTPS
+
 ```powershell
 curl -I http://estimategenie.net
 curl -I https://estimategenie.net
@@ -132,6 +135,7 @@ curl -I https://www.estimategenie.net
 ```
 
 Expected:
+
 - HTTP → 301 redirect to HTTPS
 - HTTPS → 200 OK with Cloudflare certificate
 - www → 301 redirect to apex
@@ -141,6 +145,7 @@ Expected:
 ## 🤖 AI Backend Stack
 
 The AI estimation engine uses:
+
 - **Vision**: GroundingDINO, SAM, YOLO, Depth Anything
 - **Reasoning**: LLaVA, Llama 3, LangChain
 - **Infrastructure**: FastAPI, Ollama, PostgreSQL
@@ -175,8 +180,8 @@ See [MODELS_GUIDE.md](MODELS_GUIDE.md) for the complete guide.
 
 - **Product Name**: EstimateGenie
 - **Domain**: estimategenie.net
-- **API Base**: https://api.estimategenie.net
-- **Support Email**: hello@estimategenie.net
+- **API Base**: <https://api.estimategenie.net>
+- **Support Email**: <hello@estimategenie.net>
 - **SDK Package**: estimategenie-js
 
 ---
@@ -191,6 +196,18 @@ See [MODELS_GUIDE.md](MODELS_GUIDE.md) for the complete guide.
 - **docs.html**: Developer documentation with API endpoints, SDKs, best practices, AI building blocks
 - **contact.html**: Contact form, FAQ, partnership info
 - **dashboard.html**: Authenticated user dashboard mockup with Chart.js
+- **mobile-index.html**: Mobile-optimized quote generation with advanced options (quality, contingency, profit, region)
+
+### Advanced Quote Options
+
+The mobile quote flow now supports customization via advanced options:
+
+- **Material Quality**: Standard (1.0x), Premium (1.3x), Luxury (1.8x) pricing
+- **Contingency**: 0-30% buffer for unexpected costs
+- **Profit Margin**: 0-50% contractor markup
+- **Region**: Labor rate adjustments (South 0.85x, Midwest 1.0x, Northeast 1.25x, West 1.35x)
+
+See [docs/ADVANCED_OPTIONS.md](docs/ADVANCED_OPTIONS.md) for detailed API reference.
 
 ---
 
@@ -207,19 +224,22 @@ See [MODELS_GUIDE.md](MODELS_GUIDE.md) for the complete guide.
 ## 🐛 Troubleshooting
 
 ### DNS_PROBE_FINISHED_NXDOMAIN
+
 - Check nameservers at registrar point to Cloudflare
 - Verify DNS records in Cloudflare dashboard
 - Wait up to 24 hours for propagation
 
 ### SSL Certificate Errors
+
 - Set SSL/TLS mode to "Full (strict)"
 - Enable "Always Use HTTPS"
 - Clear browser cache
 
 ### Email Not Working
+
 - Verify MX, SPF, DKIM, DMARC records
 - Enable DKIM signing in Microsoft 365 portal
-- Test with https://www.mail-tester.com/
+- Test with <https://www.mail-tester.com/>
 
 ---
 
@@ -235,7 +255,7 @@ See [MODELS_GUIDE.md](MODELS_GUIDE.md) for the complete guide.
 
 ## 🤝 Contributing
 
-This is a private project. For questions or issues, contact: hello@estimategenie.net
+This is a private project. For questions or issues, contact: <hello@estimategenie.net>
 
 ---
 

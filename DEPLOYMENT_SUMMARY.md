@@ -50,7 +50,7 @@ All configuration files and documentation have been created for deploying QuoteG
 
 ```powershell
 # 1. Deploy Frontend to Cloudflare Pages
-npx wrangler pages deploy . --project-name quotegenie
+npx wrangler pages deploy . --project-name estimategenie
 
 # 2. Deploy Backend (Choose one):
 
@@ -78,7 +78,7 @@ npx wrangler deploy --config api-worker/wrangler.toml
 
 # 4. Update Frontend API Endpoints
 # Edit HTML files to use worker URL
-npx wrangler pages deploy . --project-name quotegenie
+npx wrangler pages deploy . --project-name estimategenie
 ```
 
 ---
@@ -200,7 +200,7 @@ curl https://your-worker-url/api/health
 Should return backend health response
 
 ### 4. Frontend
-Open `https://quotegenie.pages.dev/test-upload-v2.html`
+Open `https://estimategenie.pages.dev/test-upload-v2.html`
 - Backend status should be green
 - Upload test image
 - Verify quote generation
@@ -247,7 +247,7 @@ Open `https://quotegenie.pages.dev/test-upload-v2.html`
 
 4. **Deploy Frontend**
    - Run `.\deploy_cloudflare.ps1` or manual wrangler
-   - Test at `https://quotegenie.pages.dev`
+  - Test at `https://estimategenie.pages.dev`
 
 5. **Verify End-to-End**
    - Upload test construction image

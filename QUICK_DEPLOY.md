@@ -62,7 +62,7 @@ curl https://your-backend-url/v1/pricing/status
 curl https://your-worker-url/api/health
 
 # Frontend (open in browser)
-https://quotegenie.pages.dev/test-upload-v2.html
+https://estimategenie.pages.dev/test-upload-v2.html
 ```
 
 ---

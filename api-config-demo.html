@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Config Demo - EstimateGenie</title>
+    <script src="/assets/js/api-config.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        color: #667eea;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        color: #333;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+      .status {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .status.healthy {
+        background: #10b981;
+        color: white;
+      }
+      .status.unhealthy {
+        background: #ef4444;
+        color: white;
+      }
+      .status.checking {
+        background: #f59e0b;
+        color: white;
+      }
+
+      .info-box {
+        background: #f3f4f6;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+      }
+      .info-box strong {
+        color: #667eea;
+      }
+
+      button {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.2s;
+      }
+      button:hover {
+        background: #5a67d8;
+        transform: translateY(-2px);
+      }
+      button:active {
+        transform: translateY(0);
+      }
+      button.secondary {
+        background: #6b7280;
+      }
+      button.secondary:hover {
+        background: #4b5563;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+      input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .endpoint-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .endpoint-item {
+        background: #f9fafb;
+        padding: 0.75rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        border-left: 3px solid #667eea;
+      }
+      .endpoint-item code {
+        display: block;
+        color: #6b7280;
+        margin-top: 0.25rem;
+      }
+
+      #console {
+        background: #1f2937;
+        color: #10b981;
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 1rem;
+      }
+      #console div {
+        margin-bottom: 0.5rem;
+        padding-left: 1rem;
+        text-indent: -1rem;
+      }
+      #console .error {
+        color: #ef4444;
+      }
+      #console .info {
+        color: #60a5fa;
+      }
+      #console .success {
+        color: #10b981;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔧 API Configuration Demo</h1>
+      <div id="status" class="status checking">⏳ Checking API...</div>
+
+      <div class="info-box">
+        <strong>Current API Base:</strong> <span id="currentBase"></span><br />
+        <strong>Environment:</strong> <span id="environment"></span>
+      </div>
+
+      <h2>⚙️ Change API Endpoint</h2>
+      <input
+        type="text"
+        id="newApiUrl"
+        placeholder="https://api.estimategenie.net"
+      />
+      <button onclick="updateApi()">Update API</button>
+      <button onclick="resetApi()" class="secondary">Reset to Default</button>
+
+      <h2>🧪 Quick Tests</h2>
+      <button onclick="testHealth()">Test Health</button>
+      <button onclick="testEndpoints()">List All Endpoints</button>
+      <button onclick="clearConsole()" class="secondary">Clear Console</button>
+
+      <h2>📋 Available Endpoints</h2>
+      <div class="endpoint-list" id="endpoints"></div>
+
+      <h2>💻 Console Output</h2>
+      <div id="console"></div>
+    </div>
+
+    <script>
+      let logCount = 0;
+
+      function log(message, type = "info") {
+        const console = document.getElementById("console");
+        const line = document.createElement("div");
+        line.className = type;
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        console.appendChild(line);
+        console.scrollTop = console.scrollHeight;
+        logCount++;
+        if (logCount > 100) {
+          console.removeChild(console.firstChild);
+        }
+      }
+
+      function clearConsole() {
+        document.getElementById("console").innerHTML = "";
+        logCount = 0;
+        log("Console cleared", "info");
+      }
+
+      function updateDisplay() {
+        document.getElementById("currentBase").textContent = ApiConfig.baseUrl;
+        const isLocal =
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1";
+        document.getElementById("environment").textContent = isLocal
+          ? "Development"
+          : "Production";
+        document.getElementById("newApiUrl").value = ApiConfig.baseUrl;
+      }
+
+      async function checkHealth() {
+        const statusEl = document.getElementById("status");
+        statusEl.className = "status checking";
+        statusEl.textContent = "⏳ Checking API...";
+
+        try {
+          const healthy = await ApiConfig.testConnection();
+          if (healthy) {
+            statusEl.className = "status healthy";
+            statusEl.textContent = "✅ API is healthy";
+            log("Health check: OK", "success");
+          } else {
+            statusEl.className = "status unhealthy";
+            statusEl.textContent = "❌ API unreachable";
+            log("Health check: FAIL", "error");
+          }
+        } catch (error) {
+          statusEl.className = "status unhealthy";
+          statusEl.textContent = "❌ Connection failed";
+          log(`Error: ${error.message}`, "error");
+        }
+      }
+
+      function updateApi() {
+        const newUrl = document.getElementById("newApiUrl").value.trim();
+        if (!newUrl) {
+          alert("Please enter a valid API URL");
+          return;
+        }
+
+        try {
+          new URL(newUrl); // Validate URL
+          ApiConfig.setBaseUrl(newUrl);
+          log(`API base updated to: ${newUrl}`, "success");
+          updateDisplay();
+          checkHealth();
+        } catch (error) {
+          alert("Invalid URL format");
+          log(`Invalid URL: ${newUrl}`, "error");
+        }
+      }
+
+      function resetApi() {
+        ApiConfig.reset();
+        log("API reset to default", "info");
+        updateDisplay();
+        checkHealth();
+      }
+
+      async function testHealth() {
+        log("Running health check...", "info");
+        await checkHealth();
+      }
+
+      function testEndpoints() {
+        log("--- All Available Endpoints ---", "info");
+        Object.entries(API).forEach(([name, path]) => {
+          if (typeof path === "function") {
+            log(`${name}: [function] e.g., ${path("123")}`, "info");
+          } else {
+            log(`${name}: ${path}`, "info");
+          }
+        });
+        log("--- End of Endpoints ---", "info");
+      }
+
+      function renderEndpoints() {
+        const container = document.getElementById("endpoints");
+        container.innerHTML = "";
+
+        Object.entries(API).forEach(([name, path]) => {
+          const item = document.createElement("div");
+          item.className = "endpoint-item";
+
+          const nameEl = document.createElement("strong");
+          nameEl.textContent = name;
+
+          const pathEl = document.createElement("code");
+          pathEl.textContent = typeof path === "function" ? "function" : path;
+
+          item.appendChild(nameEl);
+          item.appendChild(pathEl);
+          container.appendChild(item);
+        });
+      }
+
+      // Initialize on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        log("API Config Demo initialized", "success");
+        updateDisplay();
+        renderEndpoints();
+        checkHealth();
+
+        // Show any URL overrides
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiOverride = urlParams.get("api");
+        if (apiOverride) {
+          log(`URL override detected: ${apiOverride}`, "info");
+        }
+
+        const localOverride = localStorage.getItem("API_BASE_URL");
+        if (localOverride) {
+          log(`localStorage override active: ${localOverride}`, "info");
+        }
+      });
+    </script>
+  </body>
+</html>

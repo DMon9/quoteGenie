@@ -7,3 +7,6 @@ httpx==0.25.1
 pillow==10.1.0
 python-dotenv==1.0.0
 google-generativeai==0.7.2
+# Authentication and payments
+pyjwt==2.8.0
+stripe==7.8.0

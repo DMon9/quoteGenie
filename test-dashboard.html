@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feature Test Dashboard - EstimateGenie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="./assets/js/api-config.js"></script>
+  </head>
+  <body class="bg-gray-50 p-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">
+          <i data-feather="check-circle" class="inline text-green-600"></i>
+          Feature Test Dashboard
+        </h1>
+        <p class="text-gray-600">
+          Interactive testing for new EstimateGenie features
+        </p>
+      </div>
+
+      <!-- System Status -->
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">System Status</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="border rounded-lg p-4">
+            <div class="text-sm text-gray-600 mb-1">API Endpoint</div>
+            <div id="api-url" class="font-mono text-sm text-blue-600"></div>
+          </div>
+          <div class="border rounded-lg p-4">
+            <div class="text-sm text-gray-600 mb-1">Auth Status</div>
+            <div id="auth-status" class="font-semibold"></div>
+          </div>
+          <div class="border rounded-lg p-4">
+            <div class="text-sm text-gray-600 mb-1">API Health</div>
+            <div id="health-status" class="font-semibold">Checking...</div>
+          </div>
+        </div>
+        <button
+          onclick="checkHealth()"
+          class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          <i data-feather="refresh-cw" class="inline h-4 w-4"></i>
+          Refresh Status
+        </button>
+      </div>
+
+      <!-- Test 1: Auth Gating -->
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+          <span
+            class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm mr-2"
+            >Test 1</span
+          >
+          Authentication Gating
+        </h2>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+            <span>JWT Token Present</span>
+            <span id="test-jwt" class="font-semibold"></span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+            <span>API Key Present</span>
+            <span id="test-apikey" class="font-semibold"></span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+            <span>Can Generate Quotes</span>
+            <span id="test-can-generate" class="font-semibold"></span>
+          </div>
+        </div>
+        <div class="mt-4 flex gap-2">
+          <button
+            onclick="window.location.href='login.html'"
+            class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+          >
+            Login
+          </button>
+          <button
+            onclick="clearAuth()"
+            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Clear Auth (Test Blocking)
+          </button>
+        </div>
+      </div>
+
+      <!-- Test 2: Advanced Options Calculator -->
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+          <span
+            class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm mr-2"
+            >Test 2</span
+          >
+          Advanced Options Calculator
+        </h2>
+        <p class="text-gray-600 mb-4">Simulate how options affect pricing</p>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+          <!-- Inputs -->
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium mb-1"
+                >Base Materials Cost ($)</label
+              >
+              <input
+                type="number"
+                id="calc-materials"
+                value="350"
+                class="w-full border rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1"
+                >Base Labor Cost ($)</label
+              >
+              <input
+                type="number"
+                id="calc-labor"
+                value="800"
+                class="w-full border rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Quality</label>
+              <select id="calc-quality" class="w-full border rounded px-3 py-2">
+                <option value="1.0">Standard (1.0x)</option>
+                <option value="1.3">Premium (1.3x)</option>
+                <option value="1.8">Luxury (1.8x)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Region</label>
+              <select id="calc-region" class="w-full border rounded px-3 py-2">
+                <option value="0.85">South (0.85x)</option>
+                <option value="1.0" selected>Midwest (1.0x)</option>
+                <option value="1.25">Northeast (1.25x)</option>
+                <option value="1.35">West (1.35x)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Profit (%)</label>
+              <input
+                type="number"
+                id="calc-profit"
+                value="15"
+                min="0"
+                max="50"
+                class="w-full border rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1"
+                >Contingency (%)</label
+              >
+              <input
+                type="number"
+                id="calc-contingency"
+                value="0"
+                min="0"
+                max="30"
+                class="w-full border rounded px-3 py-2"
+              />
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div
+            class="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-lg"
+          >
+            <h3 class="font-semibold mb-3">Calculated Quote</h3>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span>Materials (adjusted)</span>
+                <span id="result-materials" class="font-mono">$0</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Labor (adjusted)</span>
+                <span id="result-labor" class="font-mono">$0</span>
+              </div>
+              <div class="border-t border-gray-300 pt-2"></div>
+              <div class="flex justify-between">
+                <span>Subtotal</span>
+                <span id="result-subtotal" class="font-mono">$0</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Profit</span>
+                <span id="result-profit" class="font-mono">$0</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Contingency</span>
+                <span id="result-contingency" class="font-mono">$0</span>
+              </div>
+              <div class="border-t-2 border-gray-400 pt-2"></div>
+              <div class="flex justify-between text-lg font-bold">
+                <span>Total</span>
+                <span id="result-total" class="font-mono text-green-600"
+                  >$0</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onclick="calculate()"
+          class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+        >
+          <i data-feather="calculator" class="inline h-4 w-4"></i>
+          Calculate
+        </button>
+      </div>
+
+      <!-- Test 3: Feature Checklist -->
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+          <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm mr-2"
+            >Test 3</span
+          >
+          Feature Checklist
+        </h2>
+        <div class="space-y-2">
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-mobile" class="mr-3" />
+            <label for="check-mobile">Two-step mobile quote flow works</label>
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-auth" class="mr-3" />
+            <label for="check-auth"
+              >Auth gating blocks unauthenticated users</label
+            >
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-preview" class="mr-3" />
+            <label for="check-preview"
+              >File preview shows before generation</label
+            >
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-options" class="mr-3" />
+            <label for="check-options"
+              >Advanced options affect calculation</label
+            >
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-video" class="mr-3" />
+            <label for="check-video">Video upload extracts first frame</label>
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-voice" class="mr-3" />
+            <label for="check-voice">Voice input appends to description</label>
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-breakdown" class="mr-3" />
+            <label for="check-breakdown"
+              >4-column breakdown displays correctly</label
+            >
+          </div>
+          <div class="flex items-center p-3 bg-gray-50 rounded">
+            <input type="checkbox" id="check-reset" class="mr-3" />
+            <label for="check-reset">Reset flow clears everything</label>
+          </div>
+        </div>
+        <div class="mt-4 p-3 bg-blue-50 rounded">
+          <div class="text-sm text-gray-600">Progress</div>
+          <div id="progress-text" class="text-2xl font-bold text-blue-600">
+            0/8
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Links</h2>
+        <div class="grid md:grid-cols-3 gap-3">
+          <a
+            href="mobile-index.html"
+            class="block p-4 border-2 border-purple-200 rounded hover:bg-purple-50 text-center"
+          >
+            <i
+              data-feather="smartphone"
+              class="mx-auto mb-2 text-purple-600"
+            ></i>
+            <div class="font-semibold">Mobile Quote</div>
+          </a>
+          <a
+            href="login.html"
+            class="block p-4 border-2 border-blue-200 rounded hover:bg-blue-50 text-center"
+          >
+            <i data-feather="log-in" class="mx-auto mb-2 text-blue-600"></i>
+            <div class="font-semibold">Login</div>
+          </a>
+          <a
+            href="dashboard-new.html"
+            class="block p-4 border-2 border-green-200 rounded hover:bg-green-50 text-center"
+          >
+            <i data-feather="grid" class="mx-auto mb-2 text-green-600"></i>
+            <div class="font-semibold">Dashboard</div>
+          </a>
+          <a
+            href="docs/ADVANCED_OPTIONS.md"
+            target="_blank"
+            class="block p-4 border-2 border-yellow-200 rounded hover:bg-yellow-50 text-center"
+          >
+            <i data-feather="book" class="mx-auto mb-2 text-yellow-600"></i>
+            <div class="font-semibold">API Docs</div>
+          </a>
+          <a
+            href="TESTING_GUIDE.md"
+            target="_blank"
+            class="block p-4 border-2 border-red-200 rounded hover:bg-red-50 text-center"
+          >
+            <i data-feather="clipboard" class="mx-auto mb-2 text-red-600"></i>
+            <div class="font-semibold">Testing Guide</div>
+          </a>
+          <button
+            onclick="window.open(ApiConfig.url('/docs'), '_blank')"
+            class="block p-4 border-2 border-gray-200 rounded hover:bg-gray-50 text-center w-full"
+          >
+            <i data-feather="code" class="mx-auto mb-2 text-gray-600"></i>
+            <div class="font-semibold">API Docs (Live)</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        feather.replace();
+        checkAuth();
+        checkHealth();
+        calculate();
+        updateProgress();
+      });
+
+      // System status
+      function checkAuth() {
+        document.getElementById("api-url").textContent = ApiConfig.baseUrl;
+
+        const token = localStorage.getItem("auth_token");
+        const apiKey = localStorage.getItem("api_key");
+
+        document.getElementById("test-jwt").textContent = token
+          ? "✅ Yes"
+          : "❌ No";
+        document.getElementById("test-apikey").textContent = apiKey
+          ? "✅ Yes"
+          : "❌ No";
+        document.getElementById("test-can-generate").textContent =
+          token || apiKey ? "✅ Yes" : "❌ No";
+
+        const hasAuth = token || apiKey;
+        document.getElementById("auth-status").textContent = hasAuth
+          ? "✅ Authenticated"
+          : "❌ Not logged in";
+        document.getElementById("auth-status").className = hasAuth
+          ? "font-semibold text-green-600"
+          : "font-semibold text-red-600";
+      }
+
+      async function checkHealth() {
+        const statusEl = document.getElementById("health-status");
+        statusEl.textContent = "Checking...";
+        statusEl.className = "font-semibold text-gray-600";
+
+        try {
+          const response = await fetch(ApiConfig.url("/health"));
+          if (response.ok) {
+            const data = await response.json();
+            statusEl.textContent = "✅ Healthy";
+            statusEl.className = "font-semibold text-green-600";
+          } else {
+            statusEl.textContent = `❌ Error ${response.status}`;
+            statusEl.className = "font-semibold text-red-600";
+          }
+        } catch (error) {
+          statusEl.textContent = "❌ Unreachable";
+          statusEl.className = "font-semibold text-red-600";
+        }
+      }
+
+      function clearAuth() {
+        if (confirm("Clear authentication? You will need to log in again.")) {
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("api_key");
+          checkAuth();
+          alert(
+            "✅ Auth cleared. Try using mobile-index.html now - it should block generation."
+          );
+        }
+      }
+
+      // Calculator
+      function calculate() {
+        const baseMaterials =
+          parseFloat(document.getElementById("calc-materials").value) || 0;
+        const baseLabor =
+          parseFloat(document.getElementById("calc-labor").value) || 0;
+        const qualityMult =
+          parseFloat(document.getElementById("calc-quality").value) || 1.0;
+        const regionMult =
+          parseFloat(document.getElementById("calc-region").value) || 1.0;
+        const profitPct =
+          parseFloat(document.getElementById("calc-profit").value) || 0;
+        const contingencyPct =
+          parseFloat(document.getElementById("calc-contingency").value) || 0;
+
+        const adjMaterials = baseMaterials * qualityMult;
+        const adjLabor = baseLabor * regionMult;
+        const subtotal = adjMaterials + adjLabor;
+        const profit = subtotal * (profitPct / 100);
+        const contingency = subtotal * (contingencyPct / 100);
+        const total = subtotal + profit + contingency;
+
+        document.getElementById(
+          "result-materials"
+        ).textContent = `$${adjMaterials.toFixed(2)}`;
+        document.getElementById(
+          "result-labor"
+        ).textContent = `$${adjLabor.toFixed(2)}`;
+        document.getElementById(
+          "result-subtotal"
+        ).textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById(
+          "result-profit"
+        ).textContent = `$${profit.toFixed(2)}`;
+        document.getElementById(
+          "result-contingency"
+        ).textContent = `$${contingency.toFixed(2)}`;
+        document.getElementById("result-total").textContent = `$${total.toFixed(
+          2
+        )}`;
+      }
+
+      // Auto-calculate on input change
+      document.addEventListener("input", (e) => {
+        if (e.target.id.startsWith("calc-")) {
+          calculate();
+        }
+      });
+
+      // Progress tracker
+      function updateProgress() {
+        const checkboxes = document.querySelectorAll('[id^="check-"]');
+        const checked = Array.from(checkboxes).filter(
+          (cb) => cb.checked
+        ).length;
+        document.getElementById(
+          "progress-text"
+        ).textContent = `${checked}/${checkboxes.length}`;
+
+        checkboxes.forEach((cb) => {
+          cb.addEventListener("change", updateProgress);
+        });
+      }
+    </script>
+  </body>
+</html>

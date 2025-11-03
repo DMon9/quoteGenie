@@ -6,8 +6,8 @@
  */
 
 // Backend URL - update this after deploying backend
-const BACKEND_URL = 'http://localhost:8001'; // Local Docker backend (corrected port)
-const ORCHESTRATOR_URL = 'http://localhost:8010'; // Local Docker orchestrator
+const BACKEND_URL = 'https://quotegenie-api.fly.dev'; // Local Docker backend (corrected port)
+const ORCHESTRATOR_URL = 'https://quotegenie-api.fly.dev'; // Same backend for now
 
 // CORS headers
 const corsHeaders = {
@@ -39,17 +39,10 @@ export default {
       return healthCheck();
     }
     
-    // Default response
-    return new Response(JSON.stringify({
-      service: 'EstimateGenie API Proxy',
-      status: 'running',
-      endpoints: {
-        backend: '/api/v1/*',
-        orchestrator: '/api/orchestrate/*',
-        health: '/api/health'
-      }
-    }), {
-      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    // For non-API requests, return 404 instead of intercepting
+    return new Response('API endpoint not found', {
+      status: 404,
+      headers: { 'Content-Type': 'text/plain', ...corsHeaders }
     });
   }
 };
@@ -61,7 +54,7 @@ async function proxyToBackend(request, backendUrl, path) {
     // Copy search params
     const originalUrl = new URL(request.url);
     originalUrl.searchParams.forEach((value, key) => {
-      url.searchParams.append(key, key);
+      url.searchParams.append(key, value);
     });
     
     // Forward request to backend

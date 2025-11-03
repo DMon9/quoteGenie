@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EstimateGenie Mobile - AI-Powered Quotes</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <script src="./assets/js/nav.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+      /* Mobile-first optimizations */
+      .mobile-nav {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      .mobile-nav.open {
+        transform: translateX(0);
+      }
+
+      .upload-area {
+        border: 2px dashed #e5e7eb;
+        transition: all 0.3s ease;
+        min-height: 200px;
+      }
+      .upload-area.dragover {
+        border-color: #7c3aed;
+        background-color: #f3f4f6;
+      }
+
+      .quote-card {
+        animation: slideInUp 0.5s ease-out;
+      }
+
+      @keyframes slideInUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .progress-ring {
+        transition: stroke-dasharray 0.3s ease;
+      }
+
+      /* Touch-friendly buttons */
+      .touch-button {
+        min-height: 44px;
+        min-width: 44px;
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-gray-800 bg-gray-50">
+    <!-- Mobile Navigation -->
+    <nav class="bg-white shadow-sm relative z-50">
+      <div class="px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <div class="flex items-center">
+            <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+            <span class="ml-2 text-xl font-bold text-gray-900"
+              >EstimateGenie</span
+            >
+          </div>
+
+          <!-- Mobile menu button -->
+          <button
+            id="mobile-menu-btn"
+            class="md:hidden touch-button p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+          >
+            <i data-feather="menu" class="h-6 w-6"></i>
+          </button>
+
+          <!-- Desktop menu -->
+          <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="text-purple-600 font-medium">Home</a>
+            <a href="features.html" class="text-gray-500 hover:text-gray-700"
+              >Features</a
+            >
+            <a href="about.html" class="text-gray-500 hover:text-gray-700"
+              >About</a
+            >
+            <button
+              class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 touch-button"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu overlay -->
+      <div
+        id="mobile-menu"
+        class="mobile-nav fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-40 md:hidden"
+      >
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center">
+              <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+              <span class="ml-2 text-lg font-bold">EstimateGenie</span>
+            </div>
+            <button
+              id="close-menu-btn"
+              class="touch-button p-2 rounded-md text-gray-400"
+            >
+              <i data-feather="x" class="h-6 w-6"></i>
+            </button>
+          </div>
+          <nav class="space-y-4">
+            <a
+              href="index.html"
+              class="block py-3 px-4 text-purple-600 bg-purple-50 rounded-lg font-medium"
+              >Home</a
+            >
+            <a
+              href="features.html"
+              class="block py-3 px-4 text-gray-700 hover:bg-gray-50 rounded-lg"
+              >Features</a
+            >
+            <a
+              href="about.html"
+              class="block py-3 px-4 text-gray-700 hover:bg-gray-50 rounded-lg"
+              >About</a
+            >
+            <a
+              href="contact.html"
+              class="block py-3 px-4 text-gray-700 hover:bg-gray-50 rounded-lg"
+              >Contact</a
+            >
+            <button
+              class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 touch-button mt-4"
+            >
+              Get Started Free
+            </button>
+          </nav>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile menu backdrop -->
+    <div
+      id="mobile-backdrop"
+      class="fixed inset-0 bg-black bg-opacity-25 z-30 hidden"
+    ></div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-purple-600 to-blue-700 text-white">
+      <div class="px-4 py-12 sm:py-16 lg:py-20">
+        <div class="text-center">
+          <h1
+            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-6"
+          >
+            AI-Powered<br class="sm:hidden" />
+            <span class="text-yellow-300">Instant Quotes</span>
+          </h1>
+          <p class="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto px-4">
+            Take a photo, get a professional estimate. Perfect for contractors,
+            homeowners, and service pros.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center px-4">
+            <button
+              onclick="scrollToUpload()"
+              class="bg-white text-purple-600 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 touch-button"
+            >
+              <i data-feather="camera" class="inline mr-2"></i>Start Quote
+            </button>
+            <button
+              class="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 touch-button"
+            >
+              <i data-feather="play" class="inline mr-2"></i>Watch Demo
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Upload Section -->
+    <section id="upload-section" class="py-12 px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Get Your Quote Now
+          </h2>
+          <p class="text-gray-600">Upload a photo and describe your project</p>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+          <div
+            id="upload-area"
+            class="upload-area rounded-lg flex flex-col items-center justify-center p-8 text-center cursor-pointer"
+          >
+            <div id="upload-idle" class="upload-state">
+              <i
+                data-feather="upload-cloud"
+                class="h-16 w-16 text-gray-400 mx-auto mb-4"
+              ></i>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                Upload Project Photo
+              </h3>
+              <p class="text-gray-600 mb-4">Drag & drop or tap to select</p>
+              <button
+                class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 touch-button"
+              >
+                Choose Photo or Video
+              </button>
+            </div>
+
+            <div id="upload-processing" class="upload-state hidden">
+              <div class="relative mb-4">
+                <svg class="w-16 h-16 mx-auto" viewBox="0 0 36 36">
+                  <path
+                    class="progress-ring"
+                    stroke="#e5e7eb"
+                    stroke-width="3"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    stroke-dasharray="0, 100"
+                  />
+                  <path
+                    id="progress-bar"
+                    class="progress-ring"
+                    stroke="#7c3aed"
+                    stroke-width="3"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    stroke-dasharray="0, 100"
+                  />
+                </svg>
+                <i
+                  data-feather="zap"
+                  class="h-6 w-6 text-purple-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                ></i>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                Analyzing Photo...
+              </h3>
+              <p id="processing-status" class="text-gray-600">
+                AI is detecting materials and calculating costs
+              </p>
+            </div>
+          </div>
+
+          <input
+            type="file"
+            id="file-input"
+            accept="image/*,video/*"
+            class="hidden"
+          />
+
+          <!-- Preview -->
+          <div id="preview-container" class="mt-4 hidden">
+            <div class="flex items-center gap-4">
+              <img
+                id="upload-preview"
+                class="max-h-24 rounded-lg border border-gray-200"
+                alt="Selected preview"
+              />
+              <div class="text-sm text-gray-600" id="file-meta"></div>
+            </div>
+          </div>
+
+          <!-- Project Details -->
+          <div class="mt-6 space-y-4">
+            <div>
+              <label
+                for="project-type"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Project Type</label
+              >
+              <select
+                id="project-type"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent touch-button"
+              >
+                <option value="bathroom">Bathroom Renovation</option>
+                <option value="kitchen">Kitchen Remodel</option>
+                <option value="flooring">Flooring Installation</option>
+                <option value="painting">Interior Painting</option>
+                <option value="roofing">Roofing Work</option>
+                <option value="general">General Repair</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                for="description"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Description (Optional)</label
+              >
+              <textarea
+                id="description"
+                rows="3"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Describe any specific requirements or details..."
+              ></textarea>
+              <div class="flex items-center justify-between mt-2">
+                <button
+                  id="voice-btn"
+                  type="button"
+                  class="text-purple-600 hover:text-purple-700 text-sm flex items-center gap-2 touch-button"
+                >
+                  <i data-feather="mic" class="h-4 w-4"></i>
+                  Add by voice
+                </button>
+                <span id="voice-status" class="text-xs text-gray-500"></span>
+              </div>
+            </div>
+
+            <!-- Advanced Options (collapsed) -->
+            <div>
+              <button
+                id="adv-toggle"
+                type="button"
+                class="text-sm text-gray-700 hover:text-gray-900 flex items-center gap-2"
+              >
+                <i data-feather="sliders" class="h-4 w-4"></i>
+                Advanced options
+                <i
+                  data-feather="chevron-down"
+                  class="h-4 w-4"
+                  id="adv-caret"
+                ></i>
+              </button>
+              <div id="adv-panel" class="mt-3 grid sm:grid-cols-2 gap-4 hidden">
+                <div>
+                  <label class="block text-xs text-gray-600 mb-1"
+                    >Material quality</label
+                  >
+                  <select
+                    id="opt-quality"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  >
+                    <option value="standard" selected>Standard</option>
+                    <option value="budget">Budget</option>
+                    <option value="premium">Premium</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-600 mb-1"
+                    >Contingency %</label
+                  >
+                  <input
+                    id="opt-contingency"
+                    type="number"
+                    min="0"
+                    max="30"
+                    step="1"
+                    value="10"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-600 mb-1"
+                    >Profit %</label
+                  >
+                  <input
+                    id="opt-profit"
+                    type="number"
+                    min="0"
+                    max="50"
+                    step="1"
+                    value="15"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-600 mb-1">Region</label>
+                  <select
+                    id="opt-region"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  >
+                    <option value="auto" selected>Auto-detect</option>
+                    <option value="us-northeast">US - Northeast</option>
+                    <option value="us-south">US - South</option>
+                    <option value="us-midwest">US - Midwest</option>
+                    <option value="us-west">US - West</option>
+                    <option value="eu">Europe</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="pt-2">
+              <button
+                id="generate-btn"
+                type="button"
+                class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed touch-button"
+                disabled
+              >
+                <i data-feather="zap" class="inline mr-2"></i>
+                Generate Quote
+              </button>
+              <p id="auth-hint" class="text-xs text-gray-500 mt-2 hidden">
+                Sign in is required to generate quotes.
+                <a class="text-purple-600 hover:underline" href="login.html"
+                  >Log in</a
+                >
+                or
+                <a class="text-purple-600 hover:underline" href="signup.html"
+                  >create an account</a
+                >.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+          <div class="bg-white rounded-2xl shadow-lg p-6 quote-card">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-bold text-gray-900">Your Quote</h3>
+              <div class="flex items-center text-sm text-gray-600">
+                <i data-feather="clock" class="h-4 w-4 mr-1"></i>
+                <span id="quote-timestamp">Just now</span>
+              </div>
+            </div>
+
+            <!-- Cost Summary -->
+            <div
+              class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 mb-6"
+            >
+              <div class="text-center">
+                <div
+                  id="total-cost"
+                  class="text-3xl font-bold text-gray-900 mb-2"
+                >
+                  $0.00
+                </div>
+                <div class="text-sm text-gray-600">Total Estimated Cost</div>
+              </div>
+              <div
+                class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 text-center"
+              >
+                <div>
+                  <div id="materials-cost" class="font-semibold text-gray-900">
+                    $0
+                  </div>
+                  <div class="text-xs text-gray-600">Materials</div>
+                </div>
+                <div>
+                  <div id="labor-cost" class="font-semibold text-gray-900">
+                    $0
+                  </div>
+                  <div class="text-xs text-gray-600">Labor</div>
+                </div>
+                <div>
+                  <div id="profit-cost" class="font-semibold text-gray-900">
+                    $0
+                  </div>
+                  <div class="text-xs text-gray-600">Profit</div>
+                </div>
+                <div>
+                  <div
+                    id="contingency-cost"
+                    class="font-semibold text-gray-900"
+                  >
+                    $0
+                  </div>
+                  <div class="text-xs text-gray-600">Contingency</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="mb-6">
+              <h4 class="font-semibold text-gray-900 mb-3">Timeline</h4>
+              <div
+                class="flex items-center justify-between bg-gray-50 rounded-lg p-3"
+              >
+                <div class="flex items-center">
+                  <i
+                    data-feather="calendar"
+                    class="h-5 w-5 text-gray-600 mr-2"
+                  ></i>
+                  <span id="timeline-days" class="text-gray-900">0 days</span>
+                </div>
+                <div class="flex items-center">
+                  <i
+                    data-feather="clock"
+                    class="h-5 w-5 text-gray-600 mr-2"
+                  ></i>
+                  <span id="timeline-hours" class="text-gray-900">0 hours</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Materials Preview -->
+            <div class="mb-6">
+              <h4 class="font-semibold text-gray-900 mb-3">Materials Needed</h4>
+              <div id="materials-list" class="space-y-2">
+                <!-- Materials will be inserted here -->
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button
+                class="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 touch-button"
+              >
+                <i data-feather="download" class="inline mr-2"></i>
+                Download PDF
+              </button>
+              <button
+                class="flex-1 bg-gray-100 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-200 touch-button"
+              >
+                <i data-feather="share-2" class="inline mr-2"></i>
+                Share Quote
+              </button>
+              <button
+                onclick="resetForm()"
+                class="flex-1 bg-green-100 text-green-700 py-3 px-6 rounded-lg hover:bg-green-200 touch-button"
+              >
+                <i data-feather="plus" class="inline mr-2"></i>
+                New Quote
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Preview -->
+    <section class="bg-white py-12 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Why EstimateGenie?
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Professional estimation powered by AI, designed for mobile-first
+            experience
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="text-center p-6 rounded-lg bg-gray-50">
+            <div
+              class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Instant Analysis</h3>
+            <p class="text-gray-600 text-sm">
+              Get quotes in seconds, not hours
+            </p>
+          </div>
+
+          <div class="text-center p-6 rounded-lg bg-gray-50">
+            <div
+              class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-feather="smartphone" class="h-6 w-6 text-blue-600"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Mobile First</h3>
+            <p class="text-gray-600 text-sm">
+              Designed for on-the-go professionals
+            </p>
+          </div>
+
+          <div
+            class="text-center p-6 rounded-lg bg-gray-50 sm:col-span-2 lg:col-span-1"
+          >
+            <div
+              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-feather="check-circle" class="h-6 w-6 text-green-600"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Accurate Pricing</h3>
+            <p class="text-gray-600 text-sm">
+              Real-time material and labor costs
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 px-4">
+      <div class="max-w-6xl mx-auto text-center">
+        <div class="flex items-center justify-center mb-4">
+          <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+          <span class="ml-2 text-lg font-bold text-white">EstimateGenie</span>
+        </div>
+        <p class="text-sm mb-4">
+          AI-powered estimation for modern professionals
+        </p>
+        <div class="flex justify-center space-x-6 text-sm">
+          <a href="about.html" class="hover:text-white">About</a>
+          <a href="features.html" class="hover:text-white">Features</a>
+          <a href="contact.html" class="hover:text-white">Contact</a>
+        </div>
+        <p class="text-xs mt-6">
+          &copy; 2025 EstimateGenie. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu functionality
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const closeMenuBtn = document.getElementById("close-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileBackdrop = document.getElementById("mobile-backdrop");
+
+      function openMobileMenu() {
+        mobileMenu.classList.add("open");
+        mobileBackdrop.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobileMenu() {
+        mobileMenu.classList.remove("open");
+        mobileBackdrop.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+
+      mobileMenuBtn.addEventListener("click", openMobileMenu);
+      closeMenuBtn.addEventListener("click", closeMobileMenu);
+      mobileBackdrop.addEventListener("click", closeMobileMenu);
+
+      // File upload functionality
+      const uploadArea = document.getElementById("upload-area");
+      const fileInput = document.getElementById("file-input");
+      const uploadIdle = document.getElementById("upload-idle");
+      const uploadProcessing = document.getElementById("upload-processing");
+      const resultsSection = document.getElementById("results-section");
+      const previewContainer = document.getElementById("preview-container");
+      const previewImg = document.getElementById("upload-preview");
+      const fileMeta = document.getElementById("file-meta");
+      const generateBtn = document.getElementById("generate-btn");
+      const authHint = document.getElementById("auth-hint");
+      const advToggle = document.getElementById("adv-toggle");
+      const advPanel = document.getElementById("adv-panel");
+      const advCaret = document.getElementById("adv-caret");
+      const voiceBtn = document.getElementById("voice-btn");
+      const voiceStatus = document.getElementById("voice-status");
+
+      let selectedFile = null;
+
+      // Smooth scroll to upload section
+      function scrollToUpload() {
+        document.getElementById("upload-section").scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+
+      // File upload handling
+      uploadArea.addEventListener("click", () => fileInput.click());
+
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          prepareSelectedFile(files[0]);
+        }
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files.length > 0) {
+          prepareSelectedFile(e.target.files[0]);
+        }
+      });
+
+      function hasAuth() {
+        const token = localStorage.getItem("auth_token");
+        const apiKey = localStorage.getItem("api_key");
+        return Boolean(token || apiKey);
+      }
+
+      function updateAuthHint() {
+        if (!hasAuth()) {
+          authHint.classList.remove("hidden");
+        } else {
+          authHint.classList.add("hidden");
+        }
+      }
+
+      function prepareSelectedFile(file) {
+        selectedFile = file;
+        // Enable generate button if file present and auth available
+        generateBtn.disabled = !selectedFile || !hasAuth();
+        updateAuthHint();
+
+        // Show preview (image or placeholder for video)
+        previewContainer.classList.remove("hidden");
+        fileMeta.textContent = `${file.name} • ${(
+          file.size /
+          1024 /
+          1024
+        ).toFixed(2)} MB`;
+        if (file.type.startsWith("image/")) {
+          const url = URL.createObjectURL(file);
+          previewImg.src = url;
+          previewImg.classList.remove("hidden");
+        } else {
+          previewImg.src = "";
+          previewImg.classList.add("hidden");
+        }
+      }
+
+      // Advanced options toggle
+      advToggle.addEventListener("click", () => {
+        const isHidden = advPanel.classList.contains("hidden");
+        advPanel.classList.toggle("hidden");
+        advCaret.setAttribute(
+          "data-feather",
+          isHidden ? "chevron-up" : "chevron-down"
+        );
+        // Re-render updated feather icon
+        feather.replace();
+      });
+
+      // Handle Generate click
+      generateBtn.addEventListener("click", async () => {
+        if (!selectedFile) return;
+        if (!hasAuth()) {
+          updateAuthHint();
+          return;
+        }
+        await handleGenerateQuote(selectedFile);
+      });
+
+      // Convert a video file to a JPEG image blob (first frame)
+      function videoToImageBlob(videoFile) {
+        return new Promise((resolve, reject) => {
+          try {
+            const video = document.createElement("video");
+            video.preload = "metadata";
+            video.muted = true;
+            video.playsInline = true;
+            const url = URL.createObjectURL(videoFile);
+            video.src = url;
+            video.onloadeddata = () => {
+              const canvas = document.createElement("canvas");
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+              canvas.toBlob(
+                (blob) => {
+                  URL.revokeObjectURL(url);
+                  if (blob) resolve(blob);
+                  else reject(new Error("Failed to capture frame"));
+                },
+                "image/jpeg",
+                0.9
+              );
+            };
+            video.onerror = () => {
+              URL.revokeObjectURL(url);
+              reject(new Error("Video load error"));
+            };
+          } catch (err) {
+            reject(err);
+          }
+        });
+      }
+
+      // Generate the quote (no auto-run on select)
+      async function handleGenerateQuote(file) {
+        // Show processing state
+        uploadIdle.classList.add("hidden");
+        uploadProcessing.classList.remove("hidden");
+
+        // Show processing state
+        const token = localStorage.getItem("auth_token");
+        const apiKey = localStorage.getItem("api_key");
+
+        // Animate progress
+        let progress = 0;
+        const progressBar = document.getElementById("progress-bar");
+        const statusEl = document.getElementById("processing-status");
+
+        const progressInterval = setInterval(() => {
+          progress += Math.random() * 15;
+          if (progress > 90) progress = 90;
+
+          const circumference = 2 * Math.PI * 15.9155;
+          const offset = circumference - (progress / 100) * circumference;
+          progressBar.style.strokeDasharray = `${circumference}`;
+          progressBar.style.strokeDashoffset = offset;
+
+          if (progress < 30) {
+            statusEl.textContent = "Analyzing image composition...";
+          } else if (progress < 60) {
+            statusEl.textContent = "Detecting materials and tools...";
+          } else if (progress < 90) {
+            statusEl.textContent = "Calculating costs and timeline...";
+          }
+        }, 200);
+
+        try {
+          // Create form data
+          const formData = new FormData();
+
+          // Support video by capturing a frame
+          let uploadFile = file;
+          if (file.type.startsWith("video/")) {
+            statusEl.textContent = "Extracting key frame from video...";
+            const imageBlob = await videoToImageBlob(file);
+            uploadFile = new File(
+              [imageBlob],
+              (file.name || "frame") + ".jpg",
+              { type: "image/jpeg" }
+            );
+          }
+
+          formData.append("file", uploadFile);
+          formData.append(
+            "project_type",
+            document.getElementById("project-type").value
+          );
+          // Merge description + advanced options as hints (backend may ignore extras safely)
+          const desc = document.getElementById("description").value || "";
+          const opts = {
+            quality: document.getElementById("opt-quality")?.value,
+            contingency_pct: document.getElementById("opt-contingency")?.value,
+            profit_pct: document.getElementById("opt-profit")?.value,
+            region: document.getElementById("opt-region")?.value,
+          };
+          formData.append("description", desc);
+          formData.append("options", JSON.stringify(opts));
+
+          // Build endpoint
+          const endpoint = ApiConfig.url(API.quotes);
+
+          // Build headers: Authorization required (Bearer token OR raw API key)
+          const headers = {};
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+          else if (apiKey) headers["Authorization"] = apiKey;
+          else throw new Error("Authentication required");
+
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers,
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const result = await response.json();
+
+          // Complete progress
+          clearInterval(progressInterval);
+          progress = 100;
+          progressBar.style.strokeDashoffset = 0;
+          statusEl.textContent = "Quote generated successfully!";
+
+          setTimeout(() => {
+            displayQuoteResults(result);
+          }, 1000);
+        } catch (error) {
+          clearInterval(progressInterval);
+          console.error("Quote generation failed:", error);
+          alert("Failed to generate quote. Please try again.");
+          resetForm();
+        }
+      }
+
+      // Display quote results
+      function displayQuoteResults(result) {
+        // Hide upload section, show results
+        uploadIdle.classList.remove("hidden");
+        uploadProcessing.classList.add("hidden");
+        resultsSection.classList.remove("hidden");
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+
+        // Update cost display
+        const totalCost = result.total_cost || {};
+        document.getElementById("total-cost").textContent = `$${(
+          totalCost.amount || 0
+        ).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+        document.getElementById("materials-cost").textContent = `$${(
+          totalCost.breakdown?.materials || 0
+        ).toLocaleString()}`;
+        document.getElementById("labor-cost").textContent = `$${(
+          totalCost.breakdown?.labor || 0
+        ).toLocaleString()}`;
+        document.getElementById("profit-cost").textContent = `$${(
+          totalCost.breakdown?.profit || 0
+        ).toLocaleString()}`;
+        document.getElementById("contingency-cost").textContent = `$${(
+          totalCost.breakdown?.contingency || 0
+        ).toLocaleString()}`;
+
+        // Update timeline
+        const timeline = result.timeline || {};
+        document.getElementById("timeline-days").textContent = `${
+          timeline.estimated_days || 0
+        } days`;
+        document.getElementById("timeline-hours").textContent = `${
+          timeline.estimated_hours || 0
+        } hours`;
+
+        // Update materials list
+        const materialsList = document.getElementById("materials-list");
+        materialsList.innerHTML = "";
+
+        const materials = result.materials || [];
+        materials.slice(0, 5).forEach((material) => {
+          const div = document.createElement("div");
+          div.className =
+            "flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg";
+          div.innerHTML = `
+                    <span class="text-gray-900">${material.name}</span>
+                    <span class="text-gray-600 text-sm">${material.quantity} ${
+            material.unit
+          } • $${(material.total || 0).toFixed(2)}</span>
+                `;
+          materialsList.appendChild(div);
+        });
+
+        if (materials.length > 5) {
+          const moreDiv = document.createElement("div");
+          moreDiv.className = "text-center py-2 text-gray-500 text-sm";
+          moreDiv.textContent = `+${materials.length - 5} more materials`;
+          materialsList.appendChild(moreDiv);
+        }
+      }
+
+      // Reset form for new quote
+      function resetForm() {
+        uploadIdle.classList.remove("hidden");
+        uploadProcessing.classList.add("hidden");
+        resultsSection.classList.add("hidden");
+        fileInput.value = "";
+        document.getElementById("description").value = "";
+        // Clear preview and disable generate
+        selectedFile = null;
+        previewContainer.classList.add("hidden");
+        previewImg.src = "";
+        fileMeta.textContent = "";
+        generateBtn.disabled = true;
+        document
+          .getElementById("upload-section")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Initialize Feather icons
+      feather.replace();
+
+      // Voice input (Web Speech API -> append to Description)
+      (function setupVoice() {
+        if (!voiceBtn) return;
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          // Hide voice UI if not supported
+          voiceBtn.classList.add("hidden");
+          return;
+        }
+        const recognizer = new SR();
+        recognizer.lang = "en-US";
+        recognizer.interimResults = false;
+        recognizer.maxAlternatives = 1;
+        let listening = false;
+
+        voiceBtn.addEventListener("click", () => {
+          if (!listening) {
+            try {
+              recognizer.start();
+              listening = true;
+              if (voiceStatus) voiceStatus.textContent = "Listening...";
+            } catch (e) {
+              console.warn("Speech start error", e);
+            }
+          } else {
+            recognizer.stop();
+          }
+        });
+
+        recognizer.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          const desc = document.getElementById("description");
+          if (desc) {
+            desc.value = (desc.value ? desc.value + " " : "") + transcript;
+          }
+        };
+        recognizer.onend = () => {
+          listening = false;
+          if (voiceStatus) voiceStatus.textContent = "";
+        };
+        recognizer.onerror = (e) => {
+          listening = false;
+          if (voiceStatus) voiceStatus.textContent = "";
+          console.warn("Speech error", e.error);
+        };
+      })();
+
+      // Initial auth hint state
+      updateAuthHint();
+
+      // Add touch feedback for buttons
+      document.addEventListener("touchstart", function (e) {
+        if (e.target.closest(".touch-button")) {
+          e.target.closest(".touch-button").style.transform = "scale(0.95)";
+        }
+      });
+
+      document.addEventListener("touchend", function (e) {
+        if (e.target.closest(".touch-button")) {
+          setTimeout(() => {
+            e.target.closest(".touch-button").style.transform = "";
+          }, 100);
+        }
+      });
+    </script>
+  </body>
+</html>

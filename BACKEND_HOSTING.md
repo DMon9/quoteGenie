@@ -71,7 +71,7 @@
    railway variables set GOOGLE_API_KEY=your_key_here
    railway variables set PRICE_LIST_FILE=/data/pricing/materials_pricing_400.json
    railway variables set PRICE_LIST_RELOAD_SEC=10
-   railway variables set ALLOW_ORIGINS=https://quotegenie.pages.dev
+   railway variables set ALLOW_ORIGINS=https://estimategenie.pages.dev
    ```
 5. Create volume: `railway volume create pricing-data /data/pricing 1`
 6. Deploy: `railway up`
@@ -221,7 +221,7 @@ PRICE_LIST_FILE=/data/pricing/materials_pricing_400.json
 PRICE_LIST_RELOAD_SEC=10
 
 # CORS Configuration
-ALLOW_ORIGINS=https://quotegenie.pages.dev,https://quotegenie.net
+ALLOW_ORIGINS=https://estimategenie.pages.dev,https://estimategenie.net
 
 # Optional
 PYTHON_VERSION=3.11
@@ -260,7 +260,7 @@ PORT=8000  # Render/Railway use $PORT automatically
    - Redeploy to Cloudflare Pages
 
 6. **Test End-to-End**
-   - Open https://quotegenie.pages.dev/test-upload-v2.html
+   - Open https://estimategenie.pages.dev/test-upload-v2.html
    - Upload test construction image
    - Verify quote generation with pricing
 
@@ -289,7 +289,7 @@ flyctl logs
 ### CORS Errors
 - Verify `ALLOW_ORIGINS` includes your frontend domain
 - Check worker proxy CORS headers
-- Test with curl: `curl -H "Origin: https://quotegenie.pages.dev" https://backend-url/health`
+- Test with curl: `curl -H "Origin: https://estimategenie.pages.dev" https://backend-url/health`
 
 ---
 
@@ -297,7 +297,7 @@ flyctl logs
 
 1. **Choose your provider** based on the recommendations above
 2. **Deploy backend** using the provided config file
-3. **Note the deployed URL** (e.g., `https://quotegenie-api.onrender.com`)
+3. **Note the deployed URL** (e.g., `https://estimategenie-api.onrender.com`)
 4. **Update worker** with backend URL in `api-worker/index.js`
 5. **Deploy frontend** to Cloudflare Pages
 6. **Test the full system** end-to-end

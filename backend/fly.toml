@@ -10,7 +10,7 @@ primary_region = 'sjc'
   dockerfile = 'Dockerfile.fly'
 
 [env]
-  ALLOW_ORIGINS = 'https://f5ed7926.estimategenie.pages.dev,https://estimategenie-api.thesportsdugout.workers.dev'
+  ALLOW_ORIGINS = 'https://www.estimategenie.net,https://estimategenie.net,https://api.estimategenie.net,https://f5ed7926.estimategenie.pages.dev'
   GEMINI_MODEL = 'gemini-2.5-flash'
   LLM_PROVIDER = 'gemini'
   PORT = '8080'

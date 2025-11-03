@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/three@0.141.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+      .code-block {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+      }
+      .code-block .keyword {
+        color: #569cd6;
+      }
+      .code-block .string {
+        color: #ce9178;
+      }
+      .code-block .comment {
+        color: #6a9955;
+      }
+      #vanta-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      .sidebar {
+        position: sticky;
+        top: 80px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+            <span class="ml-2 text-xl font-bold text-gray-900"
+              >EstimateGenie</span
+            >
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="text-gray-500 hover:text-gray-700"
+              >Home</a
+            >
+            <a href="features.html" class="text-gray-500 hover:text-gray-700"
+              >Features</a
+            >
+            <a href="pricing.html" class="text-gray-500 hover:text-gray-700"
+              >Pricing</a
+            >
+            <a href="docs.html" class="text-purple-600 font-medium">Docs</a>
+            <a href="about.html" class="text-gray-500 hover:text-gray-700"
+              >About</a
+            >
+            <a href="contact.html" class="text-gray-500 hover:text-gray-700"
+              >Contact</a
+            >
+            <a href="login.html" class="text-gray-500 hover:text-gray-700"
+              >Login</a
+            >
+            <a
+              href="signup.html"
+              class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700"
+              >Sign Up</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar Navigation -->
+        <aside class="lg:col-span-1">
+          <nav class="sidebar bg-white rounded-lg shadow-sm p-6">
+            <h3
+              class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4"
+            >
+              Documentation
+            </h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#getting-started"
+                  class="block py-2 px-3 text-purple-600 bg-purple-50 rounded-lg font-medium"
+                >
+                  Getting Started
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#authentication"
+                  class="block py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  Authentication
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#api-endpoints"
+                  class="block py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  API Endpoints
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#javascript"
+                  class="block py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  JavaScript SDK
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#errors"
+                  class="block py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  Error Handling
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#best-practices"
+                  class="block py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  Best Practices
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lg:col-span-3">
+          <div class="bg-white rounded-lg shadow-sm p-8">
+            <!-- Getting Started -->
+            <section id="getting-started" class="mb-16">
+              <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                API Documentation
+              </h1>
+              <p class="text-xl text-gray-600 mb-6">
+                Welcome to the EstimateGenie API. Get started with intelligent
+                construction estimates powered by AI.
+              </p>
+
+              <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <i data-feather="info" class="h-6 w-6 text-blue-400"></i>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-lg font-semibold text-blue-900">
+                      Base URL
+                    </h3>
+                    <p class="text-blue-800 mt-2">
+                      <code class="bg-white px-2 py-1 rounded"
+                        >https://api.estimategenie.net/api</code
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <h2 class="text-2xl font-bold text-gray-900 mb-4">Quick Start</h2>
+              <p class="text-gray-600 mb-4">
+                Get your first estimate in minutes. Here's a simple example:
+              </p>
+              <div class="code-block mb-8">
+                <pre><code><span class="keyword">curl</span> -X POST <span class="string">"https://api.estimategenie.net/api/v1/quotes"</span> \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -F <span class="string">"file=@project-photo.jpg"</span> \
+  -F <span class="string">"project_type=kitchen"</span> \
+  -F <span class="string">"description=Kitchen remodel with new cabinets"</span></code></pre>
+              </div>
+            </section>
+
+            <!-- Authentication -->
+            <section id="authentication" class="mb-16">
+              <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                Authentication
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                EstimateGenie uses API keys to authenticate requests. Get your
+                API key from your dashboard.
+              </p>
+
+              <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-6">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <i
+                      data-feather="alert-triangle"
+                      class="h-6 w-6 text-yellow-400"
+                    ></i>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-lg font-semibold text-yellow-900">
+                      Keep your API key secure
+                    </h3>
+                    <p class="text-yellow-800 mt-2">
+                      Never expose your API keys in client-side code or public
+                      repositories.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                Include your API key
+              </h3>
+              <div class="code-block">
+                <pre><code><span class="keyword">Authorization:</span> Bearer eg_sk_live_YOUR_API_KEY</code></pre>
+              </div>
+            </section>
+
+            <!-- API Endpoints -->
+            <section id="api-endpoints" class="mb-16">
+              <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                API Endpoints
+              </h2>
+
+              <!-- Create Quote -->
+              <div class="mb-12">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+                  Create a Quote
+                </h3>
+                <div
+                  class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4"
+                >
+                  <div class="flex items-center">
+                    <span
+                      class="bg-green-600 text-white px-3 py-1 rounded text-sm font-medium mr-3"
+                      >POST</span
+                    >
+                    <code class="text-green-800 font-mono">/v1/quotes</code>
+                  </div>
+                </div>
+
+                <p class="text-gray-600 mb-6">
+                  Upload project images and details to generate an AI-powered
+                  construction estimate.
+                </p>
+
+                <h4 class="text-lg font-semibold text-gray-900 mb-3">
+                  Request Parameters
+                </h4>
+                <div class="overflow-x-auto mb-6">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                        >
+                          Parameter
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                        >
+                          Type
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                        >
+                          Required
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                        >
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                          file
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">file</td>
+                        <td class="px-6 py-4 text-sm text-red-600">Yes</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Project image (JPG, PNG, max 10MB)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                          project_type
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">string</td>
+                        <td class="px-6 py-4 text-sm text-red-600">Yes</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Project category (kitchen, bathroom, etc.)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                          description
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">string</td>
+                        <td class="px-6 py-4 text-sm text-red-600">Yes</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Detailed project description
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                          quote_type
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">string</td>
+                        <td class="px-6 py-4 text-sm text-blue-600">No</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          basic, detailed, or project-plan
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 mb-3">
+                  Example Response
+                </h4>
+                <div class="code-block">
+                  <pre><code>{
+  <span class="string">"id"</span>: <span class="string">"quote_abc123"</span>,
+  <span class="string">"status"</span>: <span class="string">"completed"</span>,
+  <span class="string">"total_cost"</span>: {
+    <span class="string">"amount"</span>: 15250.00,
+    <span class="string">"currency"</span>: <span class="string">"USD"</span>,
+    <span class="string">"breakdown"</span>: {
+      <span class="string">"materials"</span>: 8500.00,
+      <span class="string">"labor"</span>: 5500.00,
+      <span class="string">"markup"</span>: 1250.00
+    }
+  },
+  <span class="string">"timeline"</span>: {
+    <span class="string">"estimated_days"</span>: 12,
+    <span class="string">"estimated_hours"</span>: 96
+  },
+  <span class="string">"materials"</span>: [
+    {
+      <span class="string">"name"</span>: <span class="string">"Kitchen Cabinets"</span>,
+      <span class="string">"quantity"</span>: 15,
+      <span class="string">"unit"</span>: <span class="string">"linear feet"</span>,
+      <span class="string">"unit_cost"</span>: 125.00,
+      <span class="string">"total"</span>: 1875.00
+    }
+  ],
+  <span class="string">"labor"</span>: [
+    {
+      <span class="string">"trade"</span>: <span class="string">"Carpenter"</span>,
+      <span class="string">"hours"</span>: 48,
+      <span class="string">"rate"</span>: 75.00,
+      <span class="string">"total"</span>: 3600.00
+    }
+  ]
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- List Quotes -->
+              <div class="mb-12">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+                  List Quotes
+                </h3>
+                <div
+                  class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4"
+                >
+                  <div class="flex items-center">
+                    <span
+                      class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium mr-3"
+                      >GET</span
+                    >
+                    <code class="text-blue-800 font-mono">/v1/quotes</code>
+                  </div>
+                </div>
+                <p class="text-gray-600 mb-4">
+                  Retrieve a list of all your quotes with optional filters.
+                </p>
+              </div>
+
+              <!-- Get Quote -->
+              <div class="mb-12">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+                  Get Quote Details
+                </h3>
+                <div
+                  class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4"
+                >
+                  <div class="flex items-center">
+                    <span
+                      class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium mr-3"
+                      >GET</span
+                    >
+                    <code class="text-blue-800 font-mono">/v1/quotes/{id}</code>
+                  </div>
+                </div>
+                <p class="text-gray-600 mb-4">
+                  Retrieve details of a specific quote by ID.
+                </p>
+              </div>
+            </section>
+
+            <!-- JavaScript SDK -->
+            <section id="javascript" class="mb-16">
+              <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                JavaScript SDK
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                Official JavaScript/Node.js SDK for seamless integration.
+              </p>
+
+              <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                Installation
+              </h3>
+              <div class="code-block mb-6">
+                <pre><code><span class="comment"># Install via npm</span>
+npm install @estimategenie/sdk
+
+<span class="comment"># Install via yarn</span>
+yarn add @estimategenie/sdk</code></pre>
+              </div>
+
+              <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                Basic Usage
+              </h3>
+              <div class="code-block">
+                <pre><code><span class="keyword">import</span> { EstimateGenie } <span class="keyword">from</span> <span class="string">'@estimategenie/sdk'</span>;
+
+<span class="comment">// Initialize client</span>
+<span class="keyword">const</span> client = <span class="keyword">new</span> EstimateGenie(<span class="string">'YOUR_API_KEY'</span>);
+
+<span class="comment">// Create a quote</span>
+<span class="keyword">const</span> quote = <span class="keyword">await</span> client.quotes.create({
+  file: imageFile,
+  project_type: <span class="string">'kitchen'</span>,
+  description: <span class="string">'Complete kitchen remodel'</span>,
+  quote_type: <span class="string">'detailed'</span>
+});
+
+console.log(<span class="string">'Quote ID:'</span>, quote.id);
+console.log(<span class="string">'Total Cost:'</span>, quote.total_cost.amount);</code></pre>
+              </div>
+            </section>
+
+            <!-- Error Handling -->
+            <section id="errors" class="mb-16">
+              <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Error Handling
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                EstimateGenie uses HTTP response codes to indicate success or
+                failure.
+              </p>
+
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                      >
+                        Code
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                      >
+                        Status
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+                      >
+                        Description
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td class="px-6 py-4 text-sm font-medium text-green-600">
+                        200
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">OK</td>
+                      <td class="px-6 py-4 text-sm text-gray-500">
+                        Request succeeded
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 text-sm font-medium text-yellow-600">
+                        400
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Bad Request
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-500">
+                        Invalid parameters
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 text-sm font-medium text-red-600">
+                        401
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Unauthorized
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-500">
+                        Invalid API key
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 text-sm font-medium text-red-600">
+                        429
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Rate Limited
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-500">
+                        Too many requests
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 text-sm font-medium text-red-600">
+                        500
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Server Error
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-500">
+                        Internal server error
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="mb-16">
+              <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Best Practices
+              </h2>
+              <div class="space-y-6">
+                <div class="border-l-4 border-purple-400 pl-6">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                    Provide Detailed Descriptions
+                  </h3>
+                  <p class="text-gray-600">
+                    The more detail you provide, the more accurate the estimate.
+                    Include dimensions, materials, and special requirements.
+                  </p>
+                </div>
+
+                <div class="border-l-4 border-blue-400 pl-6">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                    Use High-Quality Images
+                  </h3>
+                  <p class="text-gray-600">
+                    Clear, well-lit photos from multiple angles provide better
+                    AI analysis and more accurate estimates.
+                  </p>
+                </div>
+
+                <div class="border-l-4 border-green-400 pl-6">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                    Handle Errors Gracefully
+                  </h3>
+                  <p class="text-gray-600">
+                    Implement proper error handling with retry logic and
+                    exponential backoff for failed requests.
+                  </p>
+                </div>
+
+                <div class="border-l-4 border-yellow-400 pl-6">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                    Cache Results
+                  </h3>
+                  <p class="text-gray-600">
+                    Store quote results locally when appropriate to reduce API
+                    calls and improve response times.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 px-4">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-white text-sm font-semibold uppercase mb-4">
+              Product
+            </h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="features.html" class="hover:text-white">Features</a>
+              </li>
+              <li>
+                <a href="pricing.html" class="hover:text-white">Pricing</a>
+              </li>
+              <li><a href="docs.html" class="hover:text-white">API</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white text-sm font-semibold uppercase mb-4">
+              Resources
+            </h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="docs.html" class="hover:text-white">Documentation</a>
+              </li>
+              <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+              <li>
+                <a href="contact.html" class="hover:text-white">Support</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white text-sm font-semibold uppercase mb-4">
+              Company
+            </h3>
+            <ul class="space-y-2">
+              <li><a href="about.html" class="hover:text-white">About</a></li>
+              <li><a href="#" class="hover:text-white">Privacy</a></li>
+              <li><a href="#" class="hover:text-white">Terms</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white text-sm font-semibold uppercase mb-4">
+              Connect
+            </h3>
+            <div class="flex space-x-4">
+              <a href="#" class="hover:text-white"
+                ><i data-feather="twitter"></i
+              ></a>
+              <a href="#" class="hover:text-white"
+                ><i data-feather="github"></i
+              ></a>
+              <a href="#" class="hover:text-white"
+                ><i data-feather="linkedin"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+          <p>&copy; 2025 EstimateGenie. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

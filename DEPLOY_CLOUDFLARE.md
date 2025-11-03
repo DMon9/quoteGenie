@@ -225,7 +225,7 @@ Choose one platform:
    fly deploy
    ```
 
-7. **Note the URL:** `https://estimategenie-api.fly.dev`
+7. **Note the URL:** `https://quotegenie-api.fly.dev`
 
 ---
 
@@ -235,7 +235,8 @@ Choose one platform:
 
    Edit `api-worker/index.js`:
    ```javascript
-   const BACKEND_URL = 'https://estimategenie-api.onrender.com'; // Your backend URL
+   // Your backend URL (origin). Prefer the public domain in the frontend (https://api.estimategenie.net)
+   const BACKEND_URL = 'https://quotegenie-api.fly.dev';
    ```
 
 2. **Update wrangler.toml:**
@@ -247,7 +248,8 @@ Choose one platform:
    compatibility_date = "2024-01-01"
    
    [vars]
-   BACKEND_URL = "https://estimategenie-api.onrender.com"
+   # Backend origin URL (can also be set via secrets)
+   BACKEND_URL = "https://quotegenie-api.fly.dev"
    ENVIRONMENT = "production"
    ```
 
@@ -288,7 +290,11 @@ Choose one platform:
 
 ### 1. Test Backend Directly
 ```powershell
-curl https://estimategenie-api.onrender.com/health
+# Prefer the public domain if DNS is set up
+curl https://api.estimategenie.net/health
+
+# Or test the origin directly (Fly.io)
+curl https://quotegenie-api.fly.dev/health
 ```
 
 **Expected:**
@@ -333,7 +339,7 @@ curl https://estimategenie-api.<subdomain>.workers.dev/api/v1/pricing/status
 
 ### Cloudflare Worker (API Proxy)
 ```
-BACKEND_URL=https://estimategenie-api.onrender.com
+BACKEND_URL=https://quotegenie-api.fly.dev
 ENVIRONMENT=production
 ```
 
@@ -376,7 +382,11 @@ cat > materials_pricing_400.json
 1. Upload new JSON file to disk/volume
 2. Trigger reload:
    ```powershell
-   curl -X POST https://estimategenie-api.onrender.com/v1/pricing/reload
+   # Via public domain through Worker routing
+   curl -X POST https://api.estimategenie.net/api/v1/pricing/reload
+
+   # Or directly against the backend origin (Fly.io)
+   curl -X POST https://quotegenie-api.fly.dev/v1/pricing/reload
    ```
 
 ---
@@ -479,6 +489,32 @@ fly logs
 - Check Worker BACKEND_URL is correct
 - Verify CORS headers in backend ALLOW_ORIGINS
 - Check Worker logs for proxy errors
+
+### Root domain shows 522 (but www works)
+When `https://estimategenie.net` returns Cloudflare 522 while `https://www.estimategenie.net` or `https://estimategenie.pages.dev` work, the apex DNS is pointing to the wrong origin or a Worker route is misconfigured.
+
+Quick fixes:
+
+1) Use a redirect rule (fastest)
+- Cloudflare Dashboard → Rules → Redirect Rules → Create Rule
+- If Hostname equals `estimategenie.net` → 301 redirect to `https://www.estimategenie.net`.
+- This takes effect immediately and avoids any origin lookup.
+
+2) Point apex to Pages (canonical)
+- Pages → Your project → Custom domains → Add domain → `estimategenie.net`
+- Cloudflare will add a proxied CNAME (flattened) to your Pages hostname.
+- DNS → Remove any existing A/AAAA records for `@` (root) that point to other IPs.
+- Wait a few minutes and re-test: `curl -I https://estimategenie.net` should be 200.
+
+3) Check Workers/Routes
+- Workers → Your worker → Triggers → Routes. Remove any route bound to `estimategenie.net/*` unless you intend to intercept the root. If you want a Worker only for the API, bind it to `api.estimategenie.net/*` instead.
+
+Verification commands (PowerShell):
+```powershell
+nslookup estimategenie.net
+curl.exe -I https://estimategenie.net
+curl.exe -I https://www.estimategenie.net
+```
 
 ### Pricing file not found
 - Verify disk/volume is mounted

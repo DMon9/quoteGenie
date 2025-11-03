@@ -76,7 +76,7 @@ switch ($choice) {
 Write-Host ""
 Write-Host "Step 2: Deploy API Worker" -ForegroundColor Green
 Write-Host "First, we need your backend URL..."
-$backendUrl = Read-Host "Enter backend URL (e.g., https://estimategenie-api.onrender.com)"
+$backendUrl = Read-Host "Enter backend URL (e.g., https://quotegenie-api.fly.dev or https://api.estimategenie.net)"
 
 if (-not [string]::IsNullOrWhiteSpace($backendUrl)) {
     # Update worker configuration

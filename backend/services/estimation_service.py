@@ -246,26 +246,46 @@ class EstimationService:
         vision_results: Dict,
         reasoning: Dict,
         project_type: str,
+        advanced_options: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """Calculate complete project estimate"""
+        """Calculate complete project estimate with optional advanced options
+        
+        Args:
+            vision_results: Vision analysis results
+            reasoning: LLM reasoning output
+            project_type: Type of project (bathroom, kitchen, etc.)
+            advanced_options: Optional dict with:
+                - quality: "standard", "premium", "luxury" (affects material multiplier)
+                - contingency_pct: float (default 0, range 0-30)
+                - profit_pct: float (default 15, range 0-50)
+                - region: "midwest", "south", "northeast", "west" (affects labor rates)
+        """
 
         # Hot-reload pricing lists if files changed
         self._maybe_reload_price_lists()
+        
+        # Parse advanced options with defaults
+        opts = advanced_options or {}
+        material_quality = opts.get("quality", "standard")
+        contingency_pct = self._parse_float(opts.get("contingency_pct"), default=0.0, min_val=0.0, max_val=30.0)
+        profit_pct = self._parse_float(opts.get("profit_pct"), default=15.0, min_val=0.0, max_val=50.0)
+        region = opts.get("region", "midwest")
 
         # Extract materials from LLM reasoning
         materials_needed = reasoning.get("materials_needed", [])
 
-        # Calculate material costs
-        materials_cost = self._calculate_materials_cost(materials_needed)
+        # Calculate material costs with quality multiplier
+        materials_cost = self._calculate_materials_cost(materials_needed, quality=material_quality)
 
-        # Calculate labor costs
+        # Calculate labor costs with region multiplier
         labor_hours = self._extract_labor_hours(reasoning)
-        labor_cost = self._calculate_labor_cost(labor_hours, project_type)
+        labor_cost = self._calculate_labor_cost(labor_hours, project_type, region=region)
 
-        # Apply markup and safety factor
+        # Apply profit margin and contingency
         subtotal = materials_cost["total"] + labor_cost["total"]
-        markup = subtotal * 0.15  # 15% markup
-        total = subtotal + markup
+        profit = subtotal * (profit_pct / 100.0)
+        contingency = subtotal * (contingency_pct / 100.0)
+        total = subtotal + profit + contingency
 
         # Estimate timeline
         timeline = self._estimate_timeline(labor_hours)
@@ -280,7 +300,8 @@ class EstimationService:
                 "breakdown": {
                     "materials": round(materials_cost["total"], 2),
                     "labor": round(labor_cost["total"], 2),
-                    "markup": round(markup, 2),
+                    "profit": round(profit, 2),
+                    "contingency": round(contingency, 2),
                 },
             },
             "materials": materials_cost["items"],
@@ -288,7 +309,25 @@ class EstimationService:
             "timeline": timeline,
             "steps": steps,
             "confidence_score": self._calculate_confidence(vision_results),
+            "options_applied": {
+                "quality": material_quality,
+                "contingency_pct": contingency_pct,
+                "profit_pct": profit_pct,
+                "region": region,
+            },
         }
+
+    def _parse_float(self, value: Any, default: float = 0.0, min_val: Optional[float] = None, max_val: Optional[float] = None) -> float:
+        """Parse and clamp a float value"""
+        try:
+            result = float(value) if value is not None else default
+            if min_val is not None:
+                result = max(min_val, result)
+            if max_val is not None:
+                result = min(max_val, result)
+            return result
+        except (ValueError, TypeError):
+            return default
 
     def _extract_labor_hours(self, reasoning: Dict) -> float:
         """Extract labor hours from reasoning"""
@@ -302,8 +341,20 @@ class EstimationService:
         except Exception:
             return 16.0
 
-    def _calculate_materials_cost(self, materials: List[Dict]) -> Dict:
-        """Calculate total material costs"""
+    def _calculate_materials_cost(self, materials: List[Dict], quality: str = "standard") -> Dict:
+        """Calculate total material costs with quality multiplier
+        
+        Args:
+            materials: List of material dicts
+            quality: "standard" (1.0x), "premium" (1.3x), "luxury" (1.8x)
+        """
+        quality_multipliers = {
+            "standard": 1.0,
+            "premium": 1.3,
+            "luxury": 1.8,
+        }
+        multiplier = quality_multipliers.get(quality.lower(), 1.0)
+        
         items: List[Dict[str, Any]] = []
         total = 0.0
 
@@ -327,7 +378,7 @@ class EstimationService:
             # Fallback to local DB
             if price_data is None:
                 price_data = self.materials_db.get(db_key, {"price": 10.0, "unit": "unit"})
-            unit_price = float(price_data.get("price", 10.0))
+            unit_price = float(price_data.get("price", 10.0)) * multiplier
             line_total = float(quantity) * unit_price
 
             items.append(
@@ -335,7 +386,7 @@ class EstimationService:
                     "name": raw_name or db_key.replace("_", " "),
                     "quantity": quantity,
                     "unit": material.get("unit") or price_data.get("unit") or "unit",
-                    "unit_price": unit_price,
+                    "unit_price": round(unit_price, 2),
                     "total": round(line_total, 2),
                 }
             )
@@ -406,15 +457,37 @@ class EstimationService:
             return "concrete_3000psi"
         return n.replace(" ", "_")
 
-    def _calculate_labor_cost(self, hours: float, project_type: str) -> Dict:
-        """Calculate labor costs"""
+    def _calculate_labor_cost(self, hours: float, project_type: str, region: str = "midwest") -> Dict:
+        """Calculate labor costs with regional adjustment
+        
+        Args:
+            hours: Labor hours
+            project_type: Project type
+            region: "midwest" (1.0x), "south" (0.85x), "northeast" (1.25x), "west" (1.35x)
+        """
+        region_multipliers = {
+            "midwest": 1.0,
+            "south": 0.85,
+            "northeast": 1.25,
+            "west": 1.35,
+        }
+        multiplier = region_multipliers.get(region.lower(), 1.0)
+        
         trade = self._map_project_to_trade(project_type)
         rate_info = self.labor_rates.get(trade, self.labor_rates["general"])
-        hourly_rate = rate_info["rate"]
+        base_rate = rate_info["rate"]
+        hourly_rate = base_rate * multiplier
         total = hours * hourly_rate
         return {
             "items": [
-                {"trade": trade, "hours": hours, "rate": hourly_rate, "total": round(total, 2)}
+                {
+                    "trade": trade,
+                    "hours": hours,
+                    "rate": round(hourly_rate, 2),
+                    "base_rate": base_rate,
+                    "region_multiplier": multiplier,
+                    "total": round(total, 2)
+                }
             ],
             "total": total,
         }

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Features - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body class="font-sans antialiased text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+              <span class="ml-2 text-xl font-bold text-gray-900"
+                >EstimateGenie</span
+              >
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <a
+                href="index.html"
+                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="features.html"
+                class="nav-link-active inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Features</a
+              >
+              <a
+                href="about.html"
+                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >About</a
+              >
+              <a
+                href="contact.html"
+                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="hidden sm:ml-6 sm:flex sm:items-center">
+            <button
+              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200"
+            >
+              Log In
+            </button>
+            <button
+              class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700"
+            >
+              Start Free Trial
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+          Advanced AI Features for
+          <span class="text-yellow-300">Next-Generation Estimation</span>
+        </h1>
+        <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+          Discover the cutting-edge capabilities that make EstimateGenie the
+          most comprehensive AI-powered estimation platform in the industry.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+        >
+          <button
+            class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+          >
+            <i data-feather="play" class="mr-2"></i> Watch Demo
+          </button>
+          <button
+            class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+          >
+            <i data-feather="download" class="mr-2"></i> Get Started Free
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Categories -->
+    <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Six Pillars of Advanced Estimation
+          </h2>
+          <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Each feature is designed to transform a different aspect of your
+            business workflow.
+          </p>
+        </div>
+
+        <!-- Vision AI Section -->
+        <div class="mb-20">
+          <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+            <div class="mb-12 lg:mb-0">
+              <div class="flex items-center mb-6">
+                <div class="feature-icon bg-purple-100 mr-4">
+                  <i data-feather="camera" class="h-6 w-6 text-purple-600"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">
+                  Vision AI Quote Builder
+                </h3>
+              </div>
+              <p class="text-lg text-gray-600 mb-6">
+                Revolutionary computer vision technology that analyzes uploaded
+                photos to automatically detect materials, assess damage, and
+                calculate accurate costs in seconds.
+              </p>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <i
+                    data-feather="check-circle"
+                    class="h-5 w-5 text-green-500 mt-1 mr-3"
+                  ></i>
+                  <div>
+                    <span class="font-semibold">Multi-angle Analysis:</span>
+                    Upload multiple photos for comprehensive assessment
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <i
+                    data-feather="check-circle"
+                    class="h-5 w-5 text-green-500 mt-1 mr-3"
+                  ></i>
+                  <div>
+                    <span class="font-semibold">3D Reconstruction:</span>
+                    Generate 3D models from 2D images for precise measurements
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <i
+                    data-feather="check-circle"
+                    class="h-5 w-5 text-green-500 mt-1 mr-3"
+                  ></i>
+                  <div>
+                    <span class="font-semibold">Historical Comparison:</span>
+                    Compare current damage with previous project photos
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <span
+                  class="inline-block px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold"
+                  >Available Now</span
+                >
+              </div>
+            </div>
+            <div class="relative">
+              <div
+                class="bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl p-8 text-white"
+              >
+                <h4 class="text-2xl font-bold mb-4">Try Vision AI</h4>
+                <p class="mb-6">
+                  Upload a photo and watch our AI analyze it in real-time.
+                </p>
+                <div
+                  class="bg-white/20 rounded-lg p-4 border-2 border-dashed border-white/40 text-center"
+                >
+                  <i
+                    data-feather="upload"
+                    class="h-12 w-12 mx-auto mb-2 opacity-60"
+                  ></i>
+                  <p class="text-sm opacity-80">
+                    Drag & drop or click to upload
+                  </p>
+                </div>
+                <button
+                  class="mt-4 w-full bg-white text-purple-600 font-bold py-3 rounded-lg hover:bg-gray-100 transition duration-300"
+                >
+                  Start Analysis
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Assistant Section -->
+        <div class="mb-20">
+          <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+            <div class="order-2 lg:order-1 relative">
+              <div
+                class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-8 text-white"
+              >
+                <h4 class="text-2xl font-bold mb-4">AI Assistant Preview</h4>
+                <div class="space-y-4">
+                  <div class="bg-white/20 rounded-lg p-3">
+                    <p class="text-sm">
+                      <strong>Client:</strong> "When will my quote be ready?"
+                    </p>
+                  </div>
+                  <div class="bg-white rounded-lg p-3 text-gray-800">
+                    <p class="text-sm">
+                      <strong>AI:</strong> "Hi! Your quote for the kitchen
+                      renovation is being finalized and will be ready within 2
+                      hours. I'll notify you immediately when it's complete. Is
+                      there anything specific you'd like me to include?"
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center text-sm opacity-80">
+                  <i data-feather="clock" class="h-4 w-4 mr-2"></i>
+                  Response time: 0.3 seconds
+                </div>
+              </div>
+            </div>
+            <div class="order-1 lg:order-2 mb-12 lg:mb-0">
+              <div class="flex items-center mb-6">
+                <div class="feature-icon bg-green-100 mr-4">
+                  <i
+                    data-feather="message-circle"
+                    class="h-6 w-6 text-green-600"
+                  ></i>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">
+                  AI Assistant / Chatbot
+                </h3>
+              </div>
+              <p class="text-lg text-gray-600 mb-6">
+                Intelligent customer service that never sleeps. Handle quote
+                follow-ups, timeline updates, and FAQ responses automatically
+                while maintaining a personal touch.
+              </p>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <i
+                    data-feather="clock"
+                    class="h-5 w-5 text-blue-500 mt-1 mr-3"
+                  ></i>
+                  <div>
+                    <span class="font-semibold">24/7 Availability:</span>
+                    Instant responses to client inquiries anytime
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <i
+                    data-feather="clock"
+                    class="h-5 w-5 text-blue-500 mt-1 mr-3"
+                  ></i>
+                  <div>
+                    <span class="font-semibold">Smart Escalation:</span>
+                    Seamlessly hands off complex queries to humans
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <i
+                    data-feather="clock"
+                    class="h-5 w-5 text-blue-500 mt-1 mr-3"
+                  ></i>
+                  <div>
+                    <span class="font-semibold">Multi-channel:</span> Works
+                    across web chat, SMS, and email
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <span
+                  class="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold"
+                  >Coming Q1 2026</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Smart CRM Section -->
+        <div class="mb-20">
+          <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+            <div class="mb-12 lg:mb-0">
+              <div class="flex items-center mb-6">
+                <div class="feature-icon bg-blue-100 mr-4">
+                  <i data-feather="users" class="h-6 w-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">Smart CRM</h3>
+              </div>
+              <p class="text-lg text-gray-600 mb-6">
+                AI-powered customer relationship management that tracks every
+                interaction, predicts customer behavior, and automates
+                follow-ups to maximize conversion rates.
+              </p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 p-4 rounded-lg text-center">
+                  <div class="text-2xl font-bold text-blue-600">89%</div>
+                  <div class="text-sm text-gray-600">Lead Scoring Accuracy</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg text-center">
+                  <div class="text-2xl font-bold text-green-600">+34%</div>
+                  <div class="text-sm text-gray-600">
+                    Conversion Rate Increase
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <span
+                  class="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold"
+                  >Coming Q2 2026</span
+                >
+              </div>
+            </div>
+            <div class="relative">
+              <div
+                class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 text-white"
+              >
+                <h4 class="text-xl font-bold mb-4">CRM Dashboard Preview</h4>
+                <div class="space-y-3">
+                  <div
+                    class="bg-white/20 rounded p-3 flex justify-between items-center"
+                  >
+                    <span class="text-sm">High-value leads today</span>
+                    <span class="font-bold">12</span>
+                  </div>
+                  <div
+                    class="bg-white/20 rounded p-3 flex justify-between items-center"
+                  >
+                    <span class="text-sm">Follow-ups scheduled</span>
+                    <span class="font-bold">8</span>
+                  </div>
+                  <div
+                    class="bg-white/20 rounded p-3 flex justify-between items-center"
+                  >
+                    <span class="text-sm">Conversion prediction</span>
+                    <span class="font-bold text-green-300">↗ 23%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remaining features grid -->
+        <div class="grid md:grid-cols-2 gap-12">
+          <!-- Auto-Scheduler -->
+          <div class="text-center">
+            <div class="feature-icon bg-yellow-100 mx-auto mb-6">
+              <i data-feather="calendar" class="h-8 w-8 text-yellow-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              Auto-Scheduler
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Intelligent scheduling that syncs with your calendar, optimizes
+              routes, and predicts the best time slots based on historical data
+              and team availability.
+            </p>
+            <div class="bg-yellow-50 rounded-lg p-4 mb-4">
+              <div class="text-sm text-gray-600 space-y-2">
+                <div class="flex justify-between">
+                  <span>Route optimization</span>
+                  <span class="font-semibold">-27% travel time</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Schedule conflicts</span>
+                  <span class="font-semibold">-89% reduction</span>
+                </div>
+              </div>
+            </div>
+            <span
+              class="inline-block px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold"
+              >Coming Q2 2026</span
+            >
+          </div>
+
+          <!-- Analytics Dashboard -->
+          <div class="text-center">
+            <div class="feature-icon bg-red-100 mx-auto mb-6">
+              <i data-feather="bar-chart-2" class="h-8 w-8 text-red-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              Analytics Dashboard
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Comprehensive business insights including profit analysis, quote
+              approval patterns, seasonal trends, and predictive forecasting to
+              drive growth.
+            </p>
+            <div class="bg-red-50 rounded-lg p-4 mb-4">
+              <div class="text-sm text-gray-600 space-y-2">
+                <div class="flex justify-between">
+                  <span>Average job profit</span>
+                  <span class="font-semibold">$2,847</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Fastest approval time</span>
+                  <span class="font-semibold">14 minutes</span>
+                </div>
+              </div>
+            </div>
+            <span
+              class="inline-block px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-semibold"
+              >Coming Q1 2026</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Partner Section -->
+    <div class="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+          <div>
+            <div class="flex items-center mb-6">
+              <div class="feature-icon bg-indigo-600 mr-4">
+                <i data-feather="link" class="h-6 w-6 text-white"></i>
+              </div>
+              <h3 class="text-3xl font-bold">API Access for Partners</h3>
+            </div>
+            <p class="text-xl text-gray-300 mb-6">
+              Enable other services like Honest Fixers and X-Pipe to integrate
+              your quote system directly with white-label solutions and
+              enterprise-grade APIs.
+            </p>
+            <div class="space-y-4 mb-8">
+              <div class="flex items-center">
+                <i data-feather="check" class="h-5 w-5 text-green-400 mr-3"></i>
+                <span>RESTful API with comprehensive documentation</span>
+              </div>
+              <div class="flex items-center">
+                <i data-feather="check" class="h-5 w-5 text-green-400 mr-3"></i>
+                <span>Webhook support for real-time notifications</span>
+              </div>
+              <div class="flex items-center">
+                <i data-feather="check" class="h-5 w-5 text-green-400 mr-3"></i>
+                <span>Rate limiting and usage analytics</span>
+              </div>
+              <div class="flex items-center">
+                <i data-feather="check" class="h-5 w-5 text-green-400 mr-3"></i>
+                <span>White-label branding options</span>
+              </div>
+            </div>
+            <div class="flex space-x-4">
+              <span
+                class="inline-block px-4 py-2 bg-green-600 text-white rounded-full text-sm font-semibold"
+                >Basic API Available</span
+              >
+              <span
+                class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-semibold"
+                >v2.0 Coming Q2 2026</span
+              >
+            </div>
+          </div>
+          <div class="mt-12 lg:mt-0">
+            <div class="bg-gray-800 rounded-lg p-6 font-mono text-sm">
+              <div class="text-green-400 mb-2">
+                // EstimateGenie API Example
+              </div>
+              <div class="text-gray-300">
+                <span class="text-blue-400">POST</span>
+                /api/v2/partner/quotes<br />
+                <span class="text-yellow-400">{</span><br />
+                &nbsp;&nbsp;"images": [<span class="text-green-300"
+                  >"base64..."</span
+                >],<br />
+                &nbsp;&nbsp;"partner_id":
+                <span class="text-green-300">"honest_fixers"</span>,<br />
+                &nbsp;&nbsp;"brand_config":
+                <span class="text-yellow-400">{</span><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;"logo":
+                <span class="text-green-300">"custom_logo.png"</span>,<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;"colors":
+                <span class="text-green-300">"#your-brand"</span><br />
+                &nbsp;&nbsp;<span class="text-yellow-400">}</span><br />
+                <span class="text-yellow-400">}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-purple-600 text-white py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-extrabold sm:text-4xl mb-6">
+          Ready to Experience the Future?
+        </h2>
+        <p class="text-xl opacity-90 mb-8">
+          Join thousands of businesses already using EstimateGenie's advanced AI
+          features to transform their operations.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+        >
+          <button
+            class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+          >
+            <i data-feather="zap" class="mr-2"></i> Start Free Trial
+          </button>
+          <button
+            class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+          >
+            <i data-feather="calendar" class="mr-2"></i> Schedule Demo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div>
+            <h3
+              class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+            >
+              Product
+            </h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="features.html" class="hover:text-white">Features</a>
+              </li>
+              <li>
+                <a href="index.html#pricing" class="hover:text-white"
+                  >Pricing</a
+                >
+              </li>
+              <li><a href="docs.html" class="hover:text-white">API</a></li>
+              <li>
+                <a href="docs.html" class="hover:text-white">Integrations</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+            >
+              Resources
+            </h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="docs.html" class="hover:text-white">Documentation</a>
+              </li>
+              <li><a href="blog.html" class="hover:text-white">Guides</a></li>
+              <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+              <li>
+                <a href="contact.html" class="hover:text-white">Support</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+            >
+              Company
+            </h3>
+            <ul class="space-y-2">
+              <li><a href="about.html" class="hover:text-white">About</a></li>
+              <li><a href="#" class="hover:text-white">Careers</a></li>
+              <li><a href="#" class="hover:text-white">Privacy</a></li>
+              <li><a href="#" class="hover:text-white">Terms</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+            >
+              Connect
+            </h3>
+            <div class="flex space-x-4 mb-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i data-feather="twitter"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i data-feather="facebook"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i data-feather="linkedin"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i data-feather="instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <div class="flex items-center mb-4 md:mb-0">
+            <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+            <span class="ml-2 text-lg font-bold text-white">EstimateGenie</span>
+          </div>
+          <p class="text-sm">
+            &copy; 2025 EstimateGenie, Inc. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

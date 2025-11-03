@@ -27,7 +27,7 @@ Use this checklist to track your deployment progress.
 - [ ] Add Secret: `GOOGLE_API_KEY` = your_key
 - [ ] Click "Apply" to deploy
 - [ ] Wait for deployment (~3-5 minutes)
-- [ ] Note backend URL: `https://quotegenie-api.onrender.com`
+- [ ] Note backend URL: `https://estimategenie-api.onrender.com`
 - [ ] Access Render Shell from dashboard
 - [ ] Create directory: `mkdir -p /data/pricing`
 - [ ] Upload `materials_pricing_400.json` via SFTP or paste content
@@ -48,7 +48,7 @@ Use this checklist to track your deployment progress.
   railway variables set GOOGLE_API_KEY=your_key
   railway variables set PRICE_LIST_FILE=/data/pricing/materials_pricing_400.json
   railway variables set PRICE_LIST_RELOAD_SEC=10
-  railway variables set ALLOW_ORIGINS=https://quotegenie.pages.dev
+  railway variables set ALLOW_ORIGINS=https://estimategenie.pages.dev
   ```
 - [ ] Create volume: `railway volume create pricing-data /data/pricing 1`
 - [ ] Deploy: `railway up`
@@ -139,7 +139,7 @@ Use this checklist to track your deployment progress.
 
 - [ ] Test CORS:
   ```bash
-  curl -H "Origin: https://quotegenie.pages.dev" \
+  curl -H "Origin: https://estimategenie.pages.dev" \
        https://your-worker-url/api/health
   ```
   Check for `Access-Control-Allow-Origin` header
@@ -173,10 +173,10 @@ Use this checklist to track your deployment progress.
 
 - [ ] Deploy to Cloudflare Pages:
   ```bash
-  npx wrangler pages deploy . --project-name quotegenie
+  npx wrangler pages deploy . --project-name estimategenie
   ```
 
-- [ ] Note Pages URL: `https://quotegenie.pages.dev`
+- [ ] Note Pages URL: `https://estimategenie.pages.dev`
 
 - [ ] Update worker CORS if needed:
   Edit `api-worker/index.js` ALLOW_ORIGINS to include Pages URL
@@ -187,7 +187,7 @@ Use this checklist to track your deployment progress.
 
 ## Phase 5: End-to-End Testing
 
-- [ ] Open frontend: `https://quotegenie.pages.dev/test-upload-v2.html`
+- [ ] Open frontend: `https://estimategenie.pages.dev/test-upload-v2.html`
 
 - [ ] Verify backend status badges are green
 
@@ -216,8 +216,8 @@ Use this checklist to track your deployment progress.
 
 - [ ] Update CORS origins in backend:
   - Render: Dashboard → Environment → Edit `ALLOW_ORIGINS`
-  - Railway: `railway variables set ALLOW_ORIGINS=https://quotegenie.pages.dev`
-  - Fly.io: `flyctl secrets set ALLOW_ORIGINS=https://quotegenie.pages.dev`
+  - Railway: `railway variables set ALLOW_ORIGINS=https://estimategenie.pages.dev`
+  - Fly.io: `flyctl secrets set ALLOW_ORIGINS=https://estimategenie.pages.dev`
 
 - [ ] Configure custom domain (optional):
   - [ ] Add domain to Cloudflare Pages
@@ -359,7 +359,7 @@ curl https://worker-url/api/health
 npx wrangler deploy --config api-worker/wrangler.toml
 
 # Deploy frontend
-npx wrangler pages deploy . --project-name quotegenie
+npx wrangler pages deploy . --project-name estimategenie
 
 # View logs
 railway logs        # Railway
