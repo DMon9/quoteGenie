@@ -133,18 +133,33 @@ class DatabaseService:
     
     async def update_quote(self, quote_id: str, updates: Dict[str, Any]) -> bool:
         """Update a quote"""
+        # Define allowed fields to prevent SQL injection
+        ALLOWED_FIELDS = {
+            "project_type", "image_path", "vision_results", 
+            "reasoning", "estimate", "status"
+        }
+        
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
         try:
-            # Build dynamic update query
+            # Build dynamic update query with validated fields
             fields = []
             values = []
             for key, value in updates.items():
+                # Validate field name against whitelist
+                if key not in ALLOWED_FIELDS:
+                    print(f"Warning: Ignoring invalid field '{key}'")
+                    continue
+                    
                 if key in ["estimate", "vision_results", "reasoning"]:
                     value = json.dumps(value)
                 fields.append(f"{key} = ?")
                 values.append(value)
+            
+            if not fields:
+                # No valid fields to update
+                return False
             
             fields.append("updated_at = ?")
             values.append(datetime.utcnow().isoformat())
