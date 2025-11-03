@@ -146,16 +146,24 @@ class DatabaseService:
             # Build dynamic update query with validated fields
             fields = []
             values = []
+            invalid_field_count = 0
+            
             for key, value in updates.items():
                 # Validate field name against whitelist
                 if key not in ALLOWED_FIELDS:
-                    print(f"Warning: Ignoring invalid field '{key}'")
+                    # Count invalid fields without logging field names (security)
+                    invalid_field_count += 1
                     continue
                     
                 if key in ["estimate", "vision_results", "reasoning"]:
                     value = json.dumps(value)
                 fields.append(f"{key} = ?")
                 values.append(value)
+            
+            # Log security event if invalid fields were attempted
+            if invalid_field_count > 0:
+                import sys
+                print(f"Security: Rejected {invalid_field_count} invalid field(s) in update attempt", file=sys.stderr)
             
             if not fields:
                 # No valid fields to update
