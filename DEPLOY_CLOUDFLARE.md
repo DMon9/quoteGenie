@@ -376,7 +376,7 @@ ENVIRONMENT=production
 ### Backend (Render/Railway/Fly.io)
 
 ```
-GOOGLE_API_KEY=AIzaSyBan9TR_G6naHIEWmu_ABvEMR0JNBRFMi4
+GOOGLE_API_KEY=<your-key>
 LLM_PROVIDER=gemini
 GEMINI_MODEL=gemini-2.5-flash
 PRICE_LIST_FILE=./pricing/materials_pricing_400.json

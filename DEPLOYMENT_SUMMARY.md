@@ -114,7 +114,7 @@ Backend API (Render/Railway/Fly.io)
 ### Backend
 
 ```bash
-GOOGLE_API_KEY=AIzaSyBan9TR_G6naHIEWmu_ABvEMR0JNBRFMi4
+GOOGLE_API_KEY=<your-key>
 ```
 
 Set via:
