@@ -11,17 +11,17 @@ The following keys were removed from public code:
 1. **Google API Key** (Gemini AI)
    - Previously exposed in: `.env`, deployment docs
    - **Action Required**: Regenerate in Google Cloud Console
-   - Get new key: https://makersuite.google.com/app/apikey
+   - Get new key: <https://makersuite.google.com/app/apikey>
 
 2. **Stripe API Keys**
    - Secret Key, Webhook Secret, Price IDs
    - **Action Required**: Rotate keys in Stripe Dashboard
-   - Dashboard: https://dashboard.stripe.com/apikeys
+   - Dashboard: <https://dashboard.stripe.com/apikeys>
 
 3. **HuggingFace Token**
    - Previously in `.env`
    - **Action Required**: Regenerate if needed
-   - Settings: https://huggingface.co/settings/tokens
+   - Settings: <https://huggingface.co/settings/tokens>
 
 4. **JWT Secret Key**
    - Used for authentication tokens
@@ -32,6 +32,7 @@ The following keys were removed from public code:
 ### Local Development
 
 1. Copy the template:
+
    ```bash
    cd backend
    cp .env.example .env
@@ -67,6 +68,7 @@ fly secrets list -a quotegenie-api
 ## Security Best Practices
 
 ✅ **DO:**
+
 - Use environment variables for all secrets
 - Rotate API keys immediately after exposure
 - Use `.env.example` as template (no real values)
@@ -75,6 +77,7 @@ fly secrets list -a quotegenie-api
 - Use Stripe test keys for development
 
 ❌ **DON'T:**
+
 - Commit `.env` files to git
 - Hardcode API keys in source code
 - Share API keys in documentation
@@ -101,6 +104,7 @@ fly secrets list -a quotegenie-api
 ### Google API Key Restrictions
 
 In Google Cloud Console:
+
 1. Go to API & Services → Credentials
 2. Edit your API key
 3. Set "Application restrictions" → HTTP referrers
@@ -116,6 +120,7 @@ In Google Cloud Console:
 ## Questions?
 
 If you need help rotating keys or have security concerns, refer to:
-- Google Cloud: https://cloud.google.com/docs/authentication/api-keys
-- Stripe: https://stripe.com/docs/keys
-- Fly.io Secrets: https://fly.io/docs/reference/secrets/
+
+- Google Cloud: <https://cloud.google.com/docs/authentication/api-keys>
+- Stripe: <https://stripe.com/docs/keys>
+- Fly.io Secrets: <https://fly.io/docs/reference/secrets/>

@@ -4,9 +4,15 @@ Test authentication flow with production API
 import requests
 import json
 import sys
+import os
 from datetime import datetime
 
+import pytest
+
 API_BASE = "https://api.estimategenie.net"
+
+if os.getenv("RUN_AUTH_FLOW_TESTS") != "1":
+    pytest.skip("Auth flow integration tests require RUN_AUTH_FLOW_TESTS=1", allow_module_level=True)
 
 def test_health():
     """Test API health check"""

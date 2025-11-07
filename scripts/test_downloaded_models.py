@@ -17,6 +17,11 @@ import time
 from pathlib import Path
 from typing import Optional
 
+import pytest
+
+if os.getenv("ENABLE_MODEL_TESTS") != "1":
+    pytest.skip("Model verification tests require ENABLE_MODEL_TESTS=1 and local model artifacts", allow_module_level=True)
+
 MODELS_DIR = os.getenv("MODELS_DIR", "models")
 MODELS_BASE = Path(MODELS_DIR)
 

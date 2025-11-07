@@ -3,11 +3,17 @@ import asyncio
 import sys
 import os
 
+import pytest
+
 # Add parent to path
 sys.path.insert(0, '/app')
 
 from services.llm_service import LLMService
 
+if not os.getenv("GOOGLE_API_KEY"):
+    pytest.skip("Integration test requires GOOGLE_API_KEY", allow_module_level=True)
+
+@pytest.mark.asyncio
 async def test_gemini():
     """Test Gemini LLM service."""
     llm = LLMService()

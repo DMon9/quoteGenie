@@ -1,7 +1,7 @@
 """
 Authentication service for user management and JWT tokens
 """
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 import jwt
 import os
@@ -16,6 +16,18 @@ class AuthService:
     def __init__(self, db_path="estimategenie.db"):
         self.db_path = db_path
         self.init_database()
+
+    @staticmethod
+    def _parse_created_at(value: Optional[str]) -> Optional[datetime]:
+        if not value:
+            return None
+        try:
+            parsed = datetime.fromisoformat(value)
+            if parsed.tzinfo is None:
+                return parsed.replace(tzinfo=timezone.utc)
+            return parsed
+        except ValueError:
+            return None
 
     def init_database(self):
         """Initialize users table"""
@@ -44,7 +56,7 @@ class AuthService:
 
     def create_access_token(self, user_id: str, email: str) -> str:
         """Create JWT access token"""
-        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode = {
             "sub": user_id,
             "email": email,
@@ -60,7 +72,7 @@ class AuthService:
             return payload
         except jwt.ExpiredSignatureError:
             return None
-        except jwt.JWTError:
+        except jwt.InvalidTokenError:
             return None
 
     def register_user(self, email: str, name: str, password: str, plan: str = "free") -> Optional[User]:
@@ -98,7 +110,7 @@ class AuthService:
                 user.password_hash,
                 user.plan,
                 user.api_key,
-                user.created_at
+                user.created_at.isoformat()
             ))
             
             conn.commit()
@@ -130,7 +142,7 @@ class AuthService:
                 password_hash=row["password_hash"],
                 plan=row["plan"],
                 api_key=row["api_key"],
-                created_at=datetime.fromisoformat(row["created_at"]),
+                created_at=self._parse_created_at(row["created_at"]),
                 stripe_customer_id=row["stripe_customer_id"],
                 subscription_status=row["subscription_status"],
                 subscription_id=row["subscription_id"],
@@ -167,7 +179,7 @@ class AuthService:
                 password_hash=row["password_hash"],
                 plan=row["plan"],
                 api_key=row["api_key"],
-                created_at=datetime.fromisoformat(row["created_at"]),
+                created_at=self._parse_created_at(row["created_at"]),
                 stripe_customer_id=row["stripe_customer_id"],
                 subscription_status=row["subscription_status"],
                 subscription_id=row["subscription_id"],
@@ -201,7 +213,7 @@ class AuthService:
                 password_hash=row["password_hash"],
                 plan=row["plan"],
                 api_key=row["api_key"],
-                created_at=datetime.fromisoformat(row["created_at"]),
+                created_at=self._parse_created_at(row["created_at"]),
                 stripe_customer_id=row["stripe_customer_id"],
                 subscription_status=row["subscription_status"],
                 subscription_id=row["subscription_id"],

@@ -7,12 +7,17 @@ Tests the /v1/quotes endpoint with various option combinations.
 import os
 import sys
 import json
-import requests
 from pathlib import Path
+
+import pytest
+import requests
 
 # Configuration
 API_BASE = os.getenv("API_BASE_URL", "https://api.estimategenie.net")
 TOKEN = os.getenv("TEST_AUTH_TOKEN", "")
+
+if not TOKEN:
+    pytest.skip("Integration test requires TEST_AUTH_TOKEN", allow_module_level=True)
 
 def print_header(text):
     """Print a formatted header"""
@@ -42,7 +47,7 @@ def test_health():
         print(f"❌ Connection error: {e}")
         return False
 
-def test_quote_with_options(image_path, options, description="Test quote"):
+def run_quote_with_options(image_path, options, description="Test quote"):
     """Submit a quote request with specific options"""
     if not TOKEN:
         print("❌ No auth token. Set TEST_AUTH_TOKEN environment variable.")
@@ -180,7 +185,7 @@ def main():
     
     # Test 2: Baseline quote
     print_header("2. Baseline Quote (Standard/Midwest/15%)")
-    baseline = test_quote_with_options(
+    baseline = run_quote_with_options(
         test_image,
         {
             "quality": "standard",
@@ -197,7 +202,7 @@ def main():
     
     # Test 3: Premium quality
     print_header("3. Premium Quality Test (1.3x materials)")
-    premium = test_quote_with_options(
+    premium = run_quote_with_options(
         test_image,
         {
             "quality": "premium",
@@ -213,7 +218,7 @@ def main():
     
     # Test 4: Luxury quality
     print_header("4. Luxury Quality Test (1.8x materials)")
-    luxury = test_quote_with_options(
+    luxury = run_quote_with_options(
         test_image,
         {
             "quality": "luxury",
@@ -229,7 +234,7 @@ def main():
     
     # Test 5: West coast region
     print_header("5. Regional Test - West Coast (1.35x labor)")
-    west = test_quote_with_options(
+    west = run_quote_with_options(
         test_image,
         {
             "quality": "standard",
@@ -245,7 +250,7 @@ def main():
     
     # Test 6: Combined options
     print_header("6. Combined Options (Luxury + 20% Contingency + 30% Profit + West)")
-    combined = test_quote_with_options(
+    combined = run_quote_with_options(
         test_image,
         {
             "quality": "luxury",
