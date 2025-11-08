@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <script src="./assets/js/nav.js"></script>
+    <script src="./assets/js/cta-buttons.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body class="font-sans antialiased text-gray-800">
+    <div id="vanta-bg" class="fixed inset-0 z-0"></div>
+
+    <div class="relative z-10">
+      <!-- Navigation -->
+      <nav class="bg-white bg-opacity-90 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 flex items-center">
+                <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+                <span class="ml-2 text-xl font-bold text-gray-900"
+                  >EstimateGenie</span
+                >
+              </div>
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <a
+                  href="index.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Home</a
+                >
+                <a
+                  href="features.html"
+                  class="nav-link-active inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Features</a
+                >
+                <a
+                  href="about.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >About</a
+                >
+                <a
+                  href="blog.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Blog</a
+                >
+                <a
+                  href="case-studies.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Case Studies</a
+                >
+                <a
+                  href="docs.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Docs</a
+                >
+                <a
+                  href="contact.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Contact</a
+                >
+              </div>
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Log In
+              </button>
+              <button
+                class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Start Free Trial
+              </button>
+            </div>
+            <div class="-mr-2 flex items-center sm:hidden">
+              <button
+                type="button"
+                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+              >
+                <i data-feather="menu"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <div class="gradient-bg text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+            <div class="mb-12 lg:mb-0">
+              <h1
+                class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6"
+              >
+                AI-Powered Quotes <br />in
+                <span class="text-yellow-300">Seconds</span>
+              </h1>
+              <p class="text-xl mb-8 opacity-90">
+                Transform your business with our smart estimation platform.
+                Upload project details and get professional quotes, step-by-step
+                guides, and visual previews instantly.
+              </p>
+              <div
+                class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+              >
+                <button
+                  class="px-6 py-3 bg-white text-purple-600 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+                >
+                  <i data-feather="zap" class="mr-2"></i> Try Free Now
+                </button>
+                <button
+                  class="px-6 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+                >
+                  <i data-feather="play-circle" class="mr-2"></i> Watch Demo
+                </button>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="bg-white rounded-xl shadow-xl p-6 transform rotate-1">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="font-semibold text-gray-800">New Quote</h3>
+                  <span
+                    class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full"
+                    >AI Generating</span
+                  >
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-center space-x-2">
+                    <div
+                      class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center"
+                    >
+                      <i data-feather="image" class="text-purple-600"></i>
+                    </div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-700">
+                        Project Images Analyzed
+                      </p>
+                      <p class="text-xs text-gray-500">3 photos processed</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <div
+                      class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center"
+                    >
+                      <i data-feather="clipboard" class="text-blue-600"></i>
+                    </div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-700">
+                        Materials Identified
+                      </p>
+                      <p class="text-xs text-gray-500">12 items detected</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <div
+                      class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center"
+                    >
+                      <i data-feather="clock" class="text-green-600"></i>
+                    </div>
+                    <div>
+                      <p class="text-sm font-medium text-gray-700">
+                        Time Estimate
+                      </p>
+                      <p class="text-xs text-gray-500">16-24 hours</p>
+                    </div>
+                  </div>
+                  <div class="pt-4 border-t border-gray-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm font-medium text-gray-700"
+                        >Total Estimate</span
+                      >
+                      <span class="text-xl font-bold text-purple-600"
+                        >$2,450 - $3,100</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="absolute -bottom-4 -right-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold"
+                >
+                  AI-Powered
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              How EstimateGenie Works
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+              Three simple steps to create professional estimates effortlessly
+            </p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-10">
+            <div class="text-center">
+              <div
+                class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-600 mb-4"
+              >
+                <i data-feather="upload" class="h-8 w-8"></i>
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">
+                Upload Project Details
+              </h3>
+              <p class="text-gray-500">
+                Add images, videos, or text descriptions of your project. Our AI
+                will analyze everything you provide.
+              </p>
+            </div>
+            <div class="text-center">
+              <div
+                class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mb-4"
+              >
+                <i data-feather="cpu" class="h-8 w-8"></i>
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">
+                AI Processes Everything
+              </h3>
+              <p class="text-gray-500">
+                Our advanced AI models create a detailed quote, materials list,
+                timeline, and even a visual preview.
+              </p>
+            </div>
+            <div class="text-center">
+              <div
+                class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-green-600 mb-4"
+              >
+                <i data-feather="file-text" class="h-8 w-8"></i>
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">
+                Receive Complete Package
+              </h3>
+              <p class="text-gray-500">
+                Get a professional quote document, step-by-step guide, and
+                visual representation to share with clients.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Section -->
+      <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Try It Now (No Signup Needed)
+            </h2>
+            <p class="mt-4 text-xl text-gray-500">
+              Get your first AI-generated quote for free
+            </p>
+          </div>
+          <div class="bg-white shadow rounded-lg p-6">
+            <div
+              class="file-upload rounded-lg p-8 text-center cursor-pointer mb-6"
+            >
+              <i
+                data-feather="upload-cloud"
+                class="w-12 h-12 text-purple-500 mx-auto mb-4"
+              ></i>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">
+                Drag & Drop Project Files
+              </h3>
+              <p class="text-gray-500 mb-4">
+                Upload images, videos, or text descriptions of your project
+              </p>
+              <button
+                class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                <i data-feather="folder" class="mr-2"></i> Browse Files
+              </button>
+              <p class="text-xs text-gray-500 mt-2">
+                Supports JPG, PNG, MP4, PDF, DOCX (Max 50MB)
+              </p>
+            </div>
+            <div class="mb-6">
+              <label
+                for="project-description"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Project Description</label
+              >
+              <textarea
+                id="project-description"
+                rows="4"
+                class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="Add any additional details about your project..."
+              ></textarea>
+            </div>
+            <div class="flex justify-end">
+              <button
+                class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300 flex items-center justify-center"
+              >
+                <i data-feather="zap" class="mr-2"></i> Generate Quote (Free)
+              </button>
+            </div>
+          </div>
+          <p class="text-center text-sm text-gray-500 mt-4">
+            You'll receive 5 free credits to start. No credit card required.
+          </p>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Powerful Features for Your Business
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+              Everything you need to create professional quotes and estimates
+            </p>
+          </div>
+          <div class="grid md:grid-cols-2 gap-10 mb-16">
+            <div class="bg-gray-50 rounded-xl p-8">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                  <i data-feather="eye" class="h-6 w-6 text-purple-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900 mb-2">
+                    Visual Project Preview
+                  </h3>
+                  <p class="text-gray-500">
+                    Our AI generates a realistic visualization of the completed
+                    project based on your inputs, helping clients better
+                    understand the end result.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-8">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                  <i data-feather="list" class="h-6 w-6 text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900 mb-2">
+                    Step-by-Step Guide
+                  </h3>
+                  <p class="text-gray-500">
+                    Receive a detailed breakdown of every step required to
+                    complete the project, including materials, tools, and
+                    estimated time for each phase.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-8">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                  <i
+                    data-feather="dollar-sign"
+                    class="h-6 w-6 text-green-600"
+                  ></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900 mb-2">
+                    Smart Pricing Adjustments
+                  </h3>
+                  <p class="text-gray-500">
+                    Our system automatically adjusts pricing based on location,
+                    current material costs, and your specified profit margins.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-8">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                  <i data-feather="share-2" class="h-6 w-6 text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900 mb-2">
+                    Client Presentation Mode
+                  </h3>
+                  <p class="text-gray-500">
+                    Transform your quote into an interactive presentation with
+                    before/after sliders, 3D previews, and easy approval
+                    buttons.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-purple-50 rounded-xl p-8">
+            <div class="md:flex md:items-center md:justify-between">
+              <div class="md:w-2/3">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                  Need more advanced features?
+                </h3>
+                <p class="text-gray-600">
+                  Our Pro plan includes custom branding, team collaboration,
+                  client management, and priority AI processing.
+                </p>
+              </div>
+              <div class="mt-4 md:mt-0">
+                <button
+                  class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300"
+                >
+                  Explore Pro Features
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Section -->
+      <div class="gradient-bg text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold sm:text-4xl">
+              Simple, Transparent Pricing
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl opacity-90 mx-auto">
+              Pay as you go or subscribe for maximum savings
+            </p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div
+              class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-8 border border-white border-opacity-20"
+            >
+              <h3 class="text-xl font-bold mb-4">Pay As You Go</h3>
+              <div class="mb-6">
+                <span class="text-4xl font-extrabold">$4</span>
+                <span class="text-lg">/credit</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>1 credit = 1 detailed quote</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>No subscription</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Basic visual preview</span>
+                </li>
+              </ul>
+              <button
+                class="w-full px-4 py-3 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition duration-300"
+              >
+                Buy Credits
+              </button>
+            </div>
+            <div
+              class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl p-8 border-2 border-yellow-300 border-opacity-50 transform scale-105 shadow-xl"
+            >
+              <div
+                class="absolute top-0 right-0 bg-yellow-400 text-gray-900 px-3 py-1 rounded-bl-lg rounded-tr-lg text-xs font-bold"
+              >
+                MOST POPULAR
+              </div>
+              <h3 class="text-xl font-bold mb-4">Professional</h3>
+              <div class="mb-6">
+                <span class="text-4xl font-extrabold">$29</span>
+                <span class="text-lg">/month</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-yellow-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>10 credits included</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-yellow-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Additional credits at $2.90 each</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-yellow-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Enhanced visuals & 3D previews</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-yellow-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Custom branding</span>
+                </li>
+              </ul>
+              <button
+                class="w-full px-4 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-lg hover:bg-yellow-300 transition duration-300"
+              >
+                Start 7-Day Free Trial
+              </button>
+            </div>
+            <div
+              class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-8 border border-white border-opacity-20"
+            >
+              <h3 class="text-xl font-bold mb-4">Business</h3>
+              <div class="mb-6">
+                <span class="text-4xl font-extrabold">$99</span>
+                <span class="text-lg">/month</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>50 credits included</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Additional credits at $1.90 each</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>All Professional features</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Team collaboration</span>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    data-feather="check"
+                    class="h-5 w-5 text-green-300 mr-2 mt-0.5"
+                  ></i>
+                  <span>Priority AI processing</span>
+                </li>
+              </ul>
+              <button
+                class="w-full px-4 py-3 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition duration-300"
+              >
+                Contact Sales
+              </button>
+            </div>
+          </div>
+          <p class="text-center opacity-80 mt-8">
+            Need a custom plan?
+            <a href="#" class="underline hover:no-underline"
+              >Contact our team</a
+            >
+            for enterprise solutions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Testimonials -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Trusted by Businesses Worldwide
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+              Join thousands of professionals who save hours every week
+            </p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-50 rounded-xl p-6">
+              <div class="flex items-center mb-4">
+                <img
+                  src="http://static.photos/people/200x200/101"
+                  alt="User"
+                  class="h-12 w-12 rounded-full"
+                />
+                <div class="ml-4">
+                  <h4 class="font-medium text-gray-900">Sarah Johnson</h4>
+                  <p class="text-sm text-gray-500">Interior Designer</p>
+                </div>
+              </div>
+              <p class="text-gray-600 italic">
+                "EstimateGenie has revolutionized how I present projects to
+                clients. The visual previews help them understand my vision
+                instantly, and I save at least 5 hours per week on estimates."
+              </p>
+              <div class="flex mt-4">
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+              <div class="flex items-center mb-4">
+                <img
+                  src="http://static.photos/people/200x200/102"
+                  alt="User"
+                  class="h-12 w-12 rounded-full"
+                />
+                <div class="ml-4">
+                  <h4 class="font-medium text-gray-900">Michael Rodriguez</h4>
+                  <p class="text-sm text-gray-500">Contractor</p>
+                </div>
+              </div>
+              <p class="text-gray-600 italic">
+                "The step-by-step guides are incredibly detailed. I've caught
+                several potential issues before they happened thanks to the AI's
+                thorough analysis. My clients appreciate the transparency."
+              </p>
+              <div class="flex mt-4">
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+              <div class="flex items-center mb-4">
+                <img
+                  src="http://static.photos/people/200x200/103"
+                  alt="User"
+                  class="h-12 w-12 rounded-full"
+                />
+                <div class="ml-4">
+                  <h4 class="font-medium text-gray-900">Emily Chen</h4>
+                  <p class="text-sm text-gray-500">
+                    Landscaping Business Owner
+                  </p>
+                </div>
+              </div>
+              <p class="text-gray-600 italic">
+                "I was skeptical about AI estimating, but EstimateGenie's
+                accuracy shocked me. It accounts for local material costs and
+                seasonal factors I wouldn't have considered. My close rate
+                increased by 30%."
+              </p>
+              <div class="flex mt-4">
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+                <i
+                  data-feather="star"
+                  class="h-5 w-5 text-yellow-400 fill-current"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-purple-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-extrabold sm:text-4xl mb-6">
+            Ready to Transform Your Estimation Process?
+          </h2>
+          <p class="text-xl opacity-90 mb-8">
+            Join thousands of professionals who save hours every week with
+            AI-powered quotes.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <button
+              class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="zap" class="mr-2"></i> Start Free Trial
+            </button>
+            <button
+              class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="phone" class="mr-2"></i> Book a Demo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Product
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">Features</a></li>
+                <li><a href="#" class="hover:text-white">Pricing</a></li>
+                <li><a href="#" class="hover:text-white">API</a></li>
+                <li><a href="#" class="hover:text-white">Integrations</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Resources
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">Documentation</a></li>
+                <li><a href="#" class="hover:text-white">Guides</a></li>
+                <li><a href="#" class="hover:text-white">Blog</a></li>
+                <li><a href="#" class="hover:text-white">Support</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Company
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">About</a></li>
+                <li><a href="#" class="hover:text-white">Careers</a></li>
+                <li><a href="#" class="hover:text-white">Privacy</a></li>
+                <li><a href="#" class="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Connect
+              </h3>
+              <div class="flex space-x-4 mb-4">
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="facebook"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="linkedin"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="instagram"></i>
+                </a>
+              </div>
+              <p class="text-sm">
+                Subscribe to our newsletter for updates and tips.
+              </p>
+              <div class="mt-4 flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-4 py-2 rounded-l-lg w-full text-gray-900 focus:outline-none"
+                />
+                <button
+                  class="bg-purple-600 text-white px-4 py-2 rounded-r-lg hover:bg-purple-700"
+                >
+                  <i data-feather="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="flex items-center mb-4 md:mb-0">
+              <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+              <span class="ml-2 text-lg font-bold text-white"
+                >EstimateGenie</span
+              >
+            </div>
+            <p class="text-sm">
+              &copy; 2023 EstimateGenie, Inc. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x7c5cf1,
+        backgroundColor: 0x0,
+        points: 10.0,
+        maxDistance: 22.0,
+        spacing: 17.0,
+      });
+    </script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

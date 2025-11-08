@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <script src="./assets/js/nav.js"></script>
+    <script src="./assets/js/cta-buttons.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+  <body class="font-sans antialiased text-gray-800">
+    <div id="vanta-bg" class="fixed inset-0 z-0"></div>
+
+    <div class="relative z-10">
+      <!-- Navigation -->
+      <nav class="bg-white bg-opacity-90 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 flex items-center">
+                <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+                <span class="ml-2 text-xl font-bold text-gray-900"
+                  >EstimateGenie</span
+                >
+              </div>
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <a
+                  href="index.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Home</a
+                >
+                <a
+                  href="features.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Features</a
+                >
+                <a
+                  href="about.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >About</a
+                >
+                <a
+                  href="blog.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Blog</a
+                >
+                <a
+                  href="case-studies.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Case Studies</a
+                >
+                <a
+                  href="docs.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Docs</a
+                >
+                <a
+                  href="contact.html"
+                  class="nav-link-active inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Contact</a
+                >
+              </div>
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Log In
+              </button>
+              <button
+                class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Start Free Trial
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <div class="gradient-bg text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1
+            class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 fade-in-up"
+          >
+            Get in <span class="text-yellow-300">Touch</span>
+          </h1>
+          <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+            Have questions about EstimateGenie? Need help getting started? Our
+            team is here to help you transform your estimation process.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6"
+          >
+            <div
+              class="flex items-center text-white bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg px-6 py-3"
+            >
+              <i data-feather="clock" class="h-5 w-5 mr-2"></i>
+              <span class="text-sm">24/7 Support</span>
+            </div>
+            <div
+              class="flex items-center text-white bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg px-6 py-3"
+            >
+              <i data-feather="message-circle" class="h-5 w-5 mr-2"></i>
+              <span class="text-sm">Live Chat</span>
+            </div>
+            <div
+              class="flex items-center text-white bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg px-6 py-3"
+            >
+              <i data-feather="phone" class="h-5 w-5 mr-2"></i>
+              <span class="text-sm">Phone Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Options -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Choose How You'd Like to Connect
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+              Multiple ways to reach us based on your needs and preferences.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <div
+              class="interactive-card bg-purple-50 p-8 rounded-xl text-center"
+            >
+              <div class="feature-icon bg-purple-100 mx-auto">
+                <i
+                  data-feather="message-square"
+                  class="h-6 w-6 text-purple-600"
+                ></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
+                Sales Inquiry
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Ready to get started? Speak with our sales team about the
+                perfect plan for your business.
+              </p>
+              <button
+                class="w-full px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300"
+              >
+                Contact Sales
+              </button>
+              <p class="text-sm text-gray-500 mt-3">Response within 2 hours</p>
+            </div>
+
+            <div class="interactive-card bg-blue-50 p-8 rounded-xl text-center">
+              <div class="feature-icon bg-blue-100 mx-auto">
+                <i data-feather="life-buoy" class="h-6 w-6 text-blue-600"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
+                Technical Support
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Need help with your account, API integration, or
+                troubleshooting? Our support team is here.
+              </p>
+              <button
+                class="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
+              >
+                Get Support
+              </button>
+              <p class="text-sm text-gray-500 mt-3">Response within 1 hour</p>
+            </div>
+
+            <div
+              class="interactive-card bg-green-50 p-8 rounded-xl text-center"
+            >
+              <div class="feature-icon bg-green-100 mx-auto">
+                <i data-feather="users" class="h-6 w-6 text-green-600"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Partnership</h3>
+              <p class="text-gray-600 mb-6">
+                Interested in integrating EstimateGenie into your platform?
+                Let's discuss partnership opportunities.
+              </p>
+              <button
+                class="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300"
+              >
+                Partner With Us
+              </button>
+              <p class="text-sm text-gray-500 mt-3">Response within 24 hours</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="lg:grid lg:grid-cols-2">
+              <!-- Form Section -->
+              <div class="p-8 lg:p-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">
+                  Send Us a Message
+                </h3>
+                <form class="space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label
+                        for="first-name"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >First Name</label
+                      >
+                      <input
+                        type="text"
+                        id="first-name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="last-name"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Last Name</label
+                      >
+                      <input
+                        type="text"
+                        id="last-name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      for="email"
+                      class="block text-sm font-medium text-gray-700 mb-2"
+                      >Email Address</label
+                    >
+                    <input
+                      type="email"
+                      id="email"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      for="company"
+                      class="block text-sm font-medium text-gray-700 mb-2"
+                      >Company</label
+                    >
+                    <input
+                      type="text"
+                      id="company"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      for="inquiry-type"
+                      class="block text-sm font-medium text-gray-700 mb-2"
+                      >Inquiry Type</label
+                    >
+                    <select
+                      id="inquiry-type"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option>General Question</option>
+                      <option>Sales Inquiry</option>
+                      <option>Technical Support</option>
+                      <option>Partnership</option>
+                      <option>Media & Press</option>
+                      <option>Billing Question</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      for="message"
+                      class="block text-sm font-medium text-gray-700 mb-2"
+                      >Message</label
+                    >
+                    <textarea
+                      id="message"
+                      rows="4"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="Tell us how we can help..."
+                    ></textarea>
+                  </div>
+
+                  <div class="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="newsletter"
+                      class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                    />
+                    <label
+                      for="newsletter"
+                      class="ml-2 block text-sm text-gray-700"
+                    >
+                      I'd like to receive updates about EstimateGenie and
+                      industry insights
+                    </label>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="w-full px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300 flex items-center justify-center"
+                  >
+                    <i data-feather="send" class="mr-2 h-4 w-4"></i>
+                    Send Message
+                  </button>
+                </form>
+              </div>
+
+              <!-- Info Section -->
+              <div class="bg-purple-600 p-8 lg:p-12 text-white">
+                <h3 class="text-xl font-bold mb-6">Get in Touch Today</h3>
+                <div class="space-y-6">
+                  <div class="flex items-start">
+                    <i
+                      data-feather="mail"
+                      class="h-6 w-6 mt-1 mr-4 text-purple-200"
+                    ></i>
+                    <div>
+                      <h4 class="font-semibold mb-1">Email</h4>
+                      <p class="text-purple-100">hello@estimategenie.net</p>
+                      <p class="text-purple-200 text-sm">
+                        We reply within 2 hours
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i
+                      data-feather="phone"
+                      class="h-6 w-6 mt-1 mr-4 text-purple-200"
+                    ></i>
+                    <div>
+                      <h4 class="font-semibold mb-1">Phone</h4>
+                      <p class="text-purple-100">+1 (555) 123-4567</p>
+                      <p class="text-purple-200 text-sm">Mon-Fri 9AM-6PM PST</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i
+                      data-feather="map-pin"
+                      class="h-6 w-6 mt-1 mr-4 text-purple-200"
+                    ></i>
+                    <div>
+                      <h4 class="font-semibold mb-1">Office</h4>
+                      <p class="text-purple-100">
+                        123 Innovation Drive<br />San Francisco, CA 94105
+                      </p>
+                      <p class="text-purple-200 text-sm">
+                        Visit by appointment
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i
+                      data-feather="message-circle"
+                      class="h-6 w-6 mt-1 mr-4 text-purple-200"
+                    ></i>
+                    <div>
+                      <h4 class="font-semibold mb-1">Live Chat</h4>
+                      <p class="text-purple-100">Available 24/7</p>
+                      <button
+                        class="text-yellow-300 hover:text-yellow-200 text-sm font-medium"
+                      >
+                        Start Chat →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-purple-500">
+                  <h4 class="font-semibold mb-4">Follow Us</h4>
+                  <div class="flex space-x-4">
+                    <a href="#" class="text-purple-200 hover:text-white"
+                      ><i data-feather="twitter"></i
+                    ></a>
+                    <a href="#" class="text-purple-200 hover:text-white"
+                      ><i data-feather="linkedin"></i
+                    ></a>
+                    <a href="#" class="text-purple-200 hover:text-white"
+                      ><i data-feather="facebook"></i
+                    ></a>
+                    <a href="#" class="text-purple-200 hover:text-white"
+                      ><i data-feather="instagram"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900">
+              Frequently Asked Questions
+            </h2>
+            <p class="mt-4 text-xl text-gray-500">
+              Quick answers to common questions about EstimateGenie
+            </p>
+          </div>
+
+          <div class="space-y-6">
+            <div class="border border-gray-200 rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                How accurate are EstimateGenie's estimates?
+              </h3>
+              <p class="text-gray-600">
+                Our AI delivers 90%+ accuracy by analyzing project images,
+                descriptions, and local market data. The more details you
+                provide, the more accurate your estimate becomes.
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                Can I integrate EstimateGenie with my existing tools?
+              </h3>
+              <p class="text-gray-600">
+                Yes! We offer robust APIs and integrations with popular CRM,
+                project management, and accounting tools. Our technical team can
+                help with custom integrations.
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                What types of projects does EstimateGenie support?
+              </h3>
+              <p class="text-gray-600">
+                We support 50+ industries including construction, renovation,
+                landscaping, plumbing, electrical work, and more. Our AI is
+                trained on millions of project data points.
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                Is there a free trial available?
+              </h3>
+              <p class="text-gray-600">
+                Absolutely! Start with 5 free quotes, no credit card required.
+                Professional and Business plans also include 7-day free trials.
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                How secure is my project data?
+              </h3>
+              <p class="text-gray-600">
+                Your data is encrypted at rest and in transit. We're SOC 2
+                compliant and follow industry best practices. You retain full
+                ownership of your data.
+              </p>
+            </div>
+          </div>
+
+          <div class="text-center mt-12">
+            <p class="text-gray-600 mb-4">Still have questions?</p>
+            <button
+              class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300"
+            >
+              View All FAQs
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Office Locations -->
+      <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Our Offices
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+              Find us around the world. We're here to support your success
+              locally.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-xl p-8 text-center shadow-lg">
+              <i
+                data-feather="map-pin"
+                class="h-12 w-12 text-purple-600 mx-auto mb-4"
+              ></i>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">
+                San Francisco HQ
+              </h3>
+              <div class="text-gray-600 space-y-2">
+                <p>123 Innovation Drive</p>
+                <p>San Francisco, CA 94105</p>
+                <p class="mt-4 text-purple-600 font-semibold">
+                  +1 (555) 123-4567
+                </p>
+                <p class="text-sm text-gray-500">Mon-Fri 9AM-6PM PST</p>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 text-center shadow-lg">
+              <i
+                data-feather="map-pin"
+                class="h-12 w-12 text-purple-600 mx-auto mb-4"
+              ></i>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">New York</h3>
+              <div class="text-gray-600 space-y-2">
+                <p>456 Business Avenue</p>
+                <p>New York, NY 10001</p>
+                <p class="mt-4 text-purple-600 font-semibold">
+                  +1 (555) 234-5678
+                </p>
+                <p class="text-sm text-gray-500">Mon-Fri 9AM-6PM EST</p>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 text-center shadow-lg">
+              <i
+                data-feather="map-pin"
+                class="h-12 w-12 text-purple-600 mx-auto mb-4"
+              ></i>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">London</h3>
+              <div class="text-gray-600 space-y-2">
+                <p>789 Tech Street</p>
+                <p>London, EC1A 1BB</p>
+                <p class="mt-4 text-purple-600 font-semibold">
+                  +44 20 1234 5678
+                </p>
+                <p class="text-sm text-gray-500">Mon-Fri 9AM-5PM GMT</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-purple-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-extrabold sm:text-4xl mb-6">
+            Ready to Get Started?
+          </h2>
+          <p class="text-xl opacity-90 mb-8">
+            Join thousands of businesses already using EstimateGenie to
+            streamline their estimation process.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <button
+              class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="zap" class="mr-2"></i> Start Free Trial
+            </button>
+            <button
+              class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="calendar" class="mr-2"></i> Book a Demo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Product
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="features.html" class="hover:text-white">Features</a>
+                </li>
+                <li>
+                  <a href="index.html#pricing" class="hover:text-white"
+                    >Pricing</a
+                  >
+                </li>
+                <li><a href="docs.html" class="hover:text-white">API</a></li>
+                <li>
+                  <a href="docs.html" class="hover:text-white">Integrations</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Resources
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="docs.html" class="hover:text-white">Documentation</a>
+                </li>
+                <li><a href="blog.html" class="hover:text-white">Guides</a></li>
+                <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                <li>
+                  <a href="contact.html" class="hover:text-white">Support</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Company
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="about.html" class="hover:text-white">About</a></li>
+                <li><a href="#" class="hover:text-white">Careers</a></li>
+                <li><a href="#" class="hover:text-white">Privacy</a></li>
+                <li><a href="#" class="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Connect
+              </h3>
+              <div class="flex space-x-4 mb-4">
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="facebook"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="linkedin"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="instagram"></i>
+                </a>
+              </div>
+              <p class="text-sm">
+                Subscribe to our newsletter for updates and tips.
+              </p>
+              <div class="mt-4 flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-4 py-2 rounded-l-lg w-full text-gray-900 focus:outline-none"
+                />
+                <button
+                  class="bg-purple-600 text-white px-4 py-2 rounded-r-lg hover:bg-purple-700"
+                >
+                  <i data-feather="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="flex items-center mb-4 md:mb-0">
+              <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+              <span class="ml-2 text-lg font-bold text-white"
+                >EstimateGenie</span
+              >
+            </div>
+            <p class="text-sm">
+              &copy; 2025 EstimateGenie, Inc. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x7c5cf1,
+        backgroundColor: 0x0,
+        points: 10.0,
+        maxDistance: 22.0,
+        spacing: 17.0,
+      });
+    </script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

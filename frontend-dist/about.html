@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - EstimateGenie</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <script src="./assets/js/nav.js"></script>
+    <script src="./assets/js/cta-buttons.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <meta
+      name="description"
+      content="EstimateGenie is independently built and maintained by Douglas McGill. Learn the story, mission, and values behind this solo-built AI estimation tool."
+    />
+  </head>
+  <body class="font-sans antialiased text-gray-800">
+    <div id="vanta-bg" class="fixed inset-0 z-0"></div>
+
+    <div class="relative z-10">
+      <!-- Navigation -->
+      <nav class="bg-white bg-opacity-90 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 flex items-center">
+                <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+                <span class="ml-2 text-xl font-bold text-gray-900"
+                  >EstimateGenie</span
+                >
+              </div>
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <a
+                  href="index.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Home</a
+                >
+                <a
+                  href="features.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Features</a
+                >
+                <a
+                  href="about.html"
+                  class="nav-link-active inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >About</a
+                >
+                <a
+                  href="blog.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Blog</a
+                >
+                <a
+                  href="case-studies.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Case Studies</a
+                >
+                <a
+                  href="docs.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Docs</a
+                >
+                <a
+                  href="contact.html"
+                  class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >Contact</a
+                >
+              </div>
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Log In
+              </button>
+              <button
+                class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                Start Free Trial
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <div class="gradient-bg text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1
+            class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 fade-in-up"
+          >
+            EstimateGenie is
+            <span class="text-yellow-300">solo‑built</span>
+          </h1>
+          <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+            Hi, I'm <span class="font-semibold">Douglas McGill</span>. I
+            designed, coded, deployed, and maintain EstimateGenie end‑to‑end. My
+            goal is simple: remove the friction from creating fast, accurate
+            estimates with a clean workflow and practical AI where it truly
+            helps.
+          </p>
+        </div>
+      </div>
+
+      <!-- Company Story -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+            <div class="mb-12 lg:mb-0">
+              <h2
+                class="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-6"
+              >
+                The Story
+              </h2>
+              <p class="text-lg text-gray-600 mb-6">
+                I built EstimateGenie after spending too much time wrestling
+                with quotes, spreadsheets, and back‑and‑forth emails. Speed and
+                accuracy win work, so I set out to make a tool that turns messy
+                inputs (notes, images, video) into clear, professional
+                estimates—fast.
+              </p>
+              <p class="text-lg text-gray-600 mb-6">
+                There’s no big team behind this product—just me. I handle the
+                backend (FastAPI), frontend (static pages + Tailwind), LLM/
+                vision integration, infrastructure (Cloudflare + Fly.io), and
+                continuous iteration with real‑world feedback.
+              </p>
+              <p class="text-lg text-gray-600">
+                If you’ve got ideas or run into rough edges, I’d love to hear
+                from you. Your feedback directly shapes what I build next.
+              </p>
+            </div>
+            <div class="relative">
+              <div class="bg-gray-100 rounded-xl p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                  Impact So Far
+                </h3>
+                <div class="space-y-6">
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600">Quotes Generated</span>
+                    <span class="stats-counter">500K+</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600">Hours Saved</span>
+                    <span class="stats-counter">2.5M+</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600">Active Users</span>
+                    <span class="stats-counter">25K+</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600">Industries Served</span>
+                    <span class="stats-counter">50+</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission & Values -->
+      <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Mission & Values
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+              Built with a bias for practicality—useful today, better tomorrow.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <div class="text-center interactive-card bg-white p-8 rounded-xl">
+              <div class="feature-icon bg-purple-100 mx-auto">
+                <i data-feather="target" class="h-6 w-6 text-purple-600"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Mission</h3>
+              <p class="text-gray-600">
+                Empower businesses with AI‑assisted estimation tools that save
+                time, reduce errors, and increase profitability—without adding
+                complexity.
+              </p>
+            </div>
+
+            <div class="text-center interactive-card bg-white p-8 rounded-xl">
+              <div class="feature-icon bg-blue-100 mx-auto">
+                <i data-feather="eye" class="h-6 w-6 text-blue-600"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Vision</h3>
+              <p class="text-gray-600">
+                Estimation that feels effortless and trustworthy, so people can
+                focus on doing the work.
+              </p>
+            </div>
+
+            <div class="text-center interactive-card bg-white p-8 rounded-xl">
+              <div class="feature-icon bg-green-100 mx-auto">
+                <i data-feather="heart" class="h-6 w-6 text-green-600"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Values</h3>
+              <p class="text-gray-600">
+                Simplicity, transparency, and continuous improvement. Short
+                feedback loops over grand roadmaps.
+              </p>
+            </div>
+          </div>
+
+          <!-- Core Values Grid -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-lg text-center">
+              <i
+                data-feather="zap"
+                class="h-8 w-8 text-yellow-500 mx-auto mb-3"
+              ></i>
+              <h4 class="font-semibold text-gray-900">Innovation</h4>
+              <p class="text-sm text-gray-600 mt-2">
+                Constantly pushing boundaries
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg text-center">
+              <i
+                data-feather="shield"
+                class="h-8 w-8 text-green-500 mx-auto mb-3"
+              ></i>
+              <h4 class="font-semibold text-gray-900">Reliability</h4>
+              <p class="text-sm text-gray-600 mt-2">
+                Dependable results every time
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg text-center">
+              <i
+                data-feather="users"
+                class="h-8 w-8 text-blue-500 mx-auto mb-3"
+              ></i>
+              <h4 class="font-semibold text-gray-900">Community</h4>
+              <p class="text-sm text-gray-600 mt-2">
+                Building together for success
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg text-center">
+              <i
+                data-feather="trending-up"
+                class="h-8 w-8 text-purple-500 mx-auto mb-3"
+              ></i>
+              <h4 class="font-semibold text-gray-900">Growth</h4>
+              <p class="text-sm text-gray-600 mt-2">Evolving with your needs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maker Section -->
+      <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              About the Maker
+            </h2>
+            <p class="mt-4 max-w-2xl text-lg text-gray-500 mx-auto">
+              EstimateGenie is independently built and maintained by
+              <span class="font-semibold">Douglas McGill</span>.
+            </p>
+          </div>
+          <div
+            class="bg-gray-50 rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-8"
+          >
+            <div class="w-40 h-40 rounded-full overflow-hidden shadow">
+              <img
+                src="https://api.dicebear.com/7.x/initials/svg?seed=Douglas%20McGill&backgroundType=gradientLinear"
+                alt="Douglas McGill avatar"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-gray-900">Douglas McGill</h3>
+              <p class="text-purple-600 font-medium mb-3">
+                Founder • Engineer • Designer
+              </p>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Full‑stack developer focused on practical AI workflows. I care
+                about shipping reliable tools, clear UX, and fast feedback
+                cycles. EstimateGenie blends computer vision, LLMs, and solid
+                pricing logic to turn raw inputs into clear, actionable quotes.
+              </p>
+              <div class="flex items-center gap-4 text-gray-500">
+                <a
+                  href="contact.html"
+                  class="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium"
+                >
+                  <i data-feather="mail" class="mr-2"></i>Contact
+                </a>
+                <a
+                  href="#"
+                  class="inline-flex items-center hover:text-gray-700"
+                >
+                  <i data-feather="linkedin" class="mr-2"></i>LinkedIn
+                </a>
+                <a
+                  href="#"
+                  class="inline-flex items-center hover:text-gray-700"
+                >
+                  <i data-feather="github" class="mr-2"></i>GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Funding & Partners -->
+      <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Independently Built
+          </h2>
+          <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            No outside funding. Powered by customers and relentless iteration.
+          </p>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-purple-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-extrabold sm:text-4xl mb-6">
+            Ready to try EstimateGenie?
+          </h2>
+          <p class="text-xl opacity-90 mb-8">
+            Start a free trial or reach out directly—I'm happy to help.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <button
+              class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="zap" class="mr-2"></i> Start Free Trial
+            </button>
+            <button
+              class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="mail" class="mr-2"></i> Contact Douglas
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Product
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="features.html" class="hover:text-white">Features</a>
+                </li>
+                <li>
+                  <a href="index.html#pricing" class="hover:text-white"
+                    >Pricing</a
+                  >
+                </li>
+                <li><a href="docs.html" class="hover:text-white">API</a></li>
+                <li>
+                  <a href="docs.html" class="hover:text-white">Integrations</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Resources
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="docs.html" class="hover:text-white">Documentation</a>
+                </li>
+                <li><a href="blog.html" class="hover:text-white">Guides</a></li>
+                <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                <li>
+                  <a href="contact.html" class="hover:text-white">Support</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Company
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="about.html" class="hover:text-white">About</a></li>
+                <li><a href="#" class="hover:text-white">Careers</a></li>
+                <li><a href="#" class="hover:text-white">Privacy</a></li>
+                <li><a href="#" class="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Connect
+              </h3>
+              <div class="flex space-x-4 mb-4">
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="facebook"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="linkedin"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="instagram"></i>
+                </a>
+              </div>
+              <p class="text-sm">
+                Subscribe to our newsletter for updates and tips.
+              </p>
+              <div class="mt-4 flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-4 py-2 rounded-l-lg w-full text-gray-900 focus:outline-none"
+                />
+                <button
+                  class="bg-purple-600 text-white px-4 py-2 rounded-r-lg hover:bg-purple-700"
+                >
+                  <i data-feather="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="flex items-center mb-4 md:mb-0">
+              <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+              <span class="ml-2 text-lg font-bold text-white"
+                >EstimateGenie</span
+              >
+            </div>
+            <p class="text-sm">
+              &copy; 2025 EstimateGenie, Inc. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x7c5cf1,
+        backgroundColor: 0x0,
+        points: 10.0,
+        maxDistance: 22.0,
+        spacing: 17.0,
+      });
+    </script>
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,750 @@
+                <div class="mb-8">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                    3. Get Your Results
+                  </h3>
+                  <p class="text-gray-600 mb-4">
+                    The API will return a comprehensive quote with materials,
+                    timeline, and pricing:
+                  </p>
+                  <div class="code-block">
+                    <pre><code>{
+  <span class="string">"id"</span>: <span class="string">"quote_1234567890"</span>,
+  <span class="string">"status"</span>: <span class="string">"completed"</span>,
+  <span class="string">"total_cost"</span>: {
+    <span class="string">"min"</span>: 15000,
+    <span class="string">"max"</span>: 22000,
+    <span class="string">"currency"</span>: <span class="string">"USD"</span>
+  },
+  <span class="string">"timeline"</span>: {
+    <span class="string">"min_days"</span>: 7,
+    <span class="string">"max_days"</span>: 14
+  },
+  <span class="string">"materials"</span>: [
+    {
+      <span class="string">"name"</span>: <span class="string">"Kitchen Cabinets"</span>,
+      <span class="string">"quantity"</span>: 12,
+      <span class="string">"unit"</span>: <span class="string">"linear feet"</span>,
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          >
+                            project_type
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                          >
+                            string
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-red-600"
+                          >
+                            Yes
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            Type of project (e.g., "interior_renovation",
+                            "plumbing", "electrical")
+                          </td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          >
+                            description
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                          >
+                            string
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-red-600"
+                          >
+                            Yes
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            Detailed description of the project
+                          </td>
+                        </tr>
+                        <tr>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          >
+                            location
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                          >
+                            string
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-blue-600"
+                          >
+                            No
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            Project location for regional pricing
+                          </td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                          >
+                            images
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                          >
+                            array
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-blue-600"
+                          >
+                            No
+                          </td>
+                          <td class="px-6 py-4 text-sm text-gray-500">
+                            Array of image URLs for analysis
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Retrieve Quote -->
+                <div class="mb-8">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                    Retrieve a Quote
+                  </h3>
+                  <div
+                    class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4"
+                  >
+                    <div class="flex items-center">
+                      <span
+                        class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium mr-3"
+                        >GET</span
+                      >
+                      <code class="text-blue-800">/v1/quotes/{id}</code>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 mb-4">
+                    Retrieve the details of a previously created quote.
+                  </p>
+                  <div class="code-block">
+                    <pre><code><span class="keyword">curl</span> -X GET <span class="string">"https://api.estimategenie.net/v1/quotes/quote_1234567890"</span> \
+  -H <span class="string">"Authorization: Bearer eg_sk_test_4eC39HqLyjWDarjtT1zdp7dc"</span></code></pre>
+                  </div>
+                </div>
+              </section>
+
+              <!-- SDKs Section -->
+              <section id="javascript" class="mb-16">
+                <div class="flex items-center mb-6">
+                  <i
+                    data-feather="code"
+                    class="h-6 w-6 text-purple-600 mr-3"
+                  ></i>
+                  <h2 class="text-3xl font-bold text-gray-900">
+                    JavaScript SDK
+                  </h2>
+                </div>
+                <p class="text-lg text-gray-600 mb-6">
+                  Official JavaScript/Node.js SDK for seamless integration with
+                  EstimateGenie API.
+                </p>
+
+                <!-- Installation -->
+                <div class="mb-8">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                    Installation
+                  </h3>
+                  <div class="code-block">
+                    <pre><code><span class="comment"># Install via npm</span>
+npm install estimategenie-js
+
+<span class="comment"># Install via yarn</span>
+yarn add estimategenie-js</code></pre>
+                  </div>
+                </div>
+
+                <!-- Usage -->
+                <div class="mb-8">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                    Basic Usage
+                  </h3>
+                  <div class="code-block">
+                    <pre><code><span class="keyword">const</span> EstimateGenie = <span class="keyword">require</span>(<span class="string">'estimategenie-js'</span>);
+
+<span class="comment">// Initialize the client</span>
+<span class="keyword">const</span> client = <span class="keyword">new</span> EstimateGenie(<span class="string">'eg_sk_test_4eC39HqLyjWDarjtT1zdp7dc'</span>);
+
+<span class="comment">// Create a new quote</span>
+<span class="keyword">async function</span> createQuote() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> quote = <span class="keyword">await</span> client.quotes.create({
+      project_type: <span class="string">'interior_renovation'</span>,
+      description: <span class="string">'Kitchen remodel with new cabinets'</span>,
+      location: <span class="string">'San Francisco, CA'</span>,
+      images: [
+        <span class="string">'https://example.com/kitchen-1.jpg'</span>,
+        <span class="string">'https://example.com/kitchen-2.jpg'</span>
+      ]
+    });
+    
+    console.log(<span class="string">'Quote created:'</span>, quote.id);
+    console.log(<span class="string">'Estimated cost:'</span>, quote.total_cost);
+  } <span class="keyword">catch</span> (error) {
+    console.error(<span class="string">'Error creating quote:'</span>, error);
+  }
+}
+
+createQuote();</code></pre>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Best Practices -->
+              <section id="best-practices" class="mb-16">
+                <div class="flex items-center mb-6">
+                  <i
+                    data-feather="check-circle"
+                    class="h-6 w-6 text-purple-600 mr-3"
+                  ></i>
+                  <h2 class="text-3xl font-bold text-gray-900">
+                    Best Practices
+                  </h2>
+                </div>
+                <p class="text-lg text-gray-600 mb-6">
+                  Follow these guidelines to get the most accurate results from
+                  EstimateGenie API.
+                </p>
+
+                <div class="space-y-8">
+                  <div class="border-l-4 border-green-400 pl-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                      Provide Detailed Descriptions
+                    </h3>
+                    <p class="text-gray-600">
+                      The more detailed your project description, the more
+                      accurate the estimate. Include specific materials,
+                      dimensions, and requirements when possible.
+                    </p>
+                  </div>
+
+                  <div class="border-l-4 border-blue-400 pl-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                      Use High-Quality Images
+                    </h3>
+                    <p class="text-gray-600">
+                      Upload clear, well-lit images from multiple angles.
+                      Include close-ups of specific areas that need attention
+                      for better AI analysis.
+                    </p>
+                  </div>
+
+                  <div class="border-l-4 border-purple-400 pl-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                      Handle Rate Limits Gracefully
+                    </h3>
+                    <p class="text-gray-600">
+                      Implement proper retry logic and respect rate limits. Use
+                      exponential backoff for failed requests.
+                    </p>
+                  </div>
+
+                  <div class="border-l-4 border-yellow-400 pl-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                      Cache Results When Appropriate
+                    </h3>
+                    <p class="text-gray-600">
+                      Store quote results locally when possible to reduce API
+                      calls and improve user experience.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Error Handling -->
+              <section id="errors" class="mb-16">
+                <div class="flex items-center mb-6">
+                  <i
+                    data-feather="alert-circle"
+                    class="h-6 w-6 text-purple-600 mr-3"
+                  ></i>
+                  <h2 class="text-3xl font-bold text-gray-900">
+                    Error Handling
+                  </h2>
+                </div>
+                <p class="text-lg text-gray-600 mb-6">
+                  EstimateGenie uses conventional HTTP response codes to indicate
+                  the success or failure of an API request.
+                </p>
+
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Code
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Meaning
+                        </th>
+                        <th
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600"
+                        >
+                          200
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        >
+                          OK
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Request succeeded
+                        </td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-yellow-600"
+                        >
+                          400
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        >
+                          Bad Request
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Invalid request parameters
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600"
+                        >
+                          401
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        >
+                          Unauthorized
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Invalid or missing API key
+                        </td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600"
+                        >
+                          429
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        >
+                          Rate Limited
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Too many requests
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600"
+                        >
+                          500
+                        </td>
+                        <td
+                          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        >
+                          Server Error
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                          Something went wrong on our end
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- AI Building Blocks -->
+              <section id="open-source-stack" class="mb-16">
+                <div class="flex items-center mb-6">
+                  <i
+                    data-feather="package"
+                    class="h-6 w-6 text-purple-600 mr-3"
+                  ></i>
+                  <h2 class="text-3xl font-bold text-gray-900">
+                    Core Open-Source Building Blocks
+                  </h2>
+                </div>
+                <p class="text-lg text-gray-600 mb-6">
+                  Assemble your own intelligent estimation pipeline by combining proven open-source components across vision, reasoning, and infrastructure.
+                </p>
+                <div class="space-y-6">
+                  <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                      Vision &amp; Scene Understanding
+                    </h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                      <li><strong>Segment Anything (SAM):</strong> Modern segmentation backbone for arbitrary objects; ideal for isolating walls, fixtures, and studs.</li>
+                      <li><strong>Grounding DINO or Detectron2:</strong> Detect plumbing fixtures, showers, toilets, electrical boxes, windows, and more.</li>
+                      <li><strong>MiDaS / DPT:</strong> Monocular depth estimation to derive distances and rough geometry from a single view when no laser data is available.</li>
+                      <li><strong>COLMAP or OpenMVG + OpenMVS:</strong> Multi-view photogrammetry to recover dense 3D when you receive multiple photos or video.</li>
+                      <li><strong>NeRF, Instant-NGP, or NeuralRecon:</strong> Neural reconstruction from many frames for higher fidelity AR-ready models.</li>
+                      <li><strong>Open3D:</strong> Point-cloud and mesh processing plus export to GLB or OBJ for downstream viewers.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                      Vision-Language &amp; Reasoning
+                    </h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                      <li><strong>BLIP-2 or CLIP + BLIP:</strong> Generate captions and contextual understanding from visual detections.</li>
+                      <li><strong>Llama&nbsp;2, Mistral, or Llama&nbsp;3:</strong> Open LLM families for translating detections and measurements into materials, labor, and sequencing logic.</li>
+                      <li><strong>LangChain:</strong> Orchestrate model calls, tool usage, and structured prompts with deterministic routing.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                      3D &amp; AR Visualization
+                    </h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                      <li><strong>Three.js:</strong> Web-based 3D viewer and GLB export for browsers and portals.</li>
+                      <li><strong>Unity with AR Foundation or WebXR + AR.js:</strong> Deliver mobile AR walkthroughs on ARKit and ARCore devices.</li>
+                      <li><strong>GLTF/GLB pipeline:</strong> Standardize model interchange between web, native apps, and downstream BIM tools.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                      Data &amp; Annotation
+                    </h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                      <li><strong>Label Studio:</strong> Segmentations, bounding boxes, and correspondence annotation for supervised fine-tuning.</li>
+                      <li><strong>CVAT:</strong> Battle-tested labeling UI for detection and segmentation datasets.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                      Utilities &amp; Infrastructure
+                    </h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                      <li><strong>OpenCV:</strong> Image geometry utilities, reference-object measurement helpers, and preprocessing filters.</li>
+                      <li><strong>Postgres + Milvus (or another vector DB):</strong> Persist annotations, embeddings, and retrieval pipelines.</li>
+                      <li><strong>Docker / Kubernetes:</strong> Package model services and scale inference workloads.</li>
+                      <li><strong>FastAPI:</strong> Build fast, typed backend APIs for ingest, estimation, and review flows.</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <!-- MVP Roadmap -->
+              <section id="mvp-roadmap" class="mb-16">
+                <div class="flex items-center mb-6">
+                  <i
+                    data-feather="flag"
+                    class="h-6 w-6 text-purple-600 mr-3"
+                  ></i>
+                  <h2 class="text-3xl font-bold text-gray-900">
+                    MVP to Production Roadmap
+                  </h2>
+                </div>
+                <p class="text-lg text-gray-600 mb-6">
+                  Use this implementation plan to move from rough prototype to a production-ready EstimateGenie experience without guesswork.
+                </p>
+                <div class="bg-purple-50 border-l-4 border-purple-400 p-6 mb-8">
+                  <h3 class="text-xl font-semibold text-purple-900">
+                    MVP Goal
+                  </h3>
+                  <p class="text-gray-700 mt-2">
+                    Accept 1-6 photos or a short video, auto-generate a draft estimate, bill of materials, step checklist, and lightweight 3D overlay, then route everything to a human for final approval.
+                  </p>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                  Implementation Steps
+                </h3>
+                <ol class="list-decimal pl-6 space-y-6 text-gray-600">
+                  <li>
+                    <p class="font-semibold text-gray-900">Capture rules &amp; UX</p>
+                    <p class="mt-2">
+                      Set in-app guidance so every capture delivers the context your pipeline needs.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Require at least one wide shot, one fixture close-up, and encourage a scale reference such as a tape measure or credit card.</li>
+                      <li>Provide live prompts that direct users to pan left or right and confirm the reference object placement.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">Preprocess &amp; calibrate</p>
+                    <p class="mt-2">
+                      Normalize inputs before any heavy ML work.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Run dewarping, denoising, and exposure correction to improve downstream accuracy.</li>
+                      <li>Detect the reference object when present to compute scale; otherwise run MiDaS depth, apply a conservative scale, and flag higher uncertainty for review.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">Run detection &amp; segmentation</p>
+                    <p class="mt-2">
+                      Identify the fixtures and building elements you will price.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Use Grounding DINO or Detectron2 to locate showers, tubs, toilets, vanities, electrical boxes, windows, and doors.</li>
+                      <li>Apply SAM to segment walls, floors, ceilings, studs, and openings for precise area calculations.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">Derive geometry &amp; measurements</p>
+                    <p class="mt-2">
+                      Convert detections into actionable dimensions.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>When multiple views are available, run COLMAP and downstream meshing (OpenMVS/Open3D) to recover camera poses and dense surfaces.</li>
+                      <li>For single views, combine MiDaS depth with the reference scale to estimate widths, heights, and surface areas, then compute wall area, floor area, and stud counts.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">Quantities &amp; rules engine</p>
+                    <p class="mt-2">
+                      Translate geometry into materials and labor quantities.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Encode construction heuristics such as studs at 16" on center, drywall sheets at 32 sq ft, and plate calculations, adjusting for openings.</li>
+                      <li>Invoke an LLM to resolve exceptions, clarify ambiguous cases, and annotate assumptions directly in the BOM.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">Cost &amp; labour estimation</p>
+                    <p class="mt-2">
+                      Price the work using regional data.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Attach a material cost database or supplier API and keep it versioned for auditing.</li>
+                      <li>Apply labor rates by trade (sq ft per hour, linear ft per hour) and aggregate the totals with contingency bands.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">LLM step-by-step plan generator</p>
+                    <p class="mt-2">
+                      Turn the estimate into a sequence of executable tasks.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Prompt the LLM with detected items, measurements, BOM lines, and any local code constraints.</li>
+                      <li>Return checklists per trade, required permits, and safety notes using structured templates.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">3D mockup &amp; AR</p>
+                    <p class="mt-2">
+                      Deliver visuals that help the client approve quickly.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Extrude walls and openings into a simple 3D model, place detected fixtures, and export GLB for Three.js or native viewers.</li>
+                      <li>When more imagery is available, generate higher fidelity meshes via NeRF or photogrammetry for immersive AR previews.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p class="font-semibold text-gray-900">Human review UI</p>
+                    <p class="mt-2">
+                      Keep humans in the loop so every quote stays trustworthy.
+                    </p>
+                    <ul class="mt-2 list-disc pl-6 space-y-2">
+                      <li>Present the draft estimate with confidence bands per line item and allow quick edits to measurements or pricing.</li>
+                      <li>Capture overrides and corrections to feed active learning, model re-training, and audit trails.</li>
+                    </ul>
+                  </li>
+                </ol>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-purple-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-extrabold sm:text-4xl mb-6">
+            Need Help Getting Started?
+          </h2>
+          <p class="text-xl opacity-90 mb-8">
+            Our developer support team is here to help you integrate EstimateGenie
+            into your application.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <button
+              class="px-8 py-4 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="message-circle" class="mr-2"></i> Contact Support
+            </button>
+            <button
+              class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-purple-600 transition duration-300 flex items-center justify-center"
+            >
+              <i data-feather="book" class="mr-2"></i> View Examples
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Product
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="features.html" class="hover:text-white">Features</a>
+                </li>
+                <li>
+                  <a href="index.html#pricing" class="hover:text-white"
+                    >Pricing</a
+                  >
+                </li>
+                <li><a href="docs.html" class="hover:text-white">API</a></li>
+                <li>
+                  <a href="docs.html" class="hover:text-white">Integrations</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Resources
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="docs.html" class="hover:text-white">Documentation</a>
+                </li>
+                <li><a href="blog.html" class="hover:text-white">Guides</a></li>
+                <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                <li>
+                  <a href="contact.html" class="hover:text-white">Support</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Company
+              </h3>
+              <ul class="space-y-2">
+                <li><a href="about.html" class="hover:text-white">About</a></li>
+                <li><a href="#" class="hover:text-white">Careers</a></li>
+                <li><a href="#" class="hover:text-white">Privacy</a></li>
+                <li><a href="#" class="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3
+                class="text-white text-sm font-semibold uppercase tracking-wider mb-4"
+              >
+                Connect
+              </h3>
+              <div class="flex space-x-4 mb-4">
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="facebook"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="linkedin"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <i data-feather="instagram"></i>
+                </a>
+              </div>
+              <p class="text-sm">
+                Subscribe to our newsletter for updates and tips.
+              </p>
+              <div class="mt-4 flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-4 py-2 rounded-l-lg w-full text-gray-900 focus:outline-none"
+                />
+                <button
+                  class="bg-purple-600 text-white px-4 py-2 rounded-r-lg hover:bg-purple-700"
+                >
+                  <i data-feather="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="flex items-center mb-4 md:md-0">
+              <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+              <span class="ml-2 text-lg font-bold text-white">EstimateGenie</span>
+            </div>
+            <p class="text-sm">
+              &copy; 2025 EstimateGenie, Inc. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Vanta.js background
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x7c5cf1,
+        backgroundColor: 0x0,
+        points: 10.0,
+        maxDistance: 22.0,
+        spacing: 17.0,
+      });
+    </script>
+    <script>
+      feather.replace();
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

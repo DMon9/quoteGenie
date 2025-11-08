@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Backend Test</title>
+  </head>
+  <body>
+    <h1>Backend Connection Test</h1>
+    <div
+      id="result"
+      style="padding: 20px; margin: 20px; border: 2px solid #ccc"
+    >
+      Testing...
+    </div>
+    <script>
+      const resultDiv = document.getElementById("result");
+
+      // Test backend health
+      fetch("http://localhost:8001/health")
+        .then((response) => {
+          resultDiv.innerHTML = `
+                    <h2 style="color: green;">✅ SUCCESS!</h2>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>Backend is reachable!</strong></p>
+                `;
+          return response.json();
+        })
+        .then((data) => {
+          resultDiv.innerHTML += `
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+        })
+        .catch((error) => {
+          resultDiv.innerHTML = `
+                    <h2 style="color: red;">❌ ERROR</h2>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p><strong>Type:</strong> ${error.name}</p>
+                    <p>Check browser console (F12) for CORS errors</p>
+                `;
+          console.error("Fetch error:", error);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+# Cloudflare Pages Ignore File
+# Excludes files from deployment
+
+# Backend files
+backend/
+api-worker/
+orchestrator/
+model_server/
+
+# Large model files
+models/
+*.pt
+*.onnx
+*.ckpt
+*.safetensors
+*.bin
+
+# Python files
+*.py
+*.pyc
+__pycache__/
+.venv/
+.venv-3/
+*.egg-info/
+venv/
+env/
+
+# Build and config files
+*.ps1
+*.sh
+*.toml
+fly.toml
+railway.json
+docker-compose*.yml
+Dockerfile*
+nixpacks.toml
+
+# Documentation (keep essential docs, exclude dev docs)
+*.md
+!README.md
+
+# Development files
+.git/
+.gitignore
+.env
+.env.*
+*.log
+
+# Test files
+test_*.py
+test-*.html
+smoke_test*.py
+
+# Deployment scripts
+deploy/
+scripts/
+setup_*.ps1
+deploy_*.ps1
+
+# Misc
+__pycache__/
+*.swp
+*.swo
+*~
+.DS_Store
