@@ -5,8 +5,13 @@ import os
 import stripe
 from typing import Optional, Dict
 
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "sk_test_your_key_here")
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "whsec_5QeFbR28kakRecPOwobpgIuKbpgGq6GB")
+# Environment-driven configuration (with safe fallbacks)
+_ENV_STRIPE_KEY = os.getenv("STRIPE_SECRET_KEY")
+_ENV_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+# Set Stripe key only if provided to avoid accidental live calls with placeholders
+stripe.api_key = _ENV_STRIPE_KEY or ""
+STRIPE_WEBHOOK_SECRET = _ENV_WEBHOOK_SECRET or ""
 
 class PaymentService:
     PLANS = {
@@ -23,8 +28,23 @@ class PaymentService:
     }
 
     @staticmethod
+    def is_configured() -> bool:
+        """Return True if Stripe is configured with non-placeholder secrets."""
+        key = _ENV_STRIPE_KEY or ""
+        wh = _ENV_WEBHOOK_SECRET or ""
+        # Consider configured only when both are present and not obvious placeholders
+        bad_key_prefixes = ("sk_test_your", "sk_live_your", "")
+        bad_wh_prefixes = ("whsec_", "")  # allow any non-empty value but common placeholder starts with whsec_
+        key_ok = bool(key) and not key.startswith("sk_test_your") and not key.startswith("sk_live_your")
+        wh_ok = bool(wh) and not (wh.startswith("whsec_") and len(wh) <= 20)
+        return key_ok and wh_ok
+
+    @staticmethod
     def create_customer(email: str, name: str) -> Optional[str]:
         """Create a Stripe customer"""
+        if not PaymentService.is_configured():
+            print("Stripe not configured: skipping create_customer")
+            return None
         try:
             customer = stripe.Customer.create(
                 email=email,
@@ -45,6 +65,9 @@ class PaymentService:
         user_id: str
     ) -> Optional[Dict]:
         """Create a Stripe Checkout session"""
+        if not PaymentService.is_configured():
+            print("Stripe not configured: skipping create_checkout_session")
+            return None
         try:
             plan_info = PaymentService.PLANS.get(plan)
             if not plan_info:
@@ -77,6 +100,9 @@ class PaymentService:
     @staticmethod
     def create_portal_session(customer_id: str, return_url: str) -> Optional[str]:
         """Create a Stripe billing portal session"""
+        if not PaymentService.is_configured():
+            print("Stripe not configured: skipping create_portal_session")
+            return None
         try:
             session = stripe.billing_portal.Session.create(
                 customer=customer_id,
@@ -90,6 +116,9 @@ class PaymentService:
     @staticmethod
     def cancel_subscription(subscription_id: str) -> bool:
         """Cancel a subscription"""
+        if not PaymentService.is_configured():
+            print("Stripe not configured: skipping cancel_subscription")
+            return False
         try:
             stripe.Subscription.delete(subscription_id)
             return True
@@ -100,6 +129,9 @@ class PaymentService:
     @staticmethod
     def get_subscription(subscription_id: str) -> Optional[Dict]:
         """Get subscription details"""
+        if not PaymentService.is_configured():
+            print("Stripe not configured: skipping get_subscription")
+            return None
         try:
             subscription = stripe.Subscription.retrieve(subscription_id)
             return {
@@ -116,6 +148,9 @@ class PaymentService:
     @staticmethod
     def verify_webhook_signature(payload: bytes, sig_header: str) -> Optional[Dict]:
         """Verify Stripe webhook signature and return event"""
+        if not PaymentService.is_configured():
+            print("Stripe not configured: skipping webhook verification")
+            return None
         try:
             event = stripe.Webhook.construct_event(
                 payload, sig_header, STRIPE_WEBHOOK_SECRET

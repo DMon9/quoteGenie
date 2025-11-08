@@ -5,13 +5,14 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import uvicorn
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 import json
 
 from services.vision_service import VisionService
 from services.estimation_service import EstimationService
 from services.llm_service import LLMService
+from services.multi_model_service import MultiModelService
 from database.db import DatabaseService
 from models.quote import QuoteResponse
 from services.auth_service import AuthService
@@ -32,6 +33,7 @@ if allow_origins_env:
 else:
     allow_origins = [
         "https://estimategenie.net",
+        "https://www.estimategenie.net",
         "http://localhost:3000",
         "http://localhost:8000",
         "http://localhost:8080",
@@ -49,6 +51,7 @@ app.add_middleware(
 vision_service = VisionService()
 estimation_service = EstimationService()
 llm_service = LLMService()
+multi_model_service = MultiModelService()
 db_service = DatabaseService()
 auth_service = AuthService()
 payment_service = PaymentService()
@@ -109,11 +112,52 @@ async def root():
 async def health_check():
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "services": {
             "vision": vision_service.is_ready(),
             "llm": llm_service.is_ready(),
             "database": db_service.is_connected()
+        }
+    }
+
+# Lightweight ping endpoint for uptime checks and simple connectivity tests
+@app.get("/api/v1/ping")
+async def ping():
+    return {
+        "ok": True,
+        "service": "EstimateGenie API",
+        "version": "1.0.0",
+        "time": datetime.now(timezone.utc).isoformat()
+    }
+
+# ============================================================================
+# AI MODEL ENDPOINTS
+# ============================================================================
+
+@app.get("/api/v1/models/available")
+async def get_available_models():
+    """Get list of available AI models"""
+    return {
+        "models": multi_model_service.get_available_models(),
+        "preferred": multi_model_service.preferred_model
+    }
+
+@app.get("/api/v1/models/status")
+async def get_models_status():
+    """Get detailed status of all AI services"""
+    return {
+        "multi_model": {
+            "ready": multi_model_service.is_ready(),
+            "available": multi_model_service.available_models,
+            "preferred": multi_model_service.preferred_model
+        },
+        "vision": {
+            "ready": vision_service.is_ready(),
+            "has_yolo": vision_service.has_yolo if hasattr(vision_service, 'has_yolo') else False
+        },
+        "llm": {
+            "ready": llm_service.is_ready(),
+            "provider": llm_service.provider if hasattr(llm_service, 'provider') else "unknown"
         }
     }
 
@@ -136,6 +180,8 @@ async def register(request: RegisterRequest):
     
     # For pro plan, create Stripe customer and checkout session
     if request.plan == "pro":
+        if not payment_service.is_configured():
+            raise HTTPException(status_code=503, detail="Payments are not configured. Please try again later or contact support.")
         customer_id = payment_service.create_customer(request.email, request.name)
         if customer_id:
             # Update user with Stripe customer ID
@@ -269,6 +315,8 @@ async def delete_account(user = Depends(get_current_user)):
 @app.post("/api/v1/payment/create-portal-session")
 async def create_portal_session(user = Depends(get_current_user)):
     """Create Stripe billing portal session"""
+    if not payment_service.is_configured():
+        raise HTTPException(status_code=503, detail="Payments are not configured")
     if not user.stripe_customer_id:
         raise HTTPException(status_code=400, detail="No payment method on file")
     
@@ -285,6 +333,8 @@ async def create_portal_session(user = Depends(get_current_user)):
 @app.post("/api/v1/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhook events"""
+    if not payment_service.is_configured():
+        raise HTTPException(status_code=503, detail="Payments are not configured")
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature")
     
@@ -300,6 +350,23 @@ async def stripe_webhook(request: Request):
     
     return {"status": "success"}
 
+@app.get("/api/v1/webhooks/stripe")
+async def stripe_webhook_info():
+    """Informational endpoint for Stripe webhook (POST only accepted)"""
+    return {
+        "message": "This endpoint only accepts POST requests from Stripe",
+        "configured": payment_service.is_configured(),
+        "instructions": "Configure this URL in your Stripe Dashboard as a webhook endpoint",
+        "url": "https://api.estimategenie.net/api/v1/webhooks/stripe",
+        "method": "POST",
+        "events": ["checkout.session.completed", "customer.subscription.updated", "customer.subscription.deleted", "invoice.payment_failed"]
+    }
+
+# Payment configuration status (simple readiness check)
+@app.get("/api/v1/payment/status")
+async def payment_status():
+    return {"configured": payment_service.is_configured()}
+
 # ============================================================================
 # QUOTE ENDPOINTS (with authentication)
 # ============================================================================
@@ -311,6 +378,7 @@ async def create_quote(
     project_type: str = "general",
     description: str = "",
     options: str = "{}",
+    model: str = "auto",
     authorization: str = Header(None)
 ):
     """
@@ -321,6 +389,7 @@ async def create_quote(
     - **project_type**: Type of project (bathroom, kitchen, roofing, etc.)
     - **description**: Optional text description of the project
     - **options**: JSON string with advanced options (quality, contingency_pct, profit_pct, region)
+    - **model**: AI model to use ("auto", "gemini", "gpt4v", "claude", "gpt-oss-20b")
     """
     
     # Authenticate user
@@ -348,7 +417,7 @@ async def create_quote(
         )
     
     # Validate file type
-    if not file.content_type.startswith("image/"):
+    if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
     
     # Generate unique quote ID
@@ -361,12 +430,31 @@ async def create_quote(
         # Step 1: Vision analysis
         vision_results = await vision_service.analyze_image(image_path, project_type)
         
-        # Step 2: LLM reasoning
-        reasoning = await llm_service.reason_about_project(
-            vision_results,
-            project_type,
-            description
-        )
+        # Step 2: Use multi-model AI service for enhanced analysis
+        if multi_model_service.is_ready():
+            # Use advanced multi-model service
+            # Cast model string to expected type
+            model_type = model if model in ["gemini", "gpt4v", "claude", "gpt-oss-20b", "auto"] else "auto"
+            ai_analysis = await multi_model_service.analyze_construction_image(
+                image_path=image_path,
+                project_type=project_type,
+                description=description,
+                model=model_type,  # type: ignore
+                vision_results=vision_results
+            )
+            # Convert to reasoning format for backward compatibility
+            reasoning = {
+                "analysis": json.dumps(ai_analysis),
+                "recommendations": ai_analysis.get("challenges", []),
+                "materials_needed": ai_analysis.get("materials", [])
+            }
+        else:
+            # Fallback to basic LLM service
+            reasoning = await llm_service.reason_about_project(
+                vision_results,
+                project_type,
+                description
+            )
         
         # Parse advanced options
         try:
@@ -391,7 +479,7 @@ async def create_quote(
             "reasoning": reasoning,
             "estimate": estimate,
             "status": "completed",
-            "created_at": datetime.utcnow()
+            "created_at": datetime.now(timezone.utc)
         }
         
         await db_service.save_quote(quote_data)
@@ -412,7 +500,7 @@ async def create_quote(
             confidence_score=estimate["confidence_score"],
             vision_analysis=vision_results,
             options_applied=estimate.get("options_applied"),
-            created_at=datetime.utcnow()
+            created_at=datetime.now(timezone.utc)
         )
         
     except Exception as e:

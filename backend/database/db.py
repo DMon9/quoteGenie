@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from typing import Dict, List, Optional, Any
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 class DatabaseService:
@@ -75,7 +75,7 @@ class DatabaseService:
                 json.dumps(quote_data["estimate"]),
                 quote_data["status"],
                 quote_data["created_at"].isoformat(),
-                datetime.utcnow().isoformat()
+                datetime.now(timezone.utc).isoformat()
             ))
             
             conn.commit()
@@ -147,7 +147,7 @@ class DatabaseService:
                 values.append(value)
             
             fields.append("updated_at = ?")
-            values.append(datetime.utcnow().isoformat())
+            values.append(datetime.now(timezone.utc).isoformat())
             values.append(quote_id)
             
             query = f"UPDATE quotes SET {', '.join(fields)} WHERE id = ?"

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Config Test - EstimateGenie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./assets/js/api-config.js"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full bg-white rounded-lg shadow-lg p-8">
+      <h1 class="text-2xl font-bold mb-6">API Configuration Test</h1>
+
+      <div class="space-y-4">
+        <div class="border-l-4 border-blue-500 pl-4 py-2">
+          <h2 class="font-semibold text-lg mb-2">Current API URL:</h2>
+          <p
+            id="current-url"
+            class="text-xl font-mono bg-gray-100 p-3 rounded"
+          ></p>
+        </div>
+
+        <div class="border-l-4 border-green-500 pl-4 py-2">
+          <h2 class="font-semibold mb-2">Expected:</h2>
+          <p class="font-mono bg-green-50 p-2 rounded">
+            https://quotegenie-api.fly.dev
+          </p>
+        </div>
+
+        <div class="border-l-4 border-yellow-500 pl-4 py-2">
+          <h2 class="font-semibold mb-2">LocalStorage Override:</h2>
+          <p id="ls-override" class="font-mono bg-yellow-50 p-2 rounded"></p>
+        </div>
+
+        <div class="space-y-2">
+          <button
+            onclick="clearOverride()"
+            class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Clear LocalStorage Override (Use Fly.io)
+          </button>
+
+          <button
+            onclick="setLocal()"
+            class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Set to Localhost (for testing)
+          </button>
+
+          <button
+            onclick="testConnection()"
+            class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Test Connection
+          </button>
+        </div>
+
+        <div id="test-result" class="hidden mt-4 p-4 rounded"></div>
+      </div>
+
+      <div class="mt-8 pt-4 border-t">
+        <a href="signup.html" class="text-blue-600 hover:underline"
+          >→ Go to Signup Page</a
+        >
+      </div>
+    </div>
+
+    <script>
+      function updateDisplay() {
+        document.getElementById("current-url").textContent =
+          window.ApiConfig.baseUrl;
+        const override = localStorage.getItem("API_BASE_URL");
+        document.getElementById("ls-override").textContent =
+          override || "None (using default)";
+      }
+
+      function clearOverride() {
+        localStorage.removeItem("API_BASE_URL");
+        location.reload();
+      }
+
+      function setLocal() {
+        localStorage.setItem("API_BASE_URL", "http://localhost:8000");
+        location.reload();
+      }
+
+      async function testConnection() {
+        const resultDiv = document.getElementById("test-result");
+        resultDiv.classList.remove("hidden", "bg-green-100", "bg-red-100");
+        resultDiv.textContent = "Testing...";
+
+        try {
+          const response = await fetch(window.ApiConfig.url("/health"));
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.classList.add(
+              "bg-green-100",
+              "border",
+              "border-green-400"
+            );
+            resultDiv.innerHTML = `
+                        <strong class="text-green-800">✓ Connected Successfully!</strong><br>
+                        <pre class="mt-2 text-sm">${JSON.stringify(
+                          data,
+                          null,
+                          2
+                        )}</pre>
+                    `;
+          } else {
+            resultDiv.classList.add("bg-red-100", "border", "border-red-400");
+            resultDiv.innerHTML = `
+                        <strong class="text-red-800">✗ Connection Failed</strong><br>
+                        Status: ${response.status}<br>
+                        <pre class="mt-2 text-sm">${JSON.stringify(
+                          data,
+                          null,
+                          2
+                        )}</pre>
+                    `;
+          }
+        } catch (error) {
+          resultDiv.classList.add("bg-red-100", "border", "border-red-400");
+          resultDiv.innerHTML = `
+                    <strong class="text-red-800">✗ Network Error</strong><br>
+                    ${error.message}
+                `;
+        }
+      }
+
+      // Update display on load
+      updateDisplay();
+    </script>
+  </body>
+</html>

@@ -118,13 +118,16 @@
 
     // Auto-wire buttons on page load
     function autoWireButtons() {
-        // Get Started / Start Free Trial buttons
-        const signupButtons = document.querySelectorAll(
+        // Get Started / Start Free Trial buttons - try both buttons and links
+        const allButtons = document.querySelectorAll(
             'button:not([data-cta-wired]), a:not([data-cta-wired])'
         );
 
-        signupButtons.forEach(button => {
+        console.log('[CTA Buttons] Found', allButtons.length, 'potential buttons to wire');
+
+        allButtons.forEach((button, index) => {
             const text = button.textContent.trim();
+            console.log(`[CTA Buttons] Checking button ${index}: "${text}"`);
 
             // Signup buttons
             if (text.includes('Get Started') ||
@@ -133,8 +136,10 @@
                 text.includes('Sign Up')) {
                 button.setAttribute('data-cta-wired', 'true');
                 button.style.cursor = 'pointer';
+                console.log(`[CTA Buttons] Wired signup button: "${text}"`);
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
+                    console.log('[CTA Buttons] Signup button clicked');
                     if (isLoggedIn()) {
                         redirectToDashboard();
                     } else {
@@ -144,11 +149,13 @@
             }
 
             // Login buttons
-            if (text.includes('Log In') || text.includes('Sign In')) {
+            else if (text.includes('Log In') || text.includes('Sign In')) {
                 button.setAttribute('data-cta-wired', 'true');
                 button.style.cursor = 'pointer';
+                console.log(`[CTA Buttons] Wired login button: "${text}"`);
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
+                    console.log('[CTA Buttons] Login button clicked');
                     if (isLoggedIn()) {
                         redirectToDashboard();
                     } else {
@@ -158,15 +165,19 @@
             }
 
             // Watch Demo buttons
-            if (text.includes('Watch Demo')) {
+            else if (text.includes('Watch Demo')) {
                 button.setAttribute('data-cta-wired', 'true');
                 button.style.cursor = 'pointer';
+                console.log(`[CTA Buttons] Wired demo button: "${text}"`);
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
+                    console.log('[CTA Buttons] Demo button clicked');
                     openDemo();
                 });
             }
         });
+
+        console.log('[CTA Buttons] Wiring complete');
     }
 
     // Export public API
@@ -176,15 +187,21 @@
         redirectToSignup: redirectToSignup,
         redirectToLogin: redirectToLogin,
         redirectToDashboard: redirectToDashboard,
-        isLoggedIn: isLoggedIn
+        isLoggedIn: isLoggedIn,
+        wireButtons: autoWireButtons  // Expose for manual triggering
     };
 
-    // Auto-wire on DOM ready
+    // Auto-wire on DOM ready AND on load (to catch dynamically added content)
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', autoWireButtons);
     } else {
         autoWireButtons();
     }
+
+    // Also wire on window load to catch late content
+    window.addEventListener('load', function () {
+        setTimeout(autoWireButtons, 100);  // Small delay for dynamic content
+    });
 
     console.log('[CTA Buttons] Initialized - buttons auto-wired');
 

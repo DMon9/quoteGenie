@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+nji<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -877,14 +877,21 @@
           formData.append("description", fullDescription);
           formData.append("quote_type", quoteType);
 
-          // Call API through worker
-          const response = await fetch(
-            "https://api.estimategenie.net/api/v1/quotes",
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
+          // Build endpoint and auth headers using ApiConfig
+          const endpoint = ApiConfig.url(API.quotes);
+          const token = localStorage.getItem("auth_token");
+          const apiKey = localStorage.getItem("api_key");
+          const headers = {};
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+          else if (apiKey) headers["Authorization"] = apiKey;
+          else throw new Error("Authentication required");
+
+          // Call API
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers,
+            body: formData,
+          });
 
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);

@@ -279,7 +279,10 @@
               submitBtn.textContent = "Create Account";
             }
           } catch (error) {
-            errorText.textContent = "An error occurred. Please try again.";
+            console.error("Registration error:", error);
+            errorText.textContent = error.message.includes("fetch")
+              ? "Cannot connect to API server. Make sure the backend is running on http://localhost:8000"
+              : "An error occurred. Please try again.";
             errorMessage.classList.remove("hidden");
             submitBtn.disabled = false;
             submitBtn.textContent = "Create Account";
