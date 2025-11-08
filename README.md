@@ -53,15 +53,16 @@ quoteGenie/
 
 ## 🌐 Deploy to Cloudflare Pages
 
-### Option 1: Dashboard Upload
+### Option 1: Automatic GitHub Actions (Recommended)
 
-1. Go to Cloudflare Dashboard → Pages → Create Project
-2. Upload the entire project folder
-3. Name: `estimategenie`
-4. No build settings needed (static site)
-5. Attach custom domain: `estimategenie.net`
+The repository is configured for automatic deployment to Cloudflare Pages on every push to `main`.
 
-### Option 2: Wrangler CLI (Recommended)
+**Setup Steps:**
+1. See [CLOUDFLARE_PAGES_SETUP.md](CLOUDFLARE_PAGES_SETUP.md) for detailed setup instructions
+2. Add required secrets to GitHub (CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID)
+3. Push to `main` branch - deployment happens automatically!
+
+### Option 2: Wrangler CLI
 
 ```powershell
 # Install Wrangler
@@ -74,7 +75,15 @@ wrangler login
 wrangler pages deploy . --project-name=estimategenie
 ```
 
-See [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md) for detailed instructions.
+### Option 3: Dashboard Upload
+
+1. Go to Cloudflare Dashboard → Pages → Create Project
+2. Upload the entire project folder
+3. Name: `estimategenie`
+4. No build settings needed (static site)
+5. Attach custom domain: `estimategenie.net`
+
+See [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md) for complete deployment guide including backend and API worker setup.
 
 ---
 
