@@ -26,22 +26,30 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware for frontend (configurable via ALLOW_ORIGINS)
+# CORS middleware for frontend (configurable via ALLOW_ORIGINS / ALLOW_ORIGIN_REGEX)
 allow_origins_env = os.getenv("ALLOW_ORIGINS")
+allow_origin_regex_env = os.getenv("ALLOW_ORIGIN_REGEX")
+
+# Explicit origins list (safe defaults)
 if allow_origins_env:
     allow_origins = [o.strip() for o in allow_origins_env.split(",") if o.strip()]
 else:
     allow_origins = [
         "https://estimategenie.net",
         "https://www.estimategenie.net",
+        "https://estimategenie.pages.dev",  # Cloudflare Pages production
         "http://localhost:3000",
         "http://localhost:8000",
         "http://localhost:8080",
     ]
 
+# Allow all preview deploys on Cloudflare Pages for this project (e.g., https://<hash>.estimategenie.pages.dev)
+allow_origin_regex = allow_origin_regex_env or r"https://.*\.estimategenie\.pages\.dev"
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
+    allow_origin_regex=allow_origin_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

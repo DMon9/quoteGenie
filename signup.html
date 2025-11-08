@@ -282,8 +282,11 @@
             }
           } catch (error) {
             console.error("Registration error:", error);
+            const base =
+              (window.ApiConfig && window.ApiConfig.baseUrl) ||
+              "https://quotegenie-api.fly.dev";
             errorText.textContent = error.message.includes("fetch")
-              ? "Cannot connect to API server. Make sure the backend is running on http://localhost:8000"
+              ? `Cannot connect to API server. Backend unreachable at ${base}`
               : "An error occurred. Please try again.";
             errorMessage.classList.remove("hidden");
             submitBtn.disabled = false;
