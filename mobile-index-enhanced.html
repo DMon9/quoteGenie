@@ -199,7 +199,29 @@ nji<!DOCTYPE html>
     <!-- Step-by-Step Process -->
     <section class="py-8 px-4 bg-white">
       <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-8">
+        <!-- Mobile: Simple progress text -->
+        <div class="md:hidden mb-6">
+          <div class="flex items-center justify-between mb-2">
+            <span
+              id="mobile-step-text"
+              class="text-sm font-medium text-purple-600"
+              >Step 1 of 4</span
+            >
+            <span id="mobile-step-percent" class="text-sm text-gray-500"
+              >0%</span
+            >
+          </div>
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              id="mobile-progress-bar"
+              class="h-full bg-purple-600 transition-all duration-500"
+              style="width: 25%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Desktop: Full step indicator -->
+        <div class="hidden md:flex justify-between items-center mb-8">
           <div class="flex items-center space-x-4">
             <div
               id="step-1"
@@ -701,21 +723,41 @@ nji<!DOCTYPE html>
         stepTitle.textContent = titles[currentStep];
         stepDescription.textContent = descriptions[currentStep];
 
+        // Update mobile progress bar
+        const mobileStepText = document.getElementById("mobile-step-text");
+        const mobileStepPercent = document.getElementById(
+          "mobile-step-percent"
+        );
+        const mobileProgressBar = document.getElementById(
+          "mobile-progress-bar"
+        );
+        if (mobileStepText)
+          mobileStepText.textContent = `Step ${currentStep} of 4`;
+        if (mobileStepPercent)
+          mobileStepPercent.textContent = `${Math.round(
+            (currentStep / 4) * 100
+          )}%`;
+        if (mobileProgressBar)
+          mobileProgressBar.style.width = `${(currentStep / 4) * 100}%`;
+
+        // Update desktop step indicators
         steps.forEach((step) => {
           const indicator = document.getElementById(`step-${step}`);
-          if (step < currentStep) {
-            indicator.className =
-              "step-indicator completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
-          } else if (step === currentStep) {
-            indicator.className =
-              "step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
-          } else {
-            indicator.className =
-              "step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold";
+          if (indicator) {
+            if (step < currentStep) {
+              indicator.className =
+                "step-indicator completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
+            } else if (step === currentStep) {
+              indicator.className =
+                "step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
+            } else {
+              indicator.className =
+                "step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold";
+            }
           }
         });
 
-        // Update progress bars
+        // Update desktop progress bars
         for (let i = 1; i < currentStep; i++) {
           const progressBar = document.getElementById(`progress-${i}-${i + 1}`);
           if (progressBar) {

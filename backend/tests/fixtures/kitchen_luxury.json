@@ -1,0 +1,9 @@
+{
+  "detections": [
+    {"class": "kitchen", "confidence": 0.95},
+    {"class": "island", "confidence": 0.85},
+    {"class": "appliances", "confidence": 0.9}
+  ],
+  "measurements": {"estimated_area_sqft": 220},
+  "scene_description": "Large luxury kitchen with island and premium appliances"
+}

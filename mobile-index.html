@@ -843,9 +843,10 @@
           formData.append("options", JSON.stringify(opts));
 
           // Build endpoint - use direct path if ApiConfig not loaded
-          const endpoint = (window.ApiConfig && window.API) 
-            ? ApiConfig.url(API.quotes)
-            : 'https://quotegenie-api.fly.dev/v1/quotes';
+          const endpoint =
+            window.ApiConfig && window.API
+              ? ApiConfig.url(API.quotes)
+              : "https://quotegenie-api.fly.dev/v1/quotes";
 
           // Build headers: Authorization required (Bearer token OR raw API key)
           const headers = {};

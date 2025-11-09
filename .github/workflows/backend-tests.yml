@@ -1,0 +1,72 @@
+name: Backend Tests and Benchmarks
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_benchmarks:
+        description: "Run benchmarks (uses provider if keys available)"
+        required: false
+        default: "false"
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+
+concurrency:
+  group: backend-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      OLLAMA_URL: ${{ secrets.OLLAMA_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps (backend minimal)
+        shell: pwsh
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements-minimal.txt
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Run scenario tests with coverage
+        shell: pwsh
+        run: |
+          cd backend
+          pytest -q --cov=services --cov-report=json --cov-report=term test_estimation_scenarios.py -m "small or medium"
+
+      - name: Provider tests (secret-gated)
+        if: ${{ env.LLM_PROVIDER == 'gemini' && env.GOOGLE_API_KEY != '' || env.LLM_PROVIDER == 'ollama' && env.OLLAMA_URL != '' }}
+        shell: pwsh
+        run: |
+          cd backend
+          pytest -q test_llm_models.py -m provider
+
+      - name: Upload test summary artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            backend/test_results_summary.json
+            backend/coverage.json
+          retention-days: 30
+
+      - name: Benchmarks (optional)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_benchmarks == 'true' }}
+        shell: pwsh
+        run: |
+          cd backend
+          python benchmark_estimation.py --iters 3

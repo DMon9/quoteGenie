@@ -1,0 +1,9 @@
+{
+  "detections": [
+    {"class": "bathroom", "confidence": 0.95},
+    {"class": "tile", "confidence": 0.9},
+    {"class": "shower", "confidence": 0.8}
+  ],
+  "measurements": {"estimated_area_sqft": 120},
+  "scene_description": "Large bathroom with separate shower and tub"
+}

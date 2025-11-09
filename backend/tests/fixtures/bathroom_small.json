@@ -1,0 +1,8 @@
+{
+  "detections": [
+    {"class": "bathroom", "confidence": 0.9},
+    {"class": "tile", "confidence": 0.88}
+  ],
+  "measurements": {"estimated_area_sqft": 50},
+  "scene_description": "Small bathroom with tub and vanity"
+}

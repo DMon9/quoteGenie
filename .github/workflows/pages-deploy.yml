@@ -1,0 +1,66 @@
+name: Frontend Pages Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*.html"
+      - "assets/**"
+      - ".cfignore"
+      - "scripts/deploy_pages.ps1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Force deploy even if no HTML changes
+        required: false
+        default: "false"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show changed files
+        id: diff
+        run: |
+          echo "Changed files:" >> "$GITHUB_STEP_SUMMARY"
+          git diff --name-only HEAD^ HEAD >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Validate .cfignore
+        run: |
+          if [ ! -f .cfignore ]; then
+            echo "Missing .cfignore; creating minimal one";
+            printf "backend/\nmodels/\n*.pt\n*.bin\n*.onnx\n*.ckpt\n*.safetensors\n.venv*/\n__pycache__/\n" > .cfignore
+          fi
+          echo "--- .cfignore ---" >> "$GITHUB_STEP_SUMMARY"
+          cat .cfignore >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Setup Node (Wrangler)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Wrangler
+        run: npm install -g wrangler@4
+
+      - name: Cloudflare Pages Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "Missing CLOUDFLARE_API_TOKEN secret"; exit 1; fi
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then echo "Missing CLOUDFLARE_ACCOUNT_ID secret"; exit 1; fi
+          echo "Deploying to Cloudflare Pages project: estimategenie"
+          npx wrangler pages deploy . --project-name=estimategenie --commit-dirty=true
+
+      - name: Success Summary
+        if: success()
+        run: echo "✅ Pages deployment completed" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Failure Summary
+        if: failure()
+        run: echo "❌ Pages deployment failed" >> "$GITHUB_STEP_SUMMARY"

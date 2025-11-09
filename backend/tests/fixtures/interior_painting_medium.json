@@ -1,0 +1,8 @@
+{
+  "detections": [
+    {"class": "interior", "confidence": 0.9},
+    {"class": "walls", "confidence": 0.85}
+  ],
+  "measurements": {"estimated_area_sqft": 1000},
+  "scene_description": "Interior painting for living room and hallway"
+}

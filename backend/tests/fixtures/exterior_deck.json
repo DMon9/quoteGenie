@@ -1,0 +1,8 @@
+{
+  "detections": [
+    {"class": "exterior", "confidence": 0.9},
+    {"class": "deck", "confidence": 0.87}
+  ],
+  "measurements": {"estimated_area_sqft": 200},
+  "scene_description": "Wooden deck needing refinishing"
+}
