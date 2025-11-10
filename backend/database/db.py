@@ -20,6 +20,7 @@ class DatabaseService:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS quotes (
                 id TEXT PRIMARY KEY,
+                user_id TEXT,
                 project_type TEXT,
                 image_path TEXT,
                 vision_results TEXT,
@@ -105,27 +106,36 @@ class DatabaseService:
         self,
         limit: int = 10,
         offset: int = 0,
-        project_type: Optional[str] = None
+        project_type: Optional[str] = None,
+        user_id: Optional[str] = None
     ) -> List[Dict]:
-        """List quotes with pagination"""
+        """List quotes with pagination and optional user filtering"""
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
-        if project_type:
-            cursor.execute("""
-                SELECT * FROM quotes 
-                WHERE project_type = ?
-                ORDER BY created_at DESC
-                LIMIT ? OFFSET ?
-            """, (project_type, limit, offset))
-        else:
-            cursor.execute("""
-                SELECT * FROM quotes 
-                ORDER BY created_at DESC
-                LIMIT ? OFFSET ?
-            """, (limit, offset))
+        query_parts = []
+        params = []
         
+        if user_id:
+            query_parts.append("user_id = ?")
+            params.append(user_id)
+        
+        if project_type:
+            query_parts.append("project_type = ?")
+            params.append(project_type)
+        
+        where_clause = " AND ".join(query_parts) if query_parts else "1=1"
+        
+        query = f"""
+            SELECT * FROM quotes 
+            WHERE {where_clause}
+            ORDER BY created_at DESC
+            LIMIT ? OFFSET ?
+        """
+        params.extend([limit, offset])
+        
+        cursor.execute(query, tuple(params))
         rows = cursor.fetchall()
         conn.close()
         

@@ -231,12 +231,14 @@
               <p class="text-sm text-gray-500 mb-4 annual-savings hidden">
                 Billed annually at $468 (save $120)
               </p>
-              <a
-                href="signup.html?plan=pro"
-                class="block w-full bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+              <button
+                onclick="subscribeToPlan(event, 'professional', 'monthly')"
+                class="subscribe-btn w-full bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                data-plan="professional"
+                data-cta-wired="true"
               >
-                Start Free Trial
-              </a>
+                Start 7-Day Free Trial
+              </button>
             </div>
             <ul class="space-y-4">
               <li class="flex items-start">
@@ -304,22 +306,23 @@
             </ul>
           </div>
 
-          <!-- Enterprise Plan -->
+          <!-- Business Plan -->
           <div class="pricing-card bg-white rounded-2xl shadow-lg p-8">
             <div class="text-center mb-8">
-              <h3 class="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
-              <p class="text-gray-600 mb-6">
-                For large organizations & integrations
-              </p>
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">Business</h3>
+              <p class="text-gray-600 mb-6">For large teams & organizations</p>
               <div class="mb-4">
-                <span class="text-5xl font-bold text-gray-900">Custom</span>
+                <span class="text-5xl font-bold text-gray-900">$99</span>
+                <span class="text-gray-600">/month</span>
               </div>
-              <a
-                href="contact.html?enterprise=true"
-                class="block w-full bg-gray-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+              <button
+                onclick="subscribeToPlan(event, 'business', 'monthly')"
+                class="subscribe-btn w-full bg-gray-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                data-plan="business"
+                data-cta-wired="true"
               >
-                Contact Sales
-              </a>
+                Start 7-Day Free Trial
+              </button>
             </div>
             <ul class="space-y-4">
               <li class="flex items-start">
@@ -571,6 +574,66 @@
           monthlyPrices.forEach((el) => el.classList.add("hidden"));
           annualPrices.forEach((el) => el.classList.remove("hidden"));
           annualSavings.forEach((el) => el.classList.remove("hidden"));
+        }
+      }
+
+      async function subscribeToPlan(evt, plan, billingPeriod) {
+        // Check if user is logged in
+        const authToken = localStorage.getItem("auth_token");
+
+        if (!authToken) {
+          // Redirect to signup with plan parameter
+          window.location.href = `signup.html?plan=${plan}&billing=${billingPeriod}`;
+          return;
+        }
+
+        // User is logged in, create checkout session
+        try {
+          const button = evt.target;
+          const originalText = button.textContent;
+          button.disabled = true;
+          button.textContent = "Processing...";
+
+          const response = await fetch(
+            ApiConfig.url("/api/v1/payment/create-checkout-session"),
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+              },
+              body: JSON.stringify({
+                plan: plan,
+                billing_period: billingPeriod,
+                success_url:
+                  window.location.origin +
+                  "/dashboard-new.html?subscription=success",
+                cancel_url:
+                  window.location.origin +
+                  "/pricing.html?subscription=cancelled",
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to create checkout session");
+          }
+
+          const data = await response.json();
+
+          if (data.sessionId) {
+            // Redirect to checkout
+            window.location.href = `checkout.html?session=${data.sessionId}`;
+          } else {
+            throw new Error("No session ID returned");
+          }
+        } catch (error) {
+          console.error("Subscription error:", error);
+          alert(
+            "Failed to start subscription. Please try again or contact support."
+          );
+          button.disabled = false;
+          button.textContent = originalText;
         }
       }
     </script>

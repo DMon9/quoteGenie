@@ -23,7 +23,7 @@ jobs:
     env:
       LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
       GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-      OLLAMA_URL: ${{ secrets.OLLAMA_URL }}
+      OLLAMA_URL: ${{ secrets.OLLAMA_URL || '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -19,7 +19,9 @@ $frontendFiles = @(
     "*.html",
     "robots.txt",
     "sitemaps.xml",
-    "_redirects"
+    "_redirects",
+    "_headers",
+    "wrangler.toml"
 )
 
 foreach ($pattern in $frontendFiles) {

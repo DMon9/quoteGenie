@@ -74,15 +74,47 @@
 
         if (sessionId) {
           try {
-            // IMPORTANT: Replace with your actual Stripe Publishable Key from Stripe Dashboard
-            // Test key format: pk_test_51...
-            // Live key format: pk_live_51...
-            const stripe = Stripe(
-              "pk_test_51HqLKDGz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZg"
-            );
-            const { error } = await stripe.redirectToCheckout({
-              sessionId: sessionId,
-            });
+            // Fetch Stripe publishable key from backend API
+            let stripePublishableKey =
+              window.STRIPE_PUBLISHABLE_KEY || ApiConfig?.stripePublishableKey;
+
+            // If not hardcoded, fetch from backend
+            if (
+              !stripePublishableKey ||
+              stripePublishableKey.includes("placeholder")
+            ) {
+              try {
+                const configResponse = await fetch(
+                  ApiConfig.url("/api/v1/payment/config")
+                );
+                const config = await configResponse.json();
+
+                // Accept publishable key even if full payment service not fully configured yet
+                if (config.publishableKey) {
+                  stripePublishableKey = config.publishableKey;
+                }
+              } catch (fetchError) {
+                console.error("Failed to fetch Stripe config:", fetchError);
+                // Fall back to hardcoded key if API fails
+                if (!stripePublishableKey) {
+                  throw new Error(
+                    "Unable to load payment configuration. Please try again or contact support."
+                  );
+                }
+              }
+            }
+
+            if (
+              !stripePublishableKey ||
+              !stripePublishableKey.startsWith("pk_")
+            ) {
+              throw new Error(
+                "Invalid Stripe configuration. Please contact support."
+              );
+            }
+
+            const stripe = Stripe(stripePublishableKey);
+            const { error } = await stripe.redirectToCheckout({ sessionId });
 
             if (error) {
               errorTextSpan.textContent = error.message;
@@ -92,14 +124,14 @@
             }
           } catch (e) {
             errorTextSpan.textContent =
-              "An unexpected error occurred during checkout.";
+              e.message || "An unexpected error occurred during checkout.";
             errorMessageDiv.classList.remove("hidden");
             loadingMessageDiv.classList.add("hidden");
             console.error("Client-side checkout error:", e);
           }
         } else {
           errorTextSpan.textContent =
-            "No checkout session found. Please try signing up again.";
+            "No checkout session found. Return to pricing and choose a plan.";
           errorMessageDiv.classList.remove("hidden");
           loadingMessageDiv.classList.add("hidden");
         }

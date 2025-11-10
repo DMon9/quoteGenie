@@ -1,7 +1,5 @@
 import os
 
-import pytest
-
 from services.auth_service import AuthService
 
 

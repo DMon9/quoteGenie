@@ -15,7 +15,7 @@ from services.llm_service import LLMService
 from services.multi_model_service import MultiModelService
 from database.db import DatabaseService
 from models.quote import QuoteResponse
-from services.auth_service import AuthService
+from services.auth_service import AuthService, is_valid_email, normalize_email
 from services.payment_service import PaymentService
 from models.user import User
 
@@ -69,6 +69,7 @@ auth_service.init_database()
 
 # Database path for direct sqlite operations
 DB_PATH = os.getenv("DATABASE_PATH", "estimategenie.db")
+PASSWORD_MIN_LENGTH = 8
 
 # Request/Response Models for Authentication
 class RegisterRequest(BaseModel):
@@ -87,6 +88,22 @@ class UpdateProfileRequest(BaseModel):
 class ChangePasswordRequest(BaseModel):
     current_password: str
     new_password: str
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+
+class NewsletterSubscribeRequest(BaseModel):
+    email: str
+
+class ContactFormRequest(BaseModel):
+    name: str
+    email: str
+    subject: str
+    message: str
 
 # Dependency for authentication
 async def get_current_user(authorization: str = Header(None)):
@@ -176,17 +193,35 @@ async def get_models_status():
 @app.post("/api/v1/auth/register")
 async def register(request: RegisterRequest):
     """Register a new user"""
-    user = auth_service.register_user(
-        email=request.email,
-        name=request.name,
-        password=request.password,
-        plan=request.plan
-    )
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        raise HTTPException(status_code=400, detail="Invalid email format")
+    
+    if not request.password or len(request.password) < PASSWORD_MIN_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Password must be at least {PASSWORD_MIN_LENGTH} characters long"
+        )
+    
+    name = request.name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Name is required")
+    
+    # Always register as 'free' - users upgrade via payment flow
+    try:
+        user = auth_service.register_user(
+            email=email,
+            name=name,
+            password=request.password,
+            plan="free"  # Force free plan on registration
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     
     if not user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
-    # For pro plan, create Stripe customer and checkout session
+    # If user requested pro plan in signup, return checkout info but keep them on free until payment completes
     if request.plan == "pro":
         if not payment_service.is_configured():
             raise HTTPException(status_code=503, detail="Payments are not configured. Please try again later or contact support.")
@@ -229,7 +264,14 @@ async def register(request: RegisterRequest):
 @app.post("/api/v1/auth/login")
 async def login(request: LoginRequest):
     """Authenticate user and return JWT token"""
-    user = auth_service.authenticate_user(request.email, request.password)
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    if not request.password:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    user = auth_service.authenticate_user(email, request.password)
     
     if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
@@ -276,6 +318,12 @@ async def change_password(request: ChangePasswordRequest, user = Depends(get_cur
     if not user.verify_password(request.current_password):
         raise HTTPException(status_code=400, detail="Current password is incorrect")
     
+    if not request.new_password or len(request.new_password) < PASSWORD_MIN_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail=f"New password must be at least {PASSWORD_MIN_LENGTH} characters long"
+        )
+    
     new_hash = User.hash_password(request.new_password)
     
     import sqlite3
@@ -316,9 +364,167 @@ async def delete_account(user = Depends(get_current_user)):
     
     return {"message": "Account deleted successfully"}
 
+@app.post("/api/v1/auth/forgot-password")
+async def forgot_password(request: ForgotPasswordRequest):
+    """Request password reset"""
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        return {"message": "If an account with that email exists, a password reset link has been sent."}
+    
+    # Generate reset token
+    reset_token = auth_service.create_password_reset_token(email)
+    
+    if not reset_token:
+        # Return success even if email doesn't exist (security best practice)
+        return {"message": "If an account with that email exists, a password reset link has been sent."}
+    
+    # In production, send email here
+    # For now, return the token (in production, this would be sent via email)
+    reset_url = f"https://estimategenie.net/reset-password.html?token={reset_token}"
+    
+    return {
+        "message": "If an account with that email exists, a password reset link has been sent.",
+        "reset_url": reset_url,  # Remove this in production
+        "token": reset_token  # Remove this in production
+    }
+
+@app.post("/api/v1/auth/reset-password")
+async def reset_password(request: ResetPasswordRequest):
+    """Reset password with token"""
+    if not request.new_password or len(request.new_password) < PASSWORD_MIN_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail=f"New password must be at least {PASSWORD_MIN_LENGTH} characters long"
+        )
+    
+    success = auth_service.reset_password_with_token(request.token, request.new_password)
+    
+    if not success:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+    
+    return {"message": "Password reset successfully. You can now login with your new password."}
+
+# ============================================================================
+# NEWSLETTER ENDPOINTS
+# ============================================================================
+
+@app.post("/api/v1/newsletter/subscribe")
+async def subscribe_newsletter(request: NewsletterSubscribeRequest):
+    """Subscribe to newsletter"""
+    email = normalize_email(request.email)
+    
+    if not is_valid_email(email):
+        raise HTTPException(status_code=400, detail="Invalid email address")
+    
+    # TODO: Integrate with actual email service (Mailchimp, SendGrid, etc.)
+    # For now, just log and return success
+    print(f"Newsletter subscription: {email}")
+    
+    # In production, you would:
+    # 1. Store in newsletter_subscribers table
+    # 2. Send confirmation email
+    # 3. Add to email marketing platform
+    
+    return {
+        "message": "Successfully subscribed! Check your email for confirmation.",
+        "email": email
+    }
+
+# ============================================================================
+# CONTACT FORM ENDPOINTS
+# ============================================================================
+
+@app.post("/api/v1/contact/submit")
+async def submit_contact_form(request: ContactFormRequest):
+    """Submit contact form"""
+    # Validate inputs
+    if not request.name or not request.email or not request.message:
+        raise HTTPException(status_code=400, detail="Name, email, and message are required")
+    
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        raise HTTPException(status_code=400, detail="Invalid email address")
+    
+    # TODO: Send email notification to support team
+    # For now, just log the submission
+    print(f"Contact form submission from {request.name} ({email})")
+    print(f"Subject: {request.subject}")
+    print(f"Message: {request.message}")
+    
+    # In production, you would:
+    # 1. Store in contact_submissions table
+    # 2. Send email to support team
+    # 3. Send auto-reply to user
+    # 4. Create support ticket in system
+    
+    return {
+        "message": "Thank you for contacting us! We'll get back to you shortly.",
+        "submitted": True
+    }
+
 # ============================================================================
 # PAYMENT ENDPOINTS
 # ============================================================================
+
+@app.post("/api/v1/payment/create-checkout-session")
+async def create_checkout_session(
+    request: Request,
+    user = Depends(get_current_user)
+):
+    """Create Stripe checkout session for subscription"""
+    # Only require API key for checkout (webhook secret is optional here)
+    if not payment_service.is_configured(require_webhook=False):
+        raise HTTPException(status_code=503, detail="Payments are not configured")
+    
+    body = await request.json()
+    plan = body.get("plan", "professional")
+    billing_period = body.get("billing_period", "monthly")
+    success_url = body.get("success_url", "https://estimategenie.net/dashboard-new.html?subscription=success")
+    cancel_url = body.get("cancel_url", "https://estimategenie.net/pricing.html?subscription=cancelled")
+    
+    # Map plan names to Stripe plan IDs
+    plan_map = {
+        "professional": "pro" if billing_period == "monthly" else "pro_annual",
+        "business": "pro" if billing_period == "monthly" else "pro_annual",  # Using same for now
+    }
+    
+    stripe_plan = plan_map.get(plan, "pro")
+    
+    # Create or get Stripe customer
+    # get_current_user returns a User model instance
+    customer_id = getattr(user, "stripe_customer_id", None)
+    if not customer_id:
+        # Create new customer
+        # Safe casting to str to satisfy type expectations
+        email_val = str(getattr(user, "email", ""))
+        name_val = str(getattr(user, "name", email_val))
+        customer_id = payment_service.create_customer(
+            email=email_val,
+            name=name_val
+        )
+        if customer_id:
+            # Update user with customer ID
+            auth_service.update_user_stripe_customer(getattr(user, "id"), customer_id)
+    
+    if not customer_id:
+        raise HTTPException(status_code=500, detail="Failed to create customer")
+    
+    # Create checkout session
+    session = payment_service.create_checkout_session(
+        customer_id=customer_id,
+        plan=stripe_plan,
+        success_url=success_url,
+        cancel_url=cancel_url,
+    user_id=getattr(user, "id")
+    )
+    
+    if not session:
+        raise HTTPException(status_code=500, detail="Failed to create checkout session")
+    
+    return {
+        "sessionId": session["session_id"],
+        "url": session["url"]
+    }
 
 @app.post("/api/v1/payment/create-portal-session")
 async def create_portal_session(user = Depends(get_current_user)):
@@ -341,7 +547,7 @@ async def create_portal_session(user = Depends(get_current_user)):
 @app.post("/api/v1/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhook events"""
-    if not payment_service.is_configured():
+    if not payment_service.is_configured(require_webhook=True):
         raise HTTPException(status_code=503, detail="Payments are not configured")
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature")
@@ -375,6 +581,25 @@ async def stripe_webhook_info():
 async def payment_status():
     return {"configured": payment_service.is_configured()}
 
+# Get payment configuration (publishable key safe for frontend)
+@app.get("/api/v1/payment/config")
+async def payment_config():
+    """Return client-safe Stripe configuration"""
+    import os
+    publishable_key = os.getenv("STRIPE_PUBLISHABLE_KEY", "")
+    
+    if not publishable_key or publishable_key.startswith("sk_"):
+        # Don't expose secret keys even if misconfigured
+        return {
+            "configured": False,
+            "error": "Stripe publishable key not configured"
+        }
+    
+    return {
+        "configured": payment_service.is_configured(),
+        "publishableKey": publishable_key
+    }
+
 # ============================================================================
 # QUOTE ENDPOINTS (with authentication)
 # ============================================================================
@@ -382,12 +607,12 @@ async def payment_status():
 # Main estimation endpoint
 @app.post("/v1/quotes", response_model=QuoteResponse)
 async def create_quote(
-    file: UploadFile = File(...),
+    authorization: str = Header(None),
+    file: Optional[UploadFile] = File(None),
     project_type: str = "general",
     description: str = "",
     options: str = "{}",
-    model: str = "auto",
-    authorization: str = Header(None)
+    model: str = "auto"
 ):
     """
     Upload an image and generate an AI-powered estimate.
@@ -401,20 +626,24 @@ async def create_quote(
     """
     
     # Authenticate user
-    user = None
-    if authorization:
-        if authorization.startswith("Bearer "):
+    authorization_value = authorization.strip() if authorization else ""
+    user: Optional[User] = None
+    if authorization_value:
+        if authorization_value.startswith("Bearer "):
             # JWT token
-            token = authorization.replace("Bearer ", "")
+            token = authorization_value.replace("Bearer ", "", 1).strip()
             payload = auth_service.verify_token(token)
             if payload:
                 user = auth_service.get_user_by_id(payload["sub"])
         else:
             # API key
-            user = auth_service.get_user_by_api_key(authorization)
+            user = auth_service.get_user_by_api_key(authorization_value)
     
     if not user:
         raise HTTPException(status_code=401, detail="Authentication required. Please login or provide an API key.")
+    
+    if not file:
+        raise HTTPException(status_code=400, detail="File is required for quote generation")
     
     # Check if user can generate quote
     if not user.can_generate_quote():
@@ -524,15 +753,17 @@ async def get_quote(quote_id: str):
         raise HTTPException(status_code=404, detail="Quote not found")
     return quote
 
-# List all quotes
+# List all quotes (authenticated)
 @app.get("/v1/quotes")
 async def list_quotes(
     limit: int = 10,
     offset: int = 0,
-    project_type: Optional[str] = None
+    project_type: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
 ):
-    """List recent quotes with optional filtering"""
-    quotes = await db_service.list_quotes(limit, offset, project_type)
+    """List recent quotes for the authenticated user with optional filtering"""
+    user_id = current_user.id
+    quotes = await db_service.list_quotes(limit, offset, project_type, user_id=user_id)
     return quotes
 
 # Update quote

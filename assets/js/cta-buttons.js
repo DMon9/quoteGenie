@@ -127,6 +127,11 @@
 
         allButtons.forEach((button, index) => {
             const text = button.textContent.trim();
+
+            // Skip dedicated subscription buttons; they have their own handler
+            if (button.classList && button.classList.contains('subscribe-btn')) {
+                return;
+            }
             console.log(`[CTA Buttons] Checking button ${index}: "${text}"`);
 
             // Signup buttons

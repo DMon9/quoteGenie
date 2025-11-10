@@ -5,12 +5,26 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 import jwt
 import os
+import re
 import sqlite3
 from models.user import User
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+EMAIL_REGEX = re.compile(r"^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$")
+
+
+def normalize_email(email: str) -> str:
+    """Normalize email for consistent storage and comparison."""
+    return (email or "").strip().lower()
+
+
+def is_valid_email(email: str) -> bool:
+    """Validate email format using a simplified RFC 5322 regex."""
+    if not email or len(email) < 5:
+        return False
+    return EMAIL_REGEX.match(email) is not None
 
 class AuthService:
     def __init__(self, db_path="estimategenie.db"):
@@ -77,12 +91,15 @@ class AuthService:
 
     def register_user(self, email: str, name: str, password: str, plan: str = "free") -> Optional[User]:
         """Register a new user"""
+        email = normalize_email(email)
+        if not is_valid_email(email):
+            raise ValueError("Invalid email format")
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
             
             # Check if user exists
-            cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
+            cursor.execute("SELECT id FROM users WHERE LOWER(email) = ?", (email,))
             if cursor.fetchone():
                 conn.close()
                 return None
@@ -128,7 +145,8 @@ class AuthService:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
-            cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+            email = normalize_email(email)
+            cursor.execute("SELECT * FROM users WHERE LOWER(email) = ?", (email,))
             row = cursor.fetchone()
             conn.close()
             
@@ -259,3 +277,110 @@ class AuthService:
             conn.close()
         except Exception as e:
             print(f"Error updating subscription: {e}")
+
+    def update_user_stripe_customer(self, user_id: str, stripe_customer_id: str):
+        """Update user's Stripe customer ID"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute("""
+                UPDATE users 
+                SET stripe_customer_id = ?
+                WHERE id = ?
+            """, (stripe_customer_id, user_id))
+            
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            print(f"Error updating Stripe customer ID: {e}")
+
+    def create_password_reset_token(self, email: str) -> Optional[str]:
+        """Create a password reset token for user"""
+        try:
+            email = normalize_email(email)
+            # Check if user exists
+            user = self.get_user_by_email(email)
+            if not user:
+                return None
+            
+            # Create reset token (valid for 1 hour)
+            expire = datetime.now(timezone.utc) + timedelta(hours=1)
+            reset_token_payload = {
+                "sub": user.id,
+                "email": email,
+                "type": "password_reset",
+                "exp": expire
+            }
+            reset_token = jwt.encode(reset_token_payload, SECRET_KEY, algorithm=ALGORITHM)
+            return reset_token
+        except Exception as e:
+            print(f"Error creating password reset token: {e}")
+            return None
+
+    def reset_password_with_token(self, token: str, new_password: str) -> bool:
+        """Reset password using reset token"""
+        try:
+            # Verify token
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            
+            # Check if it's a password reset token
+            if payload.get("type") != "password_reset":
+                return False
+            
+            user_id = payload.get("sub")
+            if not user_id:
+                return False
+            
+            # Update password
+            new_hash = User.hash_password(new_password)
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("UPDATE users SET password_hash = ? WHERE id = ?", (new_hash, user_id))
+            conn.commit()
+            conn.close()
+            
+            return True
+        except jwt.ExpiredSignatureError:
+            return False
+        except jwt.InvalidTokenError:
+            return False
+        except Exception as e:
+            print(f"Error resetting password: {e}")
+            return False
+
+    def get_user_by_email(self, email: str) -> Optional[User]:
+        """Get user by email"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            
+            email = normalize_email(email)
+            cursor.execute("SELECT * FROM users WHERE LOWER(email) = ?", (email,))
+            row = cursor.fetchone()
+            conn.close()
+            
+            if not row:
+                return None
+            
+            user = User(
+                id=row["id"],
+                email=row["email"],
+                name=row["name"],
+                password_hash=row["password_hash"],
+                plan=row["plan"],
+                api_key=row["api_key"],
+                created_at=self._parse_created_at(row["created_at"]),
+                stripe_customer_id=row["stripe_customer_id"],
+                subscription_status=row["subscription_status"],
+                subscription_id=row["subscription_id"],
+                quotes_used=row["quotes_used"],
+                api_calls_used=row["api_calls_used"]
+            )
+            
+            return user
+        except Exception as e:
+            print(f"Error getting user by email: {e}")
+            return None
+

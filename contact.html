@@ -217,7 +217,7 @@
                 <h3 class="text-2xl font-bold text-gray-900 mb-6">
                   Send Us a Message
                 </h3>
-                <form class="space-y-6">
+                <form class="space-y-6" onsubmit="submitContactForm(event)">
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label
@@ -228,6 +228,7 @@
                       <input
                         type="text"
                         id="first-name"
+                        required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                     </div>
@@ -240,6 +241,7 @@
                       <input
                         type="text"
                         id="last-name"
+                        required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                     </div>
@@ -254,6 +256,7 @@
                     <input
                       type="email"
                       id="email"
+                      required
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     />
                   </div>
@@ -299,6 +302,7 @@
                     <textarea
                       id="message"
                       rows="4"
+                      required
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       placeholder="Tell us how we can help..."
                     ></textarea>
@@ -717,6 +721,61 @@
     </script>
     <script>
       feather.replace();
+
+      // Contact form submission
+      async function submitContactForm(event) {
+        event.preventDefault();
+
+        const firstName = document.getElementById("first-name").value;
+        const lastName = document.getElementById("last-name").value;
+        const email = document.getElementById("email").value;
+        const company = document.getElementById("company").value || "";
+        const inquiryType = document.getElementById("inquiry-type").value;
+        const message = document.getElementById("message").value;
+        const newsletter = document.getElementById("newsletter").checked;
+
+        const name = `${firstName} ${lastName}`.trim();
+        const subject = `${inquiryType}${company ? " - " + company : ""}`;
+
+        try {
+          const response = await fetch(
+            ApiConfig.url("/api/v1/contact/submit"),
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, email, subject, message }),
+            }
+          );
+
+          if (response.ok) {
+            alert(
+              "Thank you for contacting us! We'll get back to you shortly."
+            );
+            event.target.reset();
+
+            // Subscribe to newsletter if checked
+            if (newsletter) {
+              try {
+                await fetch(ApiConfig.url("/api/v1/newsletter/subscribe"), {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email }),
+                });
+              } catch (err) {
+                console.error("Newsletter subscription failed:", err);
+              }
+            }
+          } else {
+            const error = await response.json();
+            alert(error.detail || "Failed to send message. Please try again.");
+          }
+        } catch (error) {
+          console.error("Contact form error:", error);
+          alert(
+            "Unable to send message at this time. Please try again later or email us directly."
+          );
+        }
+      }
     </script>
   </body>
 </html>

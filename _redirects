@@ -1,4 +1,4 @@
-# Cloudflare Pages Redirects
+# Cloudflare Pages Redirects & Routing Rules
 # Format: /source /destination [status]
 
 # Redirect common paths
@@ -8,3 +8,23 @@
 # Ensure root serves index.html (not mobile-index)
 /mobile /mobile-index.html 200
 
+# Prevent SPA fallback - serve exact files for HTML pages
+/*.html 200
+/pricing.html /pricing.html 200
+/login.html /login.html 200
+/signup.html /signup.html 200
+/features.html /features.html 200
+/about.html /about.html 200
+/contact.html /contact.html 200
+/docs.html /docs.html 200
+/blog.html /blog.html 200
+/case-studies.html /case-studies.html 200
+/dashboard.html /dashboard.html 200
+/dashboard-new.html /dashboard-new.html 200
+/forgot-password.html /forgot-password.html 200
+/reset-password.html /reset-password.html 200
+/mobile-index-enhanced.html /mobile-index-enhanced.html 200
+/checkout.html /checkout.html 200
+
+# Serve 404 for non-existent paths (disable SPA fallback)
+/* /404.html 404

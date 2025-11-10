@@ -1,6 +1,6 @@
 import os
 import sys
-nfrom fastapi.testclient import TestClient
+from fastapi.testclient import TestClient
 
 # Ensure backend package modules (services, etc.) are importable
 CURRENT_DIR = os.path.dirname(__file__)

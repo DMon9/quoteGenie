@@ -14,6 +14,10 @@
   // Default production API endpoint
   const DEFAULT_API_BASE = 'https://quotegenie-api.fly.dev';
 
+  // Stripe configuration (publishable keys are safe for client-side)
+  // Test key: pk_test_... | Live key: pk_live_...
+  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51HqLKDGz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZg';
+
   // Detect if running locally
   const isLocalhost = window.location.hostname === 'localhost' ||
     window.location.hostname === '127.0.0.1' ||
@@ -48,6 +52,9 @@
   window.ApiConfig = {
     // Base URL (without trailing slash)
     baseUrl: getApiBase(),
+
+    // Stripe publishable key (safe for client-side use)
+    stripePublishableKey: STRIPE_PUBLISHABLE_KEY,
 
     // Helper to build full endpoint URLs
     url: function (path) {

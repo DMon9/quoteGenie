@@ -798,10 +798,18 @@
                 Product
               </h3>
               <ul class="space-y-2">
-                <li><a href="#" class="hover:text-white">Features</a></li>
-                <li><a href="#" class="hover:text-white">Pricing</a></li>
-                <li><a href="#" class="hover:text-white">API</a></li>
-                <li><a href="#" class="hover:text-white">Integrations</a></li>
+                <li>
+                  <a href="features.html" class="hover:text-white">Features</a>
+                </li>
+                <li>
+                  <a href="pricing.html" class="hover:text-white">Pricing</a>
+                </li>
+                <li><a href="docs.html" class="hover:text-white">API</a></li>
+                <li>
+                  <a href="mobile-index-enhanced.html" class="hover:text-white"
+                    >Quote Tool</a
+                  >
+                </li>
               </ul>
             </div>
             <div>
@@ -811,10 +819,16 @@
                 Resources
               </h3>
               <ul class="space-y-2">
-                <li><a href="#" class="hover:text-white">Documentation</a></li>
-                <li><a href="#" class="hover:text-white">Guides</a></li>
-                <li><a href="#" class="hover:text-white">Blog</a></li>
-                <li><a href="#" class="hover:text-white">Support</a></li>
+                <li>
+                  <a href="docs.html" class="hover:text-white">Documentation</a>
+                </li>
+                <li>
+                  <a href="docs.html#guides" class="hover:text-white">Guides</a>
+                </li>
+                <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                <li>
+                  <a href="contact.html" class="hover:text-white">Support</a>
+                </li>
               </ul>
             </div>
             <div>
@@ -824,8 +838,12 @@
                 Company
               </h3>
               <ul class="space-y-2">
-                <li><a href="#" class="hover:text-white">About</a></li>
-                <li><a href="#" class="hover:text-white">Careers</a></li>
+                <li><a href="about.html" class="hover:text-white">About</a></li>
+                <li>
+                  <a href="case-studies.html" class="hover:text-white"
+                    >Case Studies</a
+                  >
+                </li>
                 <li><a href="#" class="hover:text-white">Privacy</a></li>
                 <li><a href="#" class="hover:text-white">Terms</a></li>
               </ul>
@@ -837,16 +855,32 @@
                 Connect
               </h3>
               <div class="flex space-x-4 mb-4">
-                <a href="#" class="text-gray-400 hover:text-white">
+                <a
+                  href="https://twitter.com/EstimateGenie"
+                  class="text-gray-400 hover:text-white"
+                  aria-label="Twitter"
+                >
                   <i data-feather="twitter"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white">
+                <a
+                  href="https://facebook.com/EstimateGenie"
+                  class="text-gray-400 hover:text-white"
+                  aria-label="Facebook"
+                >
                   <i data-feather="facebook"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white">
+                <a
+                  href="https://linkedin.com/company/estimategenie"
+                  class="text-gray-400 hover:text-white"
+                  aria-label="LinkedIn"
+                >
                   <i data-feather="linkedin"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white">
+                <a
+                  href="https://instagram.com/estimategenie"
+                  class="text-gray-400 hover:text-white"
+                  aria-label="Instagram"
+                >
                   <i data-feather="instagram"></i>
                 </a>
               </div>
@@ -856,11 +890,14 @@
               <div class="mt-4 flex">
                 <input
                   type="email"
+                  id="newsletter-email"
                   placeholder="Your email"
                   class="px-4 py-2 rounded-l-lg w-full text-gray-900 focus:outline-none"
                 />
                 <button
+                  onclick="subscribeNewsletter()"
                   class="bg-purple-600 text-white px-4 py-2 rounded-r-lg hover:bg-purple-700"
+                  aria-label="Subscribe to newsletter"
                 >
                   <i data-feather="arrow-right"></i>
                 </button>
@@ -877,7 +914,7 @@
               >
             </div>
             <p class="text-sm">
-              &copy; 2023 EstimateGenie, Inc. All rights reserved.
+              &copy; 2025 EstimateGenie, Inc. All rights reserved.
             </p>
           </div>
         </div>
@@ -904,6 +941,41 @@
     </script>
     <script>
       feather.replace();
+
+      // Newsletter subscription
+      async function subscribeNewsletter() {
+        const emailInput = document.getElementById("newsletter-email");
+        const email = emailInput.value.trim();
+
+        if (!email || !email.includes("@")) {
+          alert("Please enter a valid email address");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            ApiConfig.url("/api/v1/newsletter/subscribe"),
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email }),
+            }
+          );
+
+          if (response.ok) {
+            alert(
+              "Successfully subscribed! Check your email for confirmation."
+            );
+            emailInput.value = "";
+          } else {
+            const error = await response.json();
+            alert(error.detail || "Subscription failed. Please try again.");
+          }
+        } catch (error) {
+          console.error("Newsletter subscription error:", error);
+          alert("Unable to subscribe at this time. Please try again later.");
+        }
+      }
     </script>
   </body>
 </html>
