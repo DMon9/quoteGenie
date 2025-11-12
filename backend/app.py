@@ -55,6 +55,51 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Uniform error payloads: include both `detail` (FastAPI default) and a `message` string
+# so frontends can consistently display errors
+from fastapi.exceptions import RequestValidationError as _RequestValidationError
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    detail = exc.detail
+    # If detail is a list/dict, create a simple message
+    if isinstance(detail, list):
+        msgs = []
+        for d in detail:
+            if isinstance(d, dict):
+                msgs.append(d.get("msg") or d.get("detail") or d.get("message") or "Validation error")
+        message = "; ".join([m for m in msgs if m]) or "Request error"
+    elif isinstance(detail, dict):
+        message = detail.get("message") or detail.get("detail") or "Request error"
+    else:
+        message = str(detail)
+    return JSONResponse(status_code=exc.status_code, content={
+        "message": message,
+        "detail": detail,
+        "status_code": exc.status_code
+    })
+
+@app.exception_handler(_RequestValidationError)
+async def validation_exception_handler(request: Request, exc: _RequestValidationError):
+    # exc.errors() is a list with FastAPI validation details
+    details = exc.errors()
+    msgs = []
+    for d in details:
+        msg = d.get("msg")
+        loc = d.get("loc")
+        if loc and isinstance(loc, (list, tuple)) and len(loc) > 0:
+            field = loc[-1]
+            if isinstance(field, str):
+                msg = f"{field}: {msg}"
+        if msg:
+            msgs.append(msg)
+    message = "; ".join(msgs) if msgs else "Validation error"
+    return JSONResponse(status_code=422, content={
+        "message": message,
+        "detail": details,
+        "status_code": 422
+    })
+
 # Initialize services
 vision_service = VisionService()
 estimation_service = EstimationService()

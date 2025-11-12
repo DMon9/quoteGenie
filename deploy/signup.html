@@ -81,6 +81,12 @@
                 placeholder="you@example.com"
               />
             </div>
+            <p id="email-hint" class="mt-1 text-sm text-blue-600 hidden">
+              Already have an account?
+              <a href="login.html" class="underline font-medium"
+                >Sign in here</a
+              >
+            </p>
           </div>
 
           <!-- Password -->
@@ -107,8 +113,8 @@
                 placeholder="••••••••"
               />
             </div>
-            <p class="mt-1 text-sm text-gray-500">
-              Must be at least 8 characters
+            <p id="password-hint" class="mt-1 text-sm text-gray-500">
+              Must be at least 8 characters with letters and numbers
             </p>
           </div>
 
@@ -226,73 +232,154 @@
     <script>
       feather.replace();
 
-      document
-        .getElementById("signup-form")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      const formEl = document.getElementById("signup-form");
+      const nameEl = document.getElementById("name");
+      const emailEl = document.getElementById("email");
+      const passwordEl = document.getElementById("password");
+      const submitBtn = document.getElementById("submit-btn");
+      const errorMessage = document.getElementById("error-message");
+      const errorText = document.getElementById("error-text");
+      const passwordHint = document.getElementById("password-hint");
+      const emailHint = document.getElementById("email-hint");
 
-          const submitBtn = document.getElementById("submit-btn");
-          const errorMessage = document.getElementById("error-message");
-          const errorText = document.getElementById("error-text");
+      // Password strength feedback
+      passwordEl.addEventListener("input", () => {
+        const val = passwordEl.value;
+        const hasLetter = /[a-zA-Z]/.test(val);
+        const hasNumber = /[0-9]/.test(val);
+        const isLongEnough = val.length >= 8;
 
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Creating account...";
+        if (!val) {
+          passwordHint.textContent =
+            "Must be at least 8 characters with letters and numbers";
+          passwordHint.className = "mt-1 text-sm text-gray-500";
+        } else if (isLongEnough && hasLetter && hasNumber) {
+          passwordHint.textContent = "✓ Strong password";
+          passwordHint.className = "mt-1 text-sm text-green-600 font-medium";
+        } else {
+          const missing = [];
+          if (!isLongEnough) missing.push("8+ chars");
+          if (!hasLetter) missing.push("letters");
+          if (!hasNumber) missing.push("numbers");
+          passwordHint.textContent = "Needs: " + missing.join(", ");
+          passwordHint.className = "mt-1 text-sm text-orange-600";
+        }
+      });
 
-          const formData = {
-            name: document.getElementById("name").value,
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-            plan: document.querySelector('input[name="plan"]:checked').value,
-          };
+      function clearFieldErrors() {
+        [nameEl, emailEl, passwordEl].forEach((el) => {
+          el.classList.remove("border-red-500", "focus:ring-red-500");
+          el.setAttribute("aria-invalid", "false");
+        });
+        errorMessage.classList.add("hidden");
+        errorText.textContent = "";
+        emailHint.classList.add("hidden");
+      }
 
-          try {
-            const response = await fetch(
-              ApiConfig.url(ApiConfig.endpoints.register),
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-              }
-            );
+      function extractErrorMessage(data) {
+        if (!data) return "Registration failed. Please try again.";
+        if (typeof data.detail === "string") return data.detail;
+        if (Array.isArray(data.detail)) {
+          const msgs = data.detail
+            .map((d) => (d && (d.msg || d.detail || d.message)) || "")
+            .filter(Boolean);
+          if (msgs.length) return msgs.join("; ");
+        }
+        if (data.message) return data.message;
+        return "Registration failed. Please try again.";
+      }
 
-            const data = await response.json();
+      function maybeHighlightFields(msg) {
+        if (!msg) return;
+        const lower = msg.toLowerCase();
+        if (lower.includes("email")) {
+          emailEl.classList.add("border-red-500", "focus:ring-red-500");
+          emailEl.setAttribute("aria-invalid", "true");
+          // Show login hint for duplicate email
+          if (
+            lower.includes("already") ||
+            lower.includes("registered") ||
+            lower.includes("exist")
+          ) {
+            emailHint.classList.remove("hidden");
+          }
+        }
+        if (lower.includes("password")) {
+          passwordEl.classList.add("border-red-500", "focus:ring-red-500");
+          passwordEl.setAttribute("aria-invalid", "true");
+        }
+        if (lower.includes("name")) {
+          nameEl.classList.add("border-red-500", "focus:ring-red-500");
+          nameEl.setAttribute("aria-invalid", "true");
+        }
+      }
 
-            if (response.ok) {
-              // For pro plan, redirect to payment
-              if (formData.plan === "pro") {
-                localStorage.setItem("tempUser", JSON.stringify(data.user));
-                window.location.href = `checkout.html?session=${data.checkout_session_id}`;
-              } else {
-                // Free plan - go straight to dashboard
-                localStorage.setItem("auth_token", data.access_token);
-                if (data.user && data.user.api_key) {
-                  localStorage.setItem("api_key", data.user.api_key);
-                }
-                localStorage.setItem("user", JSON.stringify(data.user || {}));
-                window.location.href = "dashboard-new.html";
-              }
-            } else {
-              errorText.textContent =
-                data.message || "Registration failed. Please try again.";
-              errorMessage.classList.remove("hidden");
-              submitBtn.disabled = false;
-              submitBtn.textContent = "Create Account";
+      formEl.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearFieldErrors();
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Creating account...";
+
+        const formData = {
+          name: nameEl.value,
+          email: emailEl.value,
+          password: passwordEl.value,
+          plan: document.querySelector('input[name="plan"]:checked').value,
+        };
+
+        try {
+          const response = await fetch(
+            ApiConfig.url(ApiConfig.endpoints.register),
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
             }
-          } catch (error) {
-            console.error("Registration error:", error);
-            const base =
-              (window.ApiConfig && window.ApiConfig.baseUrl) ||
-              "https://quotegenie-api.fly.dev";
-            errorText.textContent = error.message.includes("fetch")
-              ? `Cannot connect to API server. Backend unreachable at ${base}`
-              : "An error occurred. Please try again.";
+          );
+
+          let data = null;
+          try {
+            data = await response.json();
+          } catch (_) {}
+
+          if (response.ok) {
+            if (formData.plan === "pro") {
+              localStorage.setItem("tempUser", JSON.stringify(data.user));
+              window.location.href = `checkout.html?session=${data.checkout_session_id}`;
+            } else {
+              localStorage.setItem("auth_token", data.access_token);
+              if (data.user && data.user.api_key) {
+                localStorage.setItem("api_key", data.user.api_key);
+              }
+              localStorage.setItem("user", JSON.stringify(data.user || {}));
+              window.location.href = "dashboard-new.html";
+            }
+          } else {
+            const msg = extractErrorMessage(data);
+            errorText.textContent = msg;
+            maybeHighlightFields(msg);
             errorMessage.classList.remove("hidden");
             submitBtn.disabled = false;
             submitBtn.textContent = "Create Account";
           }
-        });
+        } catch (error) {
+          console.error("Registration error:", error);
+          const base =
+            (window.ApiConfig && window.ApiConfig.baseUrl) ||
+            "https://quotegenie-api.fly.dev";
+          errorText.textContent = String(
+            (error && error.message) || ""
+          ).includes("fetch")
+            ? `Cannot connect to API server. Backend unreachable at ${base}`
+            : "An error occurred. Please try again.";
+          errorMessage.classList.remove("hidden");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+      });
     </script>
   </body>
 </html>

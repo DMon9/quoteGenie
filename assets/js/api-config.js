@@ -16,7 +16,7 @@
 
   // Stripe configuration (publishable keys are safe for client-side)
   // Test key: pk_test_... | Live key: pk_live_...
-  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51HqLKDGz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZgZz8VX8K3qJ9YqNrZg';
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_51RIEWqENa3zBKoIjohkMbyimhQ4wDIIhBXu9AbUlGQFlD9NPXkwMBG6CdHpMPFfhWzstc9eb0Ew8WF39ddNJqLkc00ApVBESbd';
 
   // Detect if running locally
   const isLocalhost = window.location.hostname === 'localhost' ||
@@ -148,6 +148,35 @@
 
   // Convenience: expose endpoints directly
   window.API = window.ApiConfig.endpoints;
+
+  // One-time auth key normalization (migrate legacy keys to canonical names)
+  (function normalizeAuthKeys() {
+    try {
+      const candidates = [
+        'auth_token',
+        'access_token',
+        'user_token',
+        'eg_auth'
+      ];
+      const apiCandidates = [
+        'api_key',
+        'eg_api_key'
+      ];
+
+      // Normalize bearer token to 'auth_token'
+      const existingToken = candidates.map(k => localStorage.getItem(k)).find(Boolean);
+      if (existingToken && !localStorage.getItem('auth_token')) {
+        localStorage.setItem('auth_token', existingToken);
+      }
+      // Normalize API key to 'api_key'
+      const existingApiKey = apiCandidates.map(k => localStorage.getItem(k)).find(Boolean);
+      if (existingApiKey && !localStorage.getItem('api_key')) {
+        localStorage.setItem('api_key', existingApiKey);
+      }
+    } catch (e) {
+      console.warn('[API Config] Auth key normalization skipped:', e.message);
+    }
+  })();
 
   // Log configuration on load
   console.log('[API Config] Initialized with base URL:', window.ApiConfig.baseUrl);
