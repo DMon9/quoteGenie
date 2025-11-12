@@ -1,0 +1,203 @@
+"""
+QUICK REFERENCE: NEXT STEPS
+============================
+
+This guide provides commands and code snippets to implement the
+recommended improvements.
+
+═══════════════════════════════════════════════════════════════════
+
+1. ADD STRIPE PUBLISHABLE KEY
+═══════════════════════════════════════════════════════════════════
+
+Command (run in backend directory):
+   fly secrets set STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_KEY_HERE -a quotegenie-api
+
+Or for test mode:
+   fly secrets set STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_KEY_HERE -a quotegenie-api
+
+Verify:
+   fly secrets list -a quotegenie-api
+
+Test:
+   python test_stripe_payment.py
+
+═══════════════════════════════════════════════════════════════════
+
+2. UPDATE DASHBOARD TO USE LIVE API
+═══════════════════════════════════════════════════════════════════
+
+Add to dashboard.html before closing </body> tag:
+
+<script src="./assets/js/api-config.js"></script>
+<script>
+// Dashboard API Integration
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('access_token');
+    
+    if (!token) {
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    try {
+        // Fetch user profile
+        const profileRes = await fetch(ApiConfig.url('/v1/user/profile'), {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (profileRes.ok) {
+            const profile = await profileRes.json();
+            
+            // Update user name
+            document.querySelector('.user-name')?.textContent = profile.name;
+            
+            // Update plan badge
+            document.querySelector('.plan-badge')?.textContent = profile.plan.toUpperCase();
+            
+            // Update usage stats
+            document.querySelector('.quotes-used')?.textContent = profile.quotes_used;
+            document.querySelector('.api-calls-used')?.textContent = profile.api_calls_used;
+            
+            // Update API key display (masked)
+            const apiKey = profile.api_key;
+            const masked = apiKey.substring(0, 7) + '...' + apiKey.slice(-4);
+            document.querySelector('.api-key-display')?.textContent = masked;
+        }
+        
+        // Fetch user quotes
+        const quotesRes = await fetch(ApiConfig.url('/v1/quotes'), {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (quotesRes.ok) {
+            const quotes = await quotesRes.json();
+            
+            // Update quotes count
+            document.querySelector('.total-quotes')?.textContent = quotes.length;
+            
+            // Display recent quotes in table
+            const tbody = document.querySelector('.quotes-table tbody');
+            if (tbody && quotes.length > 0) {
+                tbody.innerHTML = quotes.slice(0, 10).map(quote => `
+                    <tr>
+                        <td>${quote.project_name || 'Unnamed'}</td>
+                        <td>${quote.location || 'N/A'}</td>
+                        <td>${new Date(quote.created_at).toLocaleDateString()}</td>
+                        <td>$${quote.estimation?.total_cost?.toFixed(2) || 'N/A'}</td>
+                        <td>
+                            <button onclick="viewQuote('${quote.quote_id}')" 
+                                    class="text-purple-600 hover:underline">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+        
+    } catch (error) {
+        console.error('Dashboard error:', error);
+        // Optionally redirect to login on auth errors
+    }
+});
+
+function viewQuote(quoteId) {
+    // Navigate to quote detail page or show modal
+    console.log('View quote:', quoteId);
+}
+</script>
+
+═══════════════════════════════════════════════════════════════════
+
+3. FIX DOCS.HTML VIEWPORT
+═══════════════════════════════════════════════════════════════════
+
+Add to <head> section of docs.html:
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+Location: Right after <meta charset="UTF-8">
+
+═══════════════════════════════════════════════════════════════════
+
+4. TEST STRIPE CHECKOUT FLOW
+═══════════════════════════════════════════════════════════════════
+
+After adding STRIPE_PUBLISHABLE_KEY:
+
+1. Test signup with Pro plan:
+
+   curl -X POST https://quotegenie-api.fly.dev/api/v1/auth/register \
+     -H "Content-Type: application/json" \
+     -d '{
+       "email": "test@example.com",
+       "password": "TestPass123",
+       "name": "Test User",
+       "plan": "pro"
+     }'
+
+   Should return checkout_session_id and checkout_url
+
+2. Visit checkout_url in browser
+3. Use Stripe test card: 4242 4242 4242 4242
+4. Complete payment
+5. Verify webhook received: Check fly logs
+6. Verify user upgraded to Pro: Check profile endpoint
+
+═══════════════════════════════════════════════════════════════════
+
+DEPLOYMENT COMMANDS
+═══════════════════════════════════════════════════════════════════
+
+Backend (after code changes):
+   cd backend
+   fly deploy -a quotegenie-api
+
+Frontend (after dashboard.html changes):
+   cd ..
+   .\scripts\deploy_pages_clean.ps1 -CommitDirty
+
+Check backend logs:
+   fly logs -a quotegenie-api
+
+Check deployment status:
+   fly status -a quotegenie-api
+
+═══════════════════════════════════════════════════════════════════
+
+TESTING COMMANDS
+═══════════════════════════════════════════════════════════════════
+
+Run individual test suites:
+   python test_auth_advanced.py
+   python test_enhancements.py
+   python test_quote_generation.py
+   python test_stripe_payment.py
+   python test_dashboard.py
+   python test_mobile_responsiveness.py
+
+Quick smoke test:
+   python debug_session.py
+
+═══════════════════════════════════════════════════════════════════
+
+MONITORING
+═══════════════════════════════════════════════════════════════════
+
+View real-time logs:
+   fly logs -a quotegenie-api
+
+Check database:
+   fly ssh console -a quotegenie-api
+   sqlite3 /app/estimategenie.db
+   .tables
+   SELECT COUNT(*) FROM users;
+   SELECT COUNT(*) FROM quotes;
+
+Check Stripe webhooks:
+   Visit: https://dashboard.stripe.com/webhooks
+   Should see: https://api.estimategenie.net/api/v1/webhooks/stripe
+
+═══════════════════════════════════════════════════════════════════
+"""

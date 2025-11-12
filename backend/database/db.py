@@ -64,11 +64,12 @@ class DatabaseService:
         try:
             cursor.execute("""
                 INSERT INTO quotes (
-                    id, project_type, image_path, vision_results,
+                    id, user_id, project_type, image_path, vision_results,
                     reasoning, estimate, status, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 quote_data["id"],
+                quote_data.get("user_id"),
                 quote_data["project_type"],
                 quote_data["image_path"],
                 json.dumps(quote_data["vision_results"]),

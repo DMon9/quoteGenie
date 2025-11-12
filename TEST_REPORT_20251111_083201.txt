@@ -1,0 +1,33 @@
+======================================================================
+ESTIMATEGENIE COMPREHENSIVE TEST REPORT
+======================================================================
+Generated: 2025-11-11 08:32:01
+Total Duration: 103.8s
+======================================================================
+
+
+Authentication System Tests
+  Status: FAIL
+  Tests: 12 passed, 1 failed, 0 warnings
+  Duration: 25.6s
+
+API Endpoints Tests
+  Status: PASS
+  Tests: 14 passed, 0 failed, 1 warnings
+  Duration: 15.6s
+
+Frontend Pages Tests
+  Status: PASS
+  Tests: 27 passed, 0 failed, 0 warnings
+  Duration: 22.4s
+
+Integration & Database Tests
+  Status: PASS
+  Tests: 5 passed, 0 failed, 1 warnings
+  Duration: 40.3s
+
+======================================================================
+SUMMARY: 3/4 suites passed
+Total: 58 passed, 1 failed, 2 warnings
+Pass Rate: 98.3%
+======================================================================

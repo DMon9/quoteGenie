@@ -26,6 +26,24 @@ def is_valid_email(email: str) -> bool:
         return False
     return EMAIL_REGEX.match(email) is not None
 
+
+def is_strong_password(password: str) -> bool:
+    """
+    Validate password strength.
+    Requirements:
+    - At least 8 characters
+    - Contains at least one letter
+    - Contains at least one number
+    """
+    if not password or len(password) < 8:
+        return False
+    
+    has_letter = any(c.isalpha() for c in password)
+    has_digit = any(c.isdigit() for c in password)
+    
+    return has_letter and has_digit
+
+
 class AuthService:
     def __init__(self, db_path="estimategenie.db"):
         self.db_path = db_path
@@ -94,6 +112,8 @@ class AuthService:
         email = normalize_email(email)
         if not is_valid_email(email):
             raise ValueError("Invalid email format")
+        if not is_strong_password(password):
+            raise ValueError("Password must be at least 8 characters and contain both letters and numbers")
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()

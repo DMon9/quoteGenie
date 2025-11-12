@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - EstimateGenie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="./assets/js/api-config.js"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-purple-600 to-blue-600 min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div class="max-w-md w-full">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <a
+          href="index.html"
+          class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4 hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition"
+          role="img"
+          aria-label="EstimateGenie Home"
+          title="Back to homepage"
+        >
+          <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+        </a>
+        <h1 class="text-3xl font-bold text-white">Create your account</h1>
+        <p class="text-white opacity-90 mt-2">
+          Start generating estimates in minutes
+        </p>
+      </div>
+
+      <!-- Sign Up Form -->
+      <div class="bg-white rounded-2xl shadow-2xl p-8">
+        <form id="signup-form" class="space-y-6">
+          <!-- Full Name -->
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Full Name
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="user" class="h-5 w-5 text-gray-400"></i>
+              </div>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="John Doe"
+              />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Email Address
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="mail" class="h-5 w-5 text-gray-400"></i>
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="you@example.com"
+              />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Password
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="lock" class="h-5 w-5 text-gray-400"></i>
+              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                minlength="8"
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="••••••••"
+              />
+            </div>
+            <p class="mt-1 text-sm text-gray-500">
+              Must be at least 8 characters
+            </p>
+          </div>
+
+          <!-- Plan Selection -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">
+              Select Plan
+            </label>
+            <div class="space-y-3">
+              <label
+                class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-300 transition-colors"
+              >
+                <input
+                  type="radio"
+                  name="plan"
+                  value="free"
+                  checked
+                  class="h-4 w-4 text-purple-600"
+                  aria-label="Starter (Free) Plan"
+                />
+                <div class="ml-3 flex-1">
+                  <div class="font-semibold text-gray-900">Starter (Free)</div>
+                  <div class="text-sm text-gray-600">10 quotes/month</div>
+                </div>
+                <div class="font-bold text-gray-900">$0/mo</div>
+              </label>
+              <label
+                class="flex items-center p-4 border-2 border-purple-300 rounded-lg cursor-pointer bg-purple-50"
+              >
+                <input
+                  type="radio"
+                  name="plan"
+                  value="pro"
+                  class="h-4 w-4 text-purple-600"
+                  aria-label="Professional Plan"
+                />
+                <div class="ml-3 flex-1">
+                  <div class="font-semibold text-gray-900">Professional</div>
+                  <div class="text-sm text-gray-600">
+                    Unlimited quotes + API
+                  </div>
+                </div>
+                <div class="font-bold text-purple-600">$49/mo</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Terms -->
+          <div class="flex items-start">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              required
+              class="h-4 w-4 mt-1 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+            />
+            <label for="terms" class="ml-2 block text-sm text-gray-700">
+              I agree to the
+              <a href="#" class="text-purple-600 hover:text-purple-500"
+                >Terms of Service</a
+              >
+              and
+              <a href="#" class="text-purple-600 hover:text-purple-500"
+                >Privacy Policy</a
+              >
+            </label>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            id="error-message"
+            class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"
+          >
+            <div class="flex items-center">
+              <i data-feather="alert-circle" class="h-5 w-5 mr-2"></i>
+              <span id="error-text"></span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 transition-colors"
+            aria-label="Create Account"
+          >
+            Create Account
+          </button>
+        </form>
+
+        <!-- Sign In Link -->
+        <p class="mt-8 text-center text-sm text-gray-600">
+          Already have an account?
+          <a
+            href="login.html"
+            class="font-medium text-purple-600 hover:text-purple-500"
+          >
+            Sign in
+          </a>
+        </p>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="text-center mt-8">
+        <a
+          href="index.html"
+          class="text-white hover:text-gray-200 inline-flex items-center"
+        >
+          <i data-feather="arrow-left" class="h-4 w-4 mr-2"></i>
+          Back to homepage
+        </a>
+      </div>
+    </div>
+
+    <script>
+      feather.replace();
+
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const submitBtn = document.getElementById("submit-btn");
+          const errorMessage = document.getElementById("error-message");
+          const errorText = document.getElementById("error-text");
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Creating account...";
+
+          const formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            plan: document.querySelector('input[name="plan"]:checked').value,
+          };
+
+          try {
+            const response = await fetch(
+              ApiConfig.url(ApiConfig.endpoints.register),
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+              // For pro plan, redirect to payment
+              if (formData.plan === "pro") {
+                localStorage.setItem("tempUser", JSON.stringify(data.user));
+                window.location.href = `checkout.html?session=${data.checkout_session_id}`;
+              } else {
+                // Free plan - go straight to dashboard
+                localStorage.setItem("auth_token", data.access_token);
+                if (data.user && data.user.api_key) {
+                  localStorage.setItem("api_key", data.user.api_key);
+                }
+                localStorage.setItem("user", JSON.stringify(data.user || {}));
+                window.location.href = "dashboard-new.html";
+              }
+            } else {
+              errorText.textContent =
+                data.message || "Registration failed. Please try again.";
+              errorMessage.classList.remove("hidden");
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Create Account";
+            }
+          } catch (error) {
+            console.error("Registration error:", error);
+            const base =
+              (window.ApiConfig && window.ApiConfig.baseUrl) ||
+              "https://quotegenie-api.fly.dev";
+            errorText.textContent = error.message.includes("fetch")
+              ? `Cannot connect to API server. Backend unreachable at ${base}`
+              : "An error occurred. Please try again.";
+            errorMessage.classList.remove("hidden");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Create Account";
+          }
+        });
+    </script>
+  </body>
+</html>

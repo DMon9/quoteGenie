@@ -193,6 +193,11 @@ async def get_models_status():
 @app.post("/api/v1/auth/register")
 async def register(request: RegisterRequest):
     """Register a new user"""
+    # Basic email normalization & validation (defense in depth; service also validates)
+    incoming_email = request.email.strip().lower()
+    if "@" not in incoming_email or len(incoming_email) < 5:
+        raise HTTPException(status_code=400, detail="Invalid email format")
+    request.email = incoming_email
     email = normalize_email(request.email)
     if not is_valid_email(email):
         raise HTTPException(status_code=400, detail="Invalid email format")
@@ -404,6 +409,23 @@ async def reset_password(request: ResetPasswordRequest):
     
     return {"message": "Password reset successfully. You can now login with your new password."}
 
+# Get current user profile
+@app.get("/v1/user/profile")
+async def get_user_profile(current_user: User = Depends(get_current_user)):
+    """Get authenticated user's profile information"""
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "name": current_user.name,
+        "plan": current_user.plan,
+        "api_key": current_user.api_key,
+        "created_at": current_user.created_at.isoformat() if current_user.created_at else None,
+        "subscription_status": current_user.subscription_status,
+        "quotes_used": current_user.quotes_used,
+        "api_calls_used": current_user.api_calls_used,
+        "plan_limits": current_user.get_plan_limits()
+    }
+
 # ============================================================================
 # NEWSLETTER ENDPOINTS
 # ============================================================================
@@ -551,6 +573,10 @@ async def stripe_webhook(request: Request):
         raise HTTPException(status_code=503, detail="Payments are not configured")
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature")
+    
+    # Validate signature header is present
+    if not sig_header:
+        raise HTTPException(status_code=400, detail="Missing stripe-signature header")
     
     event = payment_service.verify_webhook_signature(payload, sig_header)
     
@@ -710,6 +736,7 @@ async def create_quote(
         # Step 4: Save to database
         quote_data = {
             "id": quote_id,
+            "user_id": user.id,
             "project_type": project_type,
             "image_path": image_path,
             "vision_results": vision_results,
