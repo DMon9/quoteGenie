@@ -1,65 +1,78 @@
-# Cloudflare Pages Ignore File
-# Excludes files from deployment
+## Cloudflare Pages ignore file
+## Goal: Deploy only static frontend (HTML/CSS/JS/assets) and exclude backend, models, large artifacts, tests, infra configs.
 
-# Backend files
+### Exclude application backends / workers / orchestration
 backend/
 api-worker/
 orchestrator/
 model_server/
-
-# Large model files
 models/
+
+### Exclude scripts and deployment helpers
+scripts/
+deploy/
+setup_*.ps1
+deploy_*.ps1
+
+### Exclude Python environments & caches
+.venv*/
+venv/
+env/
+__pycache__/
+*.pyc
+*.egg-info/
+*.cache/
+cache/
+
+### Exclude model + AI artifact file types
 *.pt
 *.onnx
 *.ckpt
 *.safetensors
 *.bin
+*.tar*
+*.zip
+*.7z
 
-# Python files
-*.py
-*.pyc
-__pycache__/
-.venv/
-.venv-3/
-*.egg-info/
-venv/
-env/
-
-# Build and config files
-*.ps1
-*.sh
-*.toml
+### Exclude infra / container / platform configs not needed by Pages
 fly.toml
 railway.json
 docker-compose*.yml
 Dockerfile*
 nixpacks.toml
 
-# Documentation (keep essential docs, exclude dev docs)
+### Keep main README, ignore other heavy markdown docs
 *.md
 !README.md
 
-# Development files
-.git/
-.gitignore
+### Exclude tests and test harness HTML/dev diagnostics
+test_*.py
+smoke_test*.py
+test-*.html
+
+### Exclude logs & env files
+*.log
 .env
 .env.*
-*.log
 
-# Test files
-test_*.py
-test-*.html
-smoke_test*.py
+### Exclude git metadata
+.git/
+.gitignore
 
-# Deployment scripts
-deploy/
-scripts/
-setup_*.ps1
-deploy_*.ps1
-
-# Misc
-__pycache__/
+### Misc editor/temp files
 *.swp
 *.swo
 *~
 .DS_Store
+
+### Allow essential frontend assets explicitly (override broad patterns)
+!assets/
+!index.html
+!mobile-index.html
+!mobile-index-enhanced.html
+!features.html
+!about.html
+!contact.html
+!pricing.html
+!signup.html
+!login.html

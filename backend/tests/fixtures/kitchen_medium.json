@@ -1,0 +1,9 @@
+{
+  "detections": [
+    {"class": "kitchen", "confidence": 0.92},
+    {"class": "cabinets", "confidence": 0.85},
+    {"class": "countertop", "confidence": 0.8}
+  ],
+  "measurements": {"estimated_area_sqft": 120},
+  "scene_description": "Medium kitchen with L-shaped counters"
+}

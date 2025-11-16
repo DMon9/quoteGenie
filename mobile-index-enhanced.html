@@ -1,13 +1,21 @@
-nji<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EstimateGenie - AI-Powered Construction Quotes</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.svg" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <!-- PDF generator for downloadable quotes -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-YcsIPi6QpQFZqYyTg2Xt8d6+qTW4AGQkB3r5j8q0q1HZpR3m3z0Y8kM4V8w+2oV5bXn0cKQzM8xv7kHOsG1aQw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <link rel="stylesheet" href="assets/css/main.css" />
     <style>
       /* Mobile-first optimizations */
@@ -99,28 +107,28 @@ nji<!DOCTYPE html>
 
       <div class="space-y-4">
         <a
-          href="index.html"
+          href="/index.html"
           class="block py-3 px-4 text-purple-600 bg-purple-50 rounded-lg font-medium"
         >
           <i data-feather="home" class="h-4 w-4 inline mr-2"></i>
           Home
         </a>
         <a
-          href="features.html"
+          href="/features.html"
           class="block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
         >
           <i data-feather="settings" class="h-4 w-4 inline mr-2"></i>
           Features
         </a>
         <a
-          href="about.html"
+          href="/about.html"
           class="block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
         >
           <i data-feather="info" class="h-4 w-4 inline mr-2"></i>
           About
         </a>
         <a
-          href="contact.html"
+          href="/contact.html"
           class="block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
         >
           <i data-feather="mail" class="h-4 w-4 inline mr-2"></i>
@@ -147,18 +155,24 @@ nji<!DOCTYPE html>
             <span class="ml-2 text-lg font-bold text-gray-900"
               >EstimateGenie</span
             >
+            <span
+              id="auth-status-badge"
+              class="ml-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-700"
+              title="Authentication status"
+              >Guest</span
+            >
           </div>
 
           <!-- Desktop navigation -->
           <nav class="hidden md:flex space-x-6">
-            <a href="index.html" class="text-purple-600 font-medium">Home</a>
-            <a href="features.html" class="text-gray-500 hover:text-gray-700"
+            <a href="/index.html" class="text-purple-600 font-medium">Home</a>
+            <a href="/features.html" class="text-gray-500 hover:text-gray-700"
               >Features</a
             >
-            <a href="about.html" class="text-gray-500 hover:text-gray-700"
+            <a href="/about.html" class="text-gray-500 hover:text-gray-700"
               >About</a
             >
-            <a href="contact.html" class="text-gray-500 hover:text-gray-700"
+            <a href="/contact.html" class="text-gray-500 hover:text-gray-700"
               >Contact</a
             >
           </nav>
@@ -199,7 +213,29 @@ nji<!DOCTYPE html>
     <!-- Step-by-Step Process -->
     <section class="py-8 px-4 bg-white">
       <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-8">
+        <!-- Mobile: Simple progress text -->
+        <div class="md:hidden mb-6">
+          <div class="flex items-center justify-between mb-2">
+            <span
+              id="mobile-step-text"
+              class="text-sm font-medium text-purple-600"
+              >Step 1 of 4</span
+            >
+            <span id="mobile-step-percent" class="text-sm text-gray-500"
+              >0%</span
+            >
+          </div>
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              id="mobile-progress-bar"
+              class="h-full bg-purple-600 transition-all duration-500"
+              style="width: 25%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Desktop: Full step indicator -->
+        <div class="hidden md:flex justify-between items-center mb-8">
           <div class="flex items-center space-x-4">
             <div
               id="step-1"
@@ -503,6 +539,15 @@ nji<!DOCTYPE html>
             <i data-feather="zap" class="h-4 w-4 inline mr-2"></i>
             Generate AI Quote
           </button>
+          <button
+            id="demo-quote-btn"
+            onclick="tryDemoQuote()"
+            class="w-full mt-3 touch-button bg-white border border-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            title="Try a demo quote without signing up"
+          >
+            <i data-feather="play" class="h-4 w-4 inline mr-2"></i>
+            Try Demo Quote (No signup)
+          </button>
         </div>
 
         <!-- Step 4: Processing -->
@@ -542,8 +587,11 @@ nji<!DOCTYPE html>
           <h3 class="text-xl font-semibold text-gray-900 mb-2">
             AI is analyzing your project...
           </h3>
-          <p id="processing-status" class="text-gray-600 mb-4">
+          <p id="processing-status" class="text-gray-600 mb-2">
             Processing your image and requirements...
+          </p>
+          <p id="processing-eta" class="text-sm text-gray-500 mb-4">
+            Estimated time: 45 seconds
           </p>
         </div>
 
@@ -622,9 +670,9 @@ nji<!DOCTYPE html>
           AI-powered estimation for modern professionals
         </p>
         <div class="flex justify-center space-x-6 text-sm">
-          <a href="about.html" class="hover:text-white">About</a>
-          <a href="features.html" class="hover:text-white">Features</a>
-          <a href="contact.html" class="hover:text-white">Contact</a>
+          <a href="/about.html" class="hover:text-white">About</a>
+          <a href="/features.html" class="hover:text-white">Features</a>
+          <a href="/contact.html" class="hover:text-white">Contact</a>
         </div>
         <p class="text-xs mt-6">
           &copy; 2025 EstimateGenie. All rights reserved.
@@ -701,21 +749,41 @@ nji<!DOCTYPE html>
         stepTitle.textContent = titles[currentStep];
         stepDescription.textContent = descriptions[currentStep];
 
+        // Update mobile progress bar
+        const mobileStepText = document.getElementById("mobile-step-text");
+        const mobileStepPercent = document.getElementById(
+          "mobile-step-percent"
+        );
+        const mobileProgressBar = document.getElementById(
+          "mobile-progress-bar"
+        );
+        if (mobileStepText)
+          mobileStepText.textContent = `Step ${currentStep} of 4`;
+        if (mobileStepPercent)
+          mobileStepPercent.textContent = `${Math.round(
+            (currentStep / 4) * 100
+          )}%`;
+        if (mobileProgressBar)
+          mobileProgressBar.style.width = `${(currentStep / 4) * 100}%`;
+
+        // Update desktop step indicators
         steps.forEach((step) => {
           const indicator = document.getElementById(`step-${step}`);
-          if (step < currentStep) {
-            indicator.className =
-              "step-indicator completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
-          } else if (step === currentStep) {
-            indicator.className =
-              "step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
-          } else {
-            indicator.className =
-              "step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold";
+          if (indicator) {
+            if (step < currentStep) {
+              indicator.className =
+                "step-indicator completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
+            } else if (step === currentStep) {
+              indicator.className =
+                "step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
+            } else {
+              indicator.className =
+                "step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold";
+            }
           }
         });
 
-        // Update progress bars
+        // Update desktop progress bars
         for (let i = 1; i < currentStep; i++) {
           const progressBar = document.getElementById(`progress-${i}-${i + 1}`);
           if (progressBar) {
@@ -742,31 +810,45 @@ nji<!DOCTYPE html>
       });
 
       // File upload handling
-      uploadArea.addEventListener("click", () => fileInput.click());
-
-      uploadArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        uploadArea.classList.add("dragover");
-      });
-
-      uploadArea.addEventListener("dragleave", () => {
-        uploadArea.classList.remove("dragover");
-      });
-
-      uploadArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove("dragover");
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          handleFileUpload(files[0]);
+      // Make both the upload area and its inner button trigger the file picker
+      if (uploadArea && fileInput) {
+        uploadArea.addEventListener(
+          "click",
+          () => fileInput && fileInput.click()
+        );
+        const uploadButton = document.querySelector("#upload-area button");
+        if (uploadButton) {
+          uploadButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (fileInput) fileInput.click();
+          });
         }
-      });
 
-      fileInput.addEventListener("change", (e) => {
-        if (e.target.files.length > 0) {
-          handleFileUpload(e.target.files[0]);
-        }
-      });
+        uploadArea.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          uploadArea.classList.add("dragover");
+        });
+
+        uploadArea.addEventListener("dragleave", () => {
+          uploadArea.classList.remove("dragover");
+        });
+
+        uploadArea.addEventListener("drop", (e) => {
+          e.preventDefault();
+          uploadArea.classList.remove("dragover");
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            handleFileUpload(files[0]);
+          }
+        });
+
+        fileInput.addEventListener("change", (e) => {
+          if (e.target.files.length > 0) {
+            handleFileUpload(e.target.files[0]);
+          }
+        });
+      }
 
       // Handle file upload (just preview, don't process)
       function handleFileUpload(file) {
@@ -826,29 +908,98 @@ nji<!DOCTYPE html>
         uploadProcessing.classList.remove("hidden");
         updateStepIndicator(4);
 
-        // Animate progress
+        // Animate progress with real stages
         let progress = 0;
+        let elapsedTime = 0;
+        const startTime = Date.now();
+        const estimatedDuration = 45000; // 45 seconds estimated
+
         const progressBar = document.getElementById("progress-bar");
         const statusEl = document.getElementById("processing-status");
+        const etaEl = document.getElementById("processing-eta");
+
+        // Define processing stages
+        const stages = [
+          {
+            percentStart: 0,
+            percentEnd: 20,
+            message: "Analyzing image composition...",
+          },
+          {
+            percentStart: 20,
+            percentEnd: 40,
+            message: "Detecting materials and components...",
+          },
+          {
+            percentStart: 40,
+            percentEnd: 60,
+            message: "Calculating labor costs...",
+          },
+          {
+            percentStart: 60,
+            percentEnd: 80,
+            message: "Estimating material costs...",
+          },
+          {
+            percentStart: 80,
+            percentEnd: 95,
+            message: "Generating personalized recommendations...",
+          },
+        ];
+
+        let currentStageIndex = 0;
 
         const progressInterval = setInterval(() => {
-          progress += Math.random() * 15;
-          if (progress > 90) progress = 90;
+          elapsedTime = Date.now() - startTime;
+          progress = Math.min(90, (elapsedTime / estimatedDuration) * 100);
 
+          // Update stage based on progress
+          if (progress > 80 && currentStageIndex < stages.length - 1) {
+            currentStageIndex = Math.min(4, Math.floor(progress / 20));
+          }
+
+          // Update progress ring
           const circumference = 2 * Math.PI * 32;
           const offset = circumference - (progress / 100) * circumference;
           progressBar.style.strokeDasharray = `${circumference}`;
           progressBar.style.strokeDashoffset = offset;
 
-          if (progress < 30) {
-            statusEl.textContent = "Analyzing image composition...";
-          } else if (progress < 60) {
-            statusEl.textContent =
-              "Detecting materials and calculating costs...";
-          } else if (progress < 90) {
-            statusEl.textContent = "Generating personalized recommendations...";
+          // Update stage message
+          const stage = stages[currentStageIndex] || stages[stages.length - 1];
+          statusEl.textContent = stage.message;
+
+          // Update ETA
+          const remainingTime = Math.max(0, estimatedDuration - elapsedTime);
+          const remainingSeconds = Math.ceil(remainingTime / 1000);
+          if (remainingSeconds > 0) {
+            etaEl.textContent = `Estimated time: ${remainingSeconds} seconds`;
+          } else {
+            etaEl.textContent = "Almost done...";
           }
         }, 200);
+
+        // Track cancel flag so user can stop polling
+        let cancelled = false;
+        function cancelPipeline() {
+          cancelled = true;
+          clearInterval(progressInterval);
+          statusEl.textContent = "Processing cancelled.";
+          uploadProcessing.classList.add("hidden");
+          optionsStep.classList.remove("hidden");
+          updateStepIndicator(3);
+        }
+
+        // Add cancel button while processing (avoid multiple buttons)
+        let cancelBtn = document.getElementById("cancel-quote-btn");
+        if (!cancelBtn) {
+          cancelBtn = document.createElement("button");
+          cancelBtn.id = "cancel-quote-btn";
+          cancelBtn.textContent = "Cancel";
+          cancelBtn.className =
+            "touch-button mt-4 bg-gray-200 px-4 py-2 rounded-lg text-sm";
+          cancelBtn.onclick = cancelPipeline;
+          uploadProcessing.appendChild(cancelBtn);
+        }
 
         try {
           // Get selected quote type
@@ -867,6 +1018,32 @@ nji<!DOCTYPE html>
             timeline !== "flexible" ? ` Timeline: ${timeline}.` : ""
           } Quote type requested: ${quoteType}.`;
 
+          // Build options object
+          const _scope = document.getElementById("scope")?.value || "";
+          const phases = [];
+          document
+            .querySelectorAll("#phases-list .phase-item")
+            .forEach((el) => {
+              phases.push({
+                name: el.dataset.name,
+                description: el.dataset.desc,
+                estimated_hours: parseFloat(el.dataset.hours || "0"),
+              });
+            });
+
+          const risks = [];
+          document.querySelectorAll("#risks-list .risk-item").forEach((el) => {
+            risks.push({
+              id: el.dataset.id,
+              description: el.dataset.desc,
+              impact: el.dataset.impact,
+            });
+          });
+
+          const optionsObj = { scope: _scope };
+          if (phases.length) optionsObj.phases = phases;
+          if (risks.length) optionsObj.risks = risks;
+
           // Create form data
           const formData = new FormData();
           formData.append("file", uploadedFile);
@@ -876,48 +1053,196 @@ nji<!DOCTYPE html>
           );
           formData.append("description", fullDescription);
           formData.append("quote_type", quoteType);
+          formData.append("options", JSON.stringify(optionsObj));
 
-          // Build endpoint and auth headers using ApiConfig
-          const endpoint = ApiConfig.url(API.quotes);
+          // Build endpoint and auth headers using ApiConfig (async pipeline)
+          const endpoint = ApiConfig.url(API.quotesAsync);
           const token = localStorage.getItem("auth_token");
           const apiKey = localStorage.getItem("api_key");
           const headers = {};
           if (token) headers["Authorization"] = `Bearer ${token}`;
           else if (apiKey) headers["Authorization"] = apiKey;
-          else throw new Error("Authentication required");
+          else {
+            // Friendly prompt when not authenticated: offer demo or login
+            const goLogin = confirm(
+              "You need to be signed in to create a real quote. Add a free account or try a demo quote without signing up.\n\nOK = Login, Cancel = Try Demo"
+            );
+            if (goLogin) {
+              window.location.href = "login.html";
+              return;
+            } else {
+              // Try the demo endpoint instead (no auth required)
+              clearInterval(progressInterval);
+              tryDemoQuote();
+              return;
+            }
+          }
 
-          // Call API
-          const response = await fetch(endpoint, {
+          // Start async pipeline
+          const startResp = await fetch(endpoint, {
             method: "POST",
             headers,
             body: formData,
           });
+          if (!startResp.ok) {
+            throw new Error(`HTTP ${startResp.status}`);
+          }
+          const started = await startResp.json();
+          const quoteId = started.quote_id;
 
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+          // Poll for completion
+          const statusMap = {
+            processing: "Processing your image and requirements...",
+            vision_complete: "Vision analysis complete. Calculating costs...",
+            cost_complete: "Cost baseline ready. Composing detailed quote...",
+            completed: "Quote generated successfully!",
+            vision_error: "Vision service error.",
+            cost_error: "Cost service error.",
+            error: "An error occurred.",
+          };
+
+          let result = null;
+          const pollIntervalMs = 2000;
+          const maxWaitMs = 120000; // 2 minutes safety cap
+          const pollStart = Date.now();
+          if (cancelled) throw new Error("User cancelled");
+          while (Date.now() - pollStart < maxWaitMs) {
+            // Update status message if we have one in DB progressively
+            statusEl.textContent = statusMap.processing;
+            const pollUrl = ApiConfig.url(API.quote(quoteId));
+            const pollResp = await fetch(pollUrl, { headers });
+            if (pollResp.status === 404) {
+              await new Promise((r) => setTimeout(r, pollIntervalMs));
+              continue;
+            }
+            if (cancelled) throw new Error("User cancelled");
+            if (!pollResp.ok) {
+              throw new Error(`Poll HTTP ${pollResp.status}`);
+            }
+            const data = await pollResp.json();
+            // Some DB rows store status field; attempt to read it
+            const statusVal = data.status || "processing";
+            statusEl.textContent = statusMap[statusVal] || statusMap.processing;
+            if (statusVal === "vision_complete") currentStageIndex = 2;
+            if (statusVal === "cost_complete") currentStageIndex = 4;
+            if (statusVal === "completed") {
+              result = data;
+              break;
+            }
+            await new Promise((r) => setTimeout(r, pollIntervalMs));
           }
 
-          const result = await response.json();
+          if (!result)
+            throw new Error("Timed out waiting for quote completion");
+
+          // Persist last quote for download and metadata
+          window.__lastQuoteResult = result;
+          window.__lastQuoteType = quoteType;
 
           // Complete progress
           clearInterval(progressInterval);
+          // remove cancel button
+          const existingCancel = document.getElementById("cancel-quote-btn");
+          if (existingCancel) existingCancel.remove();
           progress = 100;
           progressBar.style.strokeDashoffset = 0;
           statusEl.textContent = "Quote generated successfully!";
+          etaEl.textContent = "Processing complete";
 
           setTimeout(() => {
             displayResults(result, quoteType);
-          }, 1000);
+          }, 800);
         } catch (error) {
+          // Detect cancelled to avoid showing an error stack
+          if (error && error.message === "User cancelled") {
+            console.info("User cancelled the quote pipeline");
+            return;
+          }
           clearInterval(progressInterval);
+          // remove cancel button
+          const existingCancelFail =
+            document.getElementById("cancel-quote-btn");
+          if (existingCancelFail) existingCancelFail.remove();
           console.error("Error generating quote:", error);
           statusEl.textContent = "Error generating quote. Please try again.";
+          etaEl.textContent = "";
 
           setTimeout(() => {
             optionsStep.classList.remove("hidden");
             uploadProcessing.classList.add("hidden");
             updateStepIndicator(3);
           }, 2000);
+        }
+      }
+
+      // Try the demo endpoint — no auth required and fast
+      async function tryDemoQuote() {
+        try {
+          // get a project type from the form, default to 'general'
+          const projectType =
+            document.getElementById("project-type")?.value || "general";
+
+          // visual feedback
+          optionsStep.classList.add("hidden");
+          uploadProcessing.classList.remove("hidden");
+          updateStepIndicator(4);
+
+          // Build demo endpoint & call (no auth required)
+          const demoEndpoint = ApiConfig.url(
+            `/v1/quotes/demo?project_type=${encodeURIComponent(projectType)}`
+          );
+          const resp = await fetch(demoEndpoint, { method: "POST" });
+          if (!resp.ok) throw new Error(`Demo HTTP ${resp.status}`);
+          const data = await resp.json();
+
+          // Transform demo result into the same structure expected by displayResults
+          const totalEstimate =
+            data.estimate?.mid ||
+            data.estimate_mid ||
+            (data.estimate && data.estimate["mid"]);
+          const normalized = {
+            id: data.quote_id,
+            total_cost: {
+              amount:
+                totalEstimate || (data.estimate && data.estimate.mid) || 0,
+              breakdown: {
+                materials: (data.materials || []).reduce(
+                  (acc, m) => acc + (m.quantity || 0) * (m.unit_price || 0),
+                  0
+                ),
+                labor: (data.materials || [])
+                  .filter((m) => m.name && /labor/i.test(m.name))
+                  .reduce(
+                    (acc, m) => acc + (m.quantity || 0) * (m.unit_price || 0),
+                    0
+                  ),
+              },
+            },
+            materials: data.materials || [],
+            labor: [],
+            timeline: {
+              estimated_days: data.timeline?.days || data.timeline_days || null,
+              estimated_hours:
+                data.timeline?.hours || data.timeline_hours || null,
+            },
+            disclaimer: data.disclaimer || null,
+            demo: true,
+          };
+
+          // Store last result for downloads
+          window.__lastQuoteResult = normalized;
+          window.__lastQuoteType = `${projectType}-demo`;
+
+          uploadProcessing.classList.add("hidden");
+          displayResults(normalized, "basic");
+        } catch (err) {
+          console.error("Demo quote failed:", err);
+          alert(
+            "Demo quotes are temporarily unavailable. Please try again or sign in to generate a quote."
+          );
+          uploadProcessing.classList.add("hidden");
+          optionsStep.classList.remove("hidden");
+          updateStepIndicator(3);
         }
       }
 
@@ -943,6 +1268,12 @@ nji<!DOCTYPE html>
         `;
 
         if (quoteType === "basic") {
+          const breakdown =
+            (result.total_cost && result.total_cost.breakdown) || {};
+          const markupVal =
+            typeof breakdown.markup === "number"
+              ? breakdown.markup
+              : (breakdown.profit || 0) + (breakdown.contingency || 0);
           resultsHTML += `
             <div class="grid md:grid-cols-2 gap-6">
               <div class="bg-gray-50 rounded-lg p-4">
@@ -958,7 +1289,7 @@ nji<!DOCTYPE html>
                   </div>
                   <div class="flex justify-between">
                     <span>Markup:</span>
-                    <span>$${result.total_cost.breakdown.markup.toLocaleString()}</span>
+                    <span>$${markupVal.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -1077,12 +1408,54 @@ nji<!DOCTYPE html>
               >
                 New Quote
               </button>
+
+              <!-- Phase & Risk Controls -->
+              <div class="mt-6 border-t pt-4">
+                <h3 class="font-semibold text-gray-900 mb-2">Project Scope</h3>
+                <textarea id="scope" rows="2" class="w-full p-3 border border-gray-300 rounded-lg mb-3" placeholder="Short summary of the project scope e.g., 'Full roof replacement with new flashing'"></textarea>
+
+                <div id="phases-container" class="mb-3">
+                  <div class="flex items-center space-x-2 mb-2">
+                    <input id="phase-name" class="flex-1 p-2 border border-gray-300 rounded" placeholder="Phase name (demolition, install, finish)" />
+                    <input id="phase-hours" type="number" min="0" class="w-24 p-2 border border-gray-300 rounded" placeholder="hrs" />
+                  </div>
+                  <input id="phase-desc" class="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Phase description" />
+                  <div class="flex gap-2">
+                    <button id="add-phase-btn" class="touch-button bg-purple-600 text-white px-4 py-2 rounded-lg">Add Phase</button>
+                    <div id="phases-list" class="flex-1"></div>
+                  </div>
+                </div>
+
+                <div id="risks-container" class="mb-3">
+                  <h3 class="font-semibold text-gray-900 mb-2">Risks</h3>
+                  <div class="flex items-center space-x-2 mb-2">
+                    <input id="risk-id" class="flex-1 p-2 border border-gray-300 rounded" placeholder="Risk id" />
+                    <select id="risk-impact" class="p-2 border border-gray-300 rounded w-32">
+                      <option value="low">Low</option>
+                      <option value="medium" selected>Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                  <input id="risk-desc" class="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Risk description" />
+                  <div class="flex gap-2">
+                    <button id="add-risk-btn" class="touch-button bg-gray-800 text-white px-4 py-2 rounded-lg">Add Risk</button>
+                    <div id="risks-list" class="flex-1"></div>
+                  </div>
+                </div>
+              </div>
               <button
                 onclick="downloadQuote()"
                 class="flex-1 touch-button bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
               >
                 <i data-feather="download" class="h-4 w-4 inline mr-2"></i>
                 Download Quote
+              </button>
+              <button
+                onclick="downloadCSV()"
+                class="flex-1 touch-button bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                <i data-feather="file-text" class="h-4 w-4 inline mr-2"></i>
+                Download CSV
               </button>
             </div>
           </div>
@@ -1114,9 +1487,272 @@ nji<!DOCTYPE html>
           .scrollIntoView({ behavior: "smooth" });
       }
 
-      function downloadQuote() {
-        // Implementation for downloading quote as PDF
-        alert("Quote download feature coming soon!");
+      function isLoggedInForDownload() {
+        // Gate download: support multiple possible storage keys
+        const keys = [
+          "auth_token",
+          "api_key",
+          "access_token",
+          "user_token",
+          "eg_auth",
+          "eg_api_key",
+        ];
+        return keys.some((k) => !!localStorage.getItem(k));
+      }
+
+      async function downloadQuote() {
+        try {
+          // Gate: must be logged in to download unless this is a demo quote
+          const last = window.__lastQuoteResult;
+          const isDemoQuote = !!(last && last.demo);
+          if (!isLoggedInForDownload() && !isDemoQuote) {
+            const goLogin = confirm(
+              "Login required to download your quote as PDF. Go to login now?"
+            );
+            if (goLogin) {
+              window.location.href = "login.html";
+            }
+            return;
+          }
+
+          // If demo is allowed, warn user about demo limitations
+          if (isDemoQuote && !isLoggedInForDownload()) {
+            const ok = confirm(
+              "You're downloading a demo quote. Demo results are not saved and are for preview only. Continue?"
+            );
+            if (!ok) return;
+          }
+
+          const container = document.getElementById("results-section");
+          if (!container || container.classList.contains("hidden")) {
+            alert("Please generate a quote first.");
+            return;
+          }
+
+          const quoteId =
+            (window.__lastQuoteResult && window.__lastQuoteResult.id) ||
+            new Date().toISOString().replace(/[:.]/g, "-");
+          const rawType = window.__lastQuoteType || "quote";
+          const quoteType = rawType.replace(/\s+/g, "-");
+
+          // Build a full PDF document with cover page, results, and terms/privacy
+          const doc = document.createElement("div");
+          doc.style.fontFamily =
+            "system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
+          doc.style.color = "#111827";
+
+          // Cover page
+          const cover = document.createElement("section");
+          cover.style.minHeight = "100vh";
+          cover.style.display = "flex";
+          cover.style.flexDirection = "column";
+          cover.style.justifyContent = "center";
+          cover.style.alignItems = "center";
+          cover.style.padding = "48px 32px";
+          cover.style.background =
+            "linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)";
+          cover.style.color = "white";
+
+          const logoRow = document.createElement("div");
+          logoRow.style.display = "flex";
+          logoRow.style.alignItems = "center";
+          logoRow.style.gap = "10px";
+          logoRow.style.marginBottom = "16px";
+          const logoIcon = document.createElement("div");
+          logoIcon.textContent = "⚡";
+          logoIcon.style.fontSize = "28px";
+          const brand = document.createElement("div");
+          brand.textContent = "EstimateGenie";
+          brand.style.fontWeight = "800";
+          brand.style.fontSize = "22px";
+          logoRow.appendChild(logoIcon);
+          logoRow.appendChild(brand);
+
+          const title = document.createElement("h1");
+          title.textContent = "Your AI-Powered Project Quote";
+          title.style.fontSize = "28px";
+          title.style.fontWeight = "800";
+          title.style.textAlign = "center";
+          title.style.margin = "8px 0 6px 0";
+          const subtitle = document.createElement("div");
+          subtitle.textContent = rawType
+            ? `Package: ${rawType}`
+            : "Estimate Package";
+          subtitle.style.opacity = "0.95";
+          subtitle.style.fontSize = "14px";
+          subtitle.style.marginBottom = "18px";
+          const meta = document.createElement("div");
+          meta.textContent = `Quote ID: ${quoteId} • Generated: ${new Date().toLocaleString()}`;
+          meta.style.fontSize = "12px";
+          meta.style.opacity = "0.9";
+
+          cover.appendChild(logoRow);
+          cover.appendChild(title);
+          cover.appendChild(subtitle);
+          cover.appendChild(meta);
+
+          // Add demo badge to cover if this is a demo quote
+          if (isDemoQuote) {
+            cover.style.position = "relative";
+            const demoBadge = document.createElement("div");
+            demoBadge.textContent = "DEMO";
+            demoBadge.style.position = "absolute";
+            demoBadge.style.top = "24px";
+            demoBadge.style.right = "24px";
+            demoBadge.style.background = "#ef4444"; /* red */
+            demoBadge.style.color = "white";
+            demoBadge.style.padding = "6px 10px";
+            demoBadge.style.borderRadius = "6px";
+            demoBadge.style.fontWeight = "700";
+            demoBadge.style.fontSize = "12px";
+            cover.appendChild(demoBadge);
+          }
+
+          // Spacer and page break after cover
+          const coverBreak = document.createElement("div");
+          coverBreak.style.pageBreakAfter = "always";
+
+          // Clone results to avoid mutating on-screen UI
+          const resultsWrapper = document.createElement("section");
+          resultsWrapper.style.padding = "24px";
+          resultsWrapper.style.background = "#ffffff";
+          const clone = container.cloneNode(true);
+          resultsWrapper.appendChild(clone);
+
+          // Page break before terms
+          const termsBreak = document.createElement("div");
+          termsBreak.style.pageBreakBefore = "always";
+
+          // Terms and Privacy section (lightweight)
+          const terms = document.createElement("section");
+          terms.style.padding = "24px";
+          terms.style.background = "#ffffff";
+          const termsTitle = document.createElement("h2");
+          termsTitle.textContent = "Terms and Privacy";
+          termsTitle.style.fontSize = "18px";
+          termsTitle.style.fontWeight = "700";
+          termsTitle.style.margin = "0 0 10px 0";
+          const termsBody = document.createElement("div");
+          termsBody.style.fontSize = "11px";
+          termsBody.style.color = "#374151";
+          termsBody.style.lineHeight = "1.5";
+          termsBody.innerHTML = `
+            <p><strong>Use of Estimate:</strong> This document is provided for planning purposes only and does not constitute a binding offer. Costs and timelines may vary based on site conditions and material availability.</p>
+            <p><strong>Data Privacy:</strong> We respect your privacy. Uploaded files and project details are processed to generate your estimate and handled according to our privacy practices. Do not include sensitive personal data in uploads.</p>
+            <p><strong>Liability:</strong> EstimateGenie and its operators are not liable for indirect or consequential damages arising from the use of this estimate. Always verify measurements and material quantities before purchasing.</p>
+            <p><strong>Contact:</strong> For support or questions, please contact us via the website.</p>
+          `;
+          terms.appendChild(termsTitle);
+          terms.appendChild(termsBody);
+
+          // Assemble document
+          doc.appendChild(cover);
+          doc.appendChild(coverBreak);
+          doc.appendChild(resultsWrapper);
+          doc.appendChild(termsBreak);
+          doc.appendChild(terms);
+
+          const opt = {
+            margin: [10, 10, 10, 10],
+            filename: `EstimateGenie-${quoteType}-${quoteId}${
+              isDemoQuote ? "-demo" : ""
+            }.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+          };
+          // Render PDF with footer page numbers
+          html2pdf()
+            .set(opt)
+            .from(doc)
+            .toPdf()
+            .get("pdf")
+            .then(function (pdf) {
+              const pageCount = pdf.getNumberOfPages();
+              for (let i = 1; i <= pageCount; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(9);
+                pdf.setTextColor(100);
+                const footerText = `EstimateGenie • https://estimategenie.net • Page ${i} of ${pageCount}`;
+                pdf.text(
+                  footerText,
+                  pdf.internal.pageSize.getWidth() / 2,
+                  pdf.internal.pageSize.getHeight() - 16,
+                  { align: "center" }
+                );
+              }
+            })
+            .save();
+        } catch (err) {
+          console.error("Download error:", err);
+          alert("Could not create the download. Please try again.");
+        }
+      }
+
+      // CSV export of materials and labor
+      function downloadCSV() {
+        const res = window.__lastQuoteResult;
+        if (!res) {
+          alert("Generate a quote first.");
+          return;
+        }
+        const rows = [];
+        rows.push([
+          "Section",
+          "Name",
+          "Quantity",
+          "Unit",
+          "Rate/Unit",
+          "Total",
+        ]);
+        (res.materials || []).forEach((m) => {
+          rows.push([
+            "Materials",
+            m.name,
+            m.quantity,
+            m.unit,
+            m.unit_price ?? "",
+            m.total ?? "",
+          ]);
+        });
+        (res.labor || []).forEach((l) => {
+          rows.push(["Labor", l.trade, l.hours, "hours", l.rate, l.total]);
+        });
+        rows.push([
+          "Totals",
+          "",
+          "",
+          "",
+          "Materials",
+          res.total_cost?.breakdown?.materials ?? "",
+        ]);
+        rows.push([
+          "Totals",
+          "",
+          "",
+          "",
+          "Labor",
+          res.total_cost?.breakdown?.labor ?? "",
+        ]);
+        const csv = rows
+          .map((r) =>
+            r
+              .map((v) => `${v ?? ""}`.replace(/"/g, '""'))
+              .map((v) => `"${v}"`)
+              .join(",")
+          )
+          .join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const quoteId =
+          res.id || new Date().toISOString().replace(/[:.]/g, "-");
+        a.download = `EstimateGenie-${quoteId}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
       }
 
       // Initialize Feather icons
@@ -1138,7 +1774,107 @@ nji<!DOCTYPE html>
       });
 
       // Initialize
+      // Set auth status badge
+      (function updateAuthBadge() {
+        const badge = document.getElementById("auth-status-badge");
+        if (!badge) return;
+        const keys = [
+          "auth_token",
+          "api_key",
+          "access_token",
+          "user_token",
+          "eg_auth",
+          "eg_api_key",
+        ];
+        const loggedIn = keys.some((k) => !!localStorage.getItem(k));
+        if (loggedIn) {
+          badge.textContent = "Signed In";
+          badge.className =
+            "ml-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700";
+        } else {
+          badge.textContent = "Guest";
+          badge.className =
+            "ml-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-700";
+        }
+      })();
       updateStepIndicator(1);
+
+      // Add phases and risks handlers
+      function createPhaseNode(name, desc, hours) {
+        const wrapper = document.createElement("div");
+        wrapper.className =
+          "phase-item p-2 rounded bg-gray-50 border border-gray-100 mb-2 flex items-center justify-between";
+        wrapper.dataset.name = name;
+        wrapper.dataset.desc = desc;
+        wrapper.dataset.hours = String(hours);
+        wrapper.innerHTML = `<div class="flex-1 text-sm"><strong>${name}</strong><div class="text-xs text-gray-500">${desc}</div></div><div class="text-xs text-gray-600 mr-2">${hours}h</div><button class="remove-phase touch-button text-red-500">Remove</button>`;
+        return wrapper;
+      }
+
+      function createRiskNode(id, desc, impact) {
+        const wrapper = document.createElement("div");
+        wrapper.className =
+          "risk-item p-2 rounded bg-gray-50 border border-gray-100 mb-2 flex items-center justify-between";
+        wrapper.dataset.id = id;
+        wrapper.dataset.desc = desc;
+        wrapper.dataset.impact = impact;
+        wrapper.innerHTML = `<div class="flex-1 text-sm"><strong>${id}</strong><div class="text-xs text-gray-500">${desc}</div></div><div class="text-xs text-gray-600 mr-2">${impact}</div><button class="remove-risk touch-button text-red-500">Remove</button>`;
+        return wrapper;
+      }
+
+      const addPhaseBtn = document.getElementById("add-phase-btn");
+      if (addPhaseBtn) {
+        addPhaseBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const nameEl = document.getElementById("phase-name");
+          const descEl = document.getElementById("phase-desc");
+          const hoursEl = document.getElementById("phase-hours");
+          const name = nameEl.value.trim();
+          const desc = descEl.value.trim();
+          const hours = parseFloat(hoursEl.value) || 0;
+          if (!name) return;
+          const node = createPhaseNode(name, desc, hours);
+          document.getElementById("phases-list").appendChild(node);
+          nameEl.value = "";
+          descEl.value = "";
+          hoursEl.value = "";
+        });
+      }
+
+      const addRiskBtn = document.getElementById("add-risk-btn");
+      if (addRiskBtn) {
+        addRiskBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const idEl = document.getElementById("risk-id");
+          const descEl = document.getElementById("risk-desc");
+          const impactEl = document.getElementById("risk-impact");
+          const id = idEl.value.trim();
+          const desc = descEl.value.trim();
+          const impact = impactEl.value || "medium";
+          if (!id || !desc) return;
+          const node = createRiskNode(id, desc, impact);
+          document.getElementById("risks-list").appendChild(node);
+          idEl.value = "";
+          descEl.value = "";
+        });
+      }
+
+      document.addEventListener("click", (e) => {
+        if (
+          e.target &&
+          e.target.classList &&
+          e.target.classList.contains("remove-phase")
+        ) {
+          e.target.closest(".phase-item")?.remove();
+        }
+        if (
+          e.target &&
+          e.target.classList &&
+          e.target.classList.contains("remove-risk")
+        ) {
+          e.target.closest(".risk-item")?.remove();
+        }
+      });
     </script>
   </body>
 </html>

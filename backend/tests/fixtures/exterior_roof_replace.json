@@ -1,0 +1,8 @@
+{
+  "detections": [
+    {"class": "exterior", "confidence": 0.92},
+    {"class": "roof", "confidence": 0.88}
+  ],
+  "measurements": {"estimated_area_sqft": 1800},
+  "scene_description": "Aged shingle roof needing full replacement"
+}

@@ -842,14 +842,22 @@
           formData.append("description", desc);
           formData.append("options", JSON.stringify(opts));
 
-          // Build endpoint
-          const endpoint = ApiConfig.url(API.quotes);
+          // Build endpoint - use direct path if ApiConfig not loaded
+          const endpoint =
+            window.ApiConfig && window.API
+              ? ApiConfig.url(API.quotes)
+              : "https://quotegenie-api.fly.dev/v1/quotes";
 
           // Build headers: Authorization required (Bearer token OR raw API key)
           const headers = {};
           if (token) headers["Authorization"] = `Bearer ${token}`;
           else if (apiKey) headers["Authorization"] = apiKey;
-          else throw new Error("Authentication required");
+          else {
+            // Not authenticated - redirect to login
+            alert("Please sign in to generate quotes");
+            window.location.href = "login.html";
+            return;
+          }
 
           const response = await fetch(endpoint, {
             method: "POST",
@@ -858,7 +866,8 @@
           });
 
           if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.detail || `HTTP ${response.status}`);
           }
 
           const result = await response.json();
@@ -875,7 +884,8 @@
         } catch (error) {
           clearInterval(progressInterval);
           console.error("Quote generation failed:", error);
-          alert("Failed to generate quote. Please try again.");
+          const errorMessage = error.message || "Unknown error occurred";
+          alert(`Failed to generate quote: ${errorMessage}`);
           resetForm();
         }
       }

@@ -8,6 +8,11 @@ import os
 from datetime import datetime, timezone
 import uuid
 import json
+import asyncio
+
+import httpx
+import sentry_sdk
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from services.vision_service import VisionService
 from services.estimation_service import EstimationService
@@ -15,7 +20,69 @@ from services.llm_service import LLMService
 from services.multi_model_service import MultiModelService
 from database.db import DatabaseService
 from models.quote import QuoteResponse
-from services.auth_service import AuthService
+from pydantic import BaseModel, ValidationError
+
+
+class OptionPhase(BaseModel):
+    name: str
+    description: str
+    estimated_hours: float
+
+
+class OptionRisk(BaseModel):
+    id: str
+    description: str
+    impact: str
+
+
+def validate_advanced_options(options: dict) -> dict:
+    """Validate and normalize advanced `options` with phases and risks.
+
+    - phases: list of objects with keys name, description, estimated_hours
+    - risks: list of objects with keys id, description, impact (low/medium/high)
+    """
+    validated = {}
+
+    # Copy simple keys
+    for k in ("quality", "contingency_pct", "profit_pct", "region", "scope"):
+        if k in options:
+            validated[k] = options[k]
+
+    # Validate phases
+    phases = options.get("phases")
+    if phases and isinstance(phases, list):
+        out_phases = []
+        for p in phases:
+            try:
+                ph = OptionPhase(**p)
+                out_phases.append(ph.dict())
+            except ValidationError:
+                # skip invalid phase
+                continue
+        if out_phases:
+            validated["phases"] = out_phases
+
+    # Validate risks
+    risks = options.get("risks")
+    if risks and isinstance(risks, list):
+        out_risks = []
+        for r in risks:
+            try:
+                rk = OptionRisk(**r)
+                # normalize impact levels
+                impact = rk.impact.lower()
+                if impact not in ("low", "medium", "high"):
+                    impact = "medium"
+                obj = rk.dict()
+                obj["impact"] = impact
+                out_risks.append(obj)
+            except ValidationError:
+                continue
+        if out_risks:
+            validated["risks"] = out_risks
+
+    return validated
+from services.auth_service import AuthService, is_valid_email, normalize_email
 from services.payment_service import PaymentService
 from models.user import User
 
@@ -26,26 +93,96 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware for frontend (configurable via ALLOW_ORIGINS)
+# Initialize Sentry if DSN present (should be set in deployment environment)
+try:
+    _sentry_dsn = os.getenv('SENTRY_DSN') or os.getenv('SENTRY_DSN_URL')
+    if _sentry_dsn:
+        sentry_sdk.init(
+            dsn=_sentry_dsn,
+            traces_sample_rate=0.0,
+            environment=os.getenv('ENV', 'production')
+        )
+        # Attach Sentry to ASGI app for automatic error capture
+        app.add_middleware(SentryAsgiMiddleware)
+        print('Sentry initialized with DSN')
+    else:
+        print('Sentry DSN not set; skipping Sentry initialization')
+except Exception as e:
+    print('Sentry initialization failed:', e)
+
+# CORS middleware for frontend (configurable via ALLOW_ORIGINS / ALLOW_ORIGIN_REGEX)
 allow_origins_env = os.getenv("ALLOW_ORIGINS")
+allow_origin_regex_env = os.getenv("ALLOW_ORIGIN_REGEX")
+
+# Explicit origins list (safe defaults)
 if allow_origins_env:
     allow_origins = [o.strip() for o in allow_origins_env.split(",") if o.strip()]
 else:
     allow_origins = [
         "https://estimategenie.net",
         "https://www.estimategenie.net",
+        "https://estimategenie.pages.dev",  # Cloudflare Pages production
         "http://localhost:3000",
         "http://localhost:8000",
         "http://localhost:8080",
     ]
 
+# Allow all preview deploys on Cloudflare Pages for this project (e.g., https://<hash>.estimategenie.pages.dev)
+allow_origin_regex = allow_origin_regex_env or r"https://.*\.estimategenie\.pages\.dev"
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
+    allow_origin_regex=allow_origin_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Uniform error payloads: include both `detail` (FastAPI default) and a `message` string
+# so frontends can consistently display errors
+from fastapi.exceptions import RequestValidationError as _RequestValidationError
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    detail = exc.detail
+    # If detail is a list/dict, create a simple message
+    if isinstance(detail, list):
+        msgs = []
+        for d in detail:
+            if isinstance(d, dict):
+                msgs.append(d.get("msg") or d.get("detail") or d.get("message") or "Validation error")
+        message = "; ".join([m for m in msgs if m]) or "Request error"
+    elif isinstance(detail, dict):
+        message = detail.get("message") or detail.get("detail") or "Request error"
+    else:
+        message = str(detail)
+    return JSONResponse(status_code=exc.status_code, content={
+        "message": message,
+        "detail": detail,
+        "status_code": exc.status_code
+    })
+
+@app.exception_handler(_RequestValidationError)
+async def validation_exception_handler(request: Request, exc: _RequestValidationError):
+    # exc.errors() is a list with FastAPI validation details
+    details = exc.errors()
+    msgs = []
+    for d in details:
+        msg = d.get("msg")
+        loc = d.get("loc")
+        if loc and isinstance(loc, (list, tuple)) and len(loc) > 0:
+            field = loc[-1]
+            if isinstance(field, str):
+                msg = f"{field}: {msg}"
+        if msg:
+            msgs.append(msg)
+    message = "; ".join(msgs) if msgs else "Validation error"
+    return JSONResponse(status_code=422, content={
+        "message": message,
+        "detail": details,
+        "status_code": 422
+    })
 
 # Initialize services
 vision_service = VisionService()
@@ -61,6 +198,12 @@ auth_service.init_database()
 
 # Database path for direct sqlite operations
 DB_PATH = os.getenv("DATABASE_PATH", "estimategenie.db")
+PASSWORD_MIN_LENGTH = 8
+
+# Microservice URLs (can be local or remote)
+VISION_SERVICE_URL = os.getenv("VISION_SERVICE_URL", "http://localhost:9001")
+COST_SERVICE_URL = os.getenv("COST_SERVICE_URL", "http://localhost:9002")
+LLM_SERVICE_URL = os.getenv("LLM_SERVICE_URL", "http://localhost:9003")
 
 # Request/Response Models for Authentication
 class RegisterRequest(BaseModel):
@@ -79,6 +222,22 @@ class UpdateProfileRequest(BaseModel):
 class ChangePasswordRequest(BaseModel):
     current_password: str
     new_password: str
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+
+class NewsletterSubscribeRequest(BaseModel):
+    email: str
+
+class ContactFormRequest(BaseModel):
+    name: str
+    email: str
+    subject: str
+    message: str
 
 # Dependency for authentication
 async def get_current_user(authorization: str = Header(None)):
@@ -168,17 +327,40 @@ async def get_models_status():
 @app.post("/api/v1/auth/register")
 async def register(request: RegisterRequest):
     """Register a new user"""
-    user = auth_service.register_user(
-        email=request.email,
-        name=request.name,
-        password=request.password,
-        plan=request.plan
-    )
+    # Basic email normalization & validation (defense in depth; service also validates)
+    incoming_email = request.email.strip().lower()
+    if "@" not in incoming_email or len(incoming_email) < 5:
+        raise HTTPException(status_code=400, detail="Invalid email format")
+    request.email = incoming_email
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        raise HTTPException(status_code=400, detail="Invalid email format")
+    
+    if not request.password or len(request.password) < PASSWORD_MIN_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Password must be at least {PASSWORD_MIN_LENGTH} characters long"
+        )
+    
+    name = request.name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Name is required")
+    
+    # Always register as 'free' - users upgrade via payment flow
+    try:
+        user = auth_service.register_user(
+            email=email,
+            name=name,
+            password=request.password,
+            plan="free"  # Force free plan on registration
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     
     if not user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
-    # For pro plan, create Stripe customer and checkout session
+    # If user requested pro plan in signup, return checkout info but keep them on free until payment completes
     if request.plan == "pro":
         if not payment_service.is_configured():
             raise HTTPException(status_code=503, detail="Payments are not configured. Please try again later or contact support.")
@@ -221,7 +403,14 @@ async def register(request: RegisterRequest):
 @app.post("/api/v1/auth/login")
 async def login(request: LoginRequest):
     """Authenticate user and return JWT token"""
-    user = auth_service.authenticate_user(request.email, request.password)
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    if not request.password:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    user = auth_service.authenticate_user(email, request.password)
     
     if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
@@ -268,6 +457,12 @@ async def change_password(request: ChangePasswordRequest, user = Depends(get_cur
     if not user.verify_password(request.current_password):
         raise HTTPException(status_code=400, detail="Current password is incorrect")
     
+    if not request.new_password or len(request.new_password) < PASSWORD_MIN_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail=f"New password must be at least {PASSWORD_MIN_LENGTH} characters long"
+        )
+    
     new_hash = User.hash_password(request.new_password)
     
     import sqlite3
@@ -308,9 +503,184 @@ async def delete_account(user = Depends(get_current_user)):
     
     return {"message": "Account deleted successfully"}
 
+@app.post("/api/v1/auth/forgot-password")
+async def forgot_password(request: ForgotPasswordRequest):
+    """Request password reset"""
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        return {"message": "If an account with that email exists, a password reset link has been sent."}
+    
+    # Generate reset token
+    reset_token = auth_service.create_password_reset_token(email)
+    
+    if not reset_token:
+        # Return success even if email doesn't exist (security best practice)
+        return {"message": "If an account with that email exists, a password reset link has been sent."}
+    
+    # In production, send email here
+    # For now, return the token (in production, this would be sent via email)
+    reset_url = f"https://estimategenie.net/reset-password.html?token={reset_token}"
+    
+    return {
+        "message": "If an account with that email exists, a password reset link has been sent.",
+        "reset_url": reset_url,  # Remove this in production
+        "token": reset_token  # Remove this in production
+    }
+
+@app.post("/api/v1/auth/reset-password")
+async def reset_password(request: ResetPasswordRequest):
+    """Reset password with token"""
+    if not request.new_password or len(request.new_password) < PASSWORD_MIN_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail=f"New password must be at least {PASSWORD_MIN_LENGTH} characters long"
+        )
+    
+    success = auth_service.reset_password_with_token(request.token, request.new_password)
+    
+    if not success:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+    
+    return {"message": "Password reset successfully. You can now login with your new password."}
+
+# Get current user profile
+@app.get("/v1/user/profile")
+async def get_user_profile(current_user: User = Depends(get_current_user)):
+    """Get authenticated user's profile information"""
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "name": current_user.name,
+        "plan": current_user.plan,
+        "api_key": current_user.api_key,
+        "created_at": current_user.created_at.isoformat() if current_user.created_at else None,
+        "subscription_status": current_user.subscription_status,
+        "quotes_used": current_user.quotes_used,
+        "api_calls_used": current_user.api_calls_used,
+        "plan_limits": current_user.get_plan_limits()
+    }
+
+# ============================================================================
+# NEWSLETTER ENDPOINTS
+# ============================================================================
+
+@app.post("/api/v1/newsletter/subscribe")
+async def subscribe_newsletter(request: NewsletterSubscribeRequest):
+    """Subscribe to newsletter"""
+    email = normalize_email(request.email)
+    
+    if not is_valid_email(email):
+        raise HTTPException(status_code=400, detail="Invalid email address")
+    
+    # TODO: Integrate with actual email service (Mailchimp, SendGrid, etc.)
+    # For now, just log and return success
+    print(f"Newsletter subscription: {email}")
+    
+    # In production, you would:
+    # 1. Store in newsletter_subscribers table
+    # 2. Send confirmation email
+    # 3. Add to email marketing platform
+    
+    return {
+        "message": "Successfully subscribed! Check your email for confirmation.",
+        "email": email
+    }
+
+# ============================================================================
+# CONTACT FORM ENDPOINTS
+# ============================================================================
+
+@app.post("/api/v1/contact/submit")
+async def submit_contact_form(request: ContactFormRequest):
+    """Submit contact form"""
+    # Validate inputs
+    if not request.name or not request.email or not request.message:
+        raise HTTPException(status_code=400, detail="Name, email, and message are required")
+    
+    email = normalize_email(request.email)
+    if not is_valid_email(email):
+        raise HTTPException(status_code=400, detail="Invalid email address")
+    
+    # TODO: Send email notification to support team
+    # For now, just log the submission
+    print(f"Contact form submission from {request.name} ({email})")
+    print(f"Subject: {request.subject}")
+    print(f"Message: {request.message}")
+    
+    # In production, you would:
+    # 1. Store in contact_submissions table
+    # 2. Send email to support team
+    # 3. Send auto-reply to user
+    # 4. Create support ticket in system
+    
+    return {
+        "message": "Thank you for contacting us! We'll get back to you shortly.",
+        "submitted": True
+    }
+
 # ============================================================================
 # PAYMENT ENDPOINTS
 # ============================================================================
+
+@app.post("/api/v1/payment/create-checkout-session")
+async def create_checkout_session(
+    request: Request,
+    user = Depends(get_current_user)
+):
+    """Create Stripe checkout session for subscription"""
+    # Only require API key for checkout (webhook secret is optional here)
+    if not payment_service.is_configured(require_webhook=False):
+        raise HTTPException(status_code=503, detail="Payments are not configured")
+    
+    body = await request.json()
+    plan = body.get("plan", "professional")
+    billing_period = body.get("billing_period", "monthly")
+    success_url = body.get("success_url", "https://estimategenie.net/dashboard-new.html?subscription=success")
+    cancel_url = body.get("cancel_url", "https://estimategenie.net/pricing.html?subscription=cancelled")
+    
+    # Map plan names to Stripe plan IDs
+    plan_map = {
+        "professional": "pro" if billing_period == "monthly" else "pro_annual",
+        "business": "pro" if billing_period == "monthly" else "pro_annual",  # Using same for now
+    }
+    
+    stripe_plan = plan_map.get(plan, "pro")
+    
+    # Create or get Stripe customer
+    # get_current_user returns a User model instance
+    customer_id = getattr(user, "stripe_customer_id", None)
+    if not customer_id:
+        # Create new customer
+        # Safe casting to str to satisfy type expectations
+        email_val = str(getattr(user, "email", ""))
+        name_val = str(getattr(user, "name", email_val))
+        customer_id = payment_service.create_customer(
+            email=email_val,
+            name=name_val
+        )
+        if customer_id:
+            # Update user with customer ID
+            auth_service.update_user_stripe_customer(getattr(user, "id"), customer_id)
+    
+    if not customer_id:
+        raise HTTPException(status_code=500, detail="Failed to create customer")
+    
+    # Create checkout session
+    session = payment_service.create_checkout_session(
+        customer_id=customer_id,
+        plan=stripe_plan,
+        success_url=success_url,
+        cancel_url=cancel_url,
+    user_id=getattr(user, "id")
+    )
+    
+    if not session:
+        raise HTTPException(status_code=500, detail="Failed to create checkout session")
+    
+    return {
+        "sessionId": session["session_id"],
+        "url": session["url"]
+    }
 
 @app.post("/api/v1/payment/create-portal-session")
 async def create_portal_session(user = Depends(get_current_user)):
@@ -333,10 +703,14 @@ async def create_portal_session(user = Depends(get_current_user)):
 @app.post("/api/v1/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhook events"""
-    if not payment_service.is_configured():
+    if not payment_service.is_configured(require_webhook=True):
         raise HTTPException(status_code=503, detail="Payments are not configured")
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature")
+    
+    # Validate signature header is present
+    if not sig_header:
+        raise HTTPException(status_code=400, detail="Missing stripe-signature header")
     
     event = payment_service.verify_webhook_signature(payload, sig_header)
     
@@ -367,6 +741,25 @@ async def stripe_webhook_info():
 async def payment_status():
     return {"configured": payment_service.is_configured()}
 
+# Get payment configuration (publishable key safe for frontend)
+@app.get("/api/v1/payment/config")
+async def payment_config():
+    """Return client-safe Stripe configuration"""
+    import os
+    publishable_key = os.getenv("STRIPE_PUBLISHABLE_KEY", "")
+    
+    if not publishable_key or publishable_key.startswith("sk_"):
+        # Don't expose secret keys even if misconfigured
+        return {
+            "configured": False,
+            "error": "Stripe publishable key not configured"
+        }
+    
+    return {
+        "configured": payment_service.is_configured(),
+        "publishableKey": publishable_key
+    }
+
 # ============================================================================
 # QUOTE ENDPOINTS (with authentication)
 # ============================================================================
@@ -374,12 +767,12 @@ async def payment_status():
 # Main estimation endpoint
 @app.post("/v1/quotes", response_model=QuoteResponse)
 async def create_quote(
-    file: UploadFile = File(...),
+    authorization: str = Header(None),
+    file: Optional[UploadFile] = File(None),
     project_type: str = "general",
     description: str = "",
     options: str = "{}",
-    model: str = "auto",
-    authorization: str = Header(None)
+    model: str = "auto"
 ):
     """
     Upload an image and generate an AI-powered estimate.
@@ -393,20 +786,24 @@ async def create_quote(
     """
     
     # Authenticate user
-    user = None
-    if authorization:
-        if authorization.startswith("Bearer "):
+    authorization_value = authorization.strip() if authorization else ""
+    user: Optional[User] = None
+    if authorization_value:
+        if authorization_value.startswith("Bearer "):
             # JWT token
-            token = authorization.replace("Bearer ", "")
+            token = authorization_value.replace("Bearer ", "", 1).strip()
             payload = auth_service.verify_token(token)
             if payload:
                 user = auth_service.get_user_by_id(payload["sub"])
         else:
             # API key
-            user = auth_service.get_user_by_api_key(authorization)
+            user = auth_service.get_user_by_api_key(authorization_value)
     
     if not user:
         raise HTTPException(status_code=401, detail="Authentication required. Please login or provide an API key.")
+    
+    if not file:
+        raise HTTPException(status_code=400, detail="File is required for quote generation")
     
     # Check if user can generate quote
     if not user.can_generate_quote():
@@ -461,6 +858,16 @@ async def create_quote(
             advanced_options = json.loads(options) if options else {}
         except Exception:
             advanced_options = {}
+        try:
+            advanced_options = validate_advanced_options(advanced_options)
+        except Exception:
+            advanced_options = {}
+
+        # Validate advanced options (phases, risks, scope)
+        try:
+            advanced_options = validate_advanced_options(advanced_options)
+        except Exception:
+            advanced_options = {}
         
         # Step 3: Generate estimate with advanced options
         estimate = await estimation_service.calculate_estimate(
@@ -473,11 +880,15 @@ async def create_quote(
         # Step 4: Save to database
         quote_data = {
             "id": quote_id,
+            "user_id": user.id,
             "project_type": project_type,
             "image_path": image_path,
             "vision_results": vision_results,
             "reasoning": reasoning,
             "estimate": estimate,
+            "scope": advanced_options.get("scope"),
+            "phases": advanced_options.get("phases"),
+            "risks": advanced_options.get("risks"),
             "status": "completed",
             "created_at": datetime.now(timezone.utc)
         }
@@ -514,17 +925,46 @@ async def get_quote(quote_id: str):
     quote = await db_service.get_quote(quote_id)
     if not quote:
         raise HTTPException(status_code=404, detail="Quote not found")
-    return quote
+    # Adapt stored schema { estimate: {...} } to QuoteResponse shape
+    est = quote.get("estimate") or {}
+    try:
+        created_at = quote.get("created_at")
+        from datetime import datetime
+        created_dt = datetime.fromisoformat(created_at) if isinstance(created_at, str) else datetime.now(timezone.utc)
+    except Exception:
+        created_dt = datetime.now(timezone.utc)
+    try:
+        return QuoteResponse(
+            id=quote.get("id"),
+            status=quote.get("status", "processing"),
+            total_cost=est.get("total_cost") or {},
+            timeline=est.get("timeline") or {"estimated_hours": 0, "estimated_days": 1, "min_days": 1, "max_days": 1},
+            materials=est.get("materials") or [],
+            labor=est.get("labor") or [],
+            steps=est.get("steps") or [],
+            confidence_score=est.get("confidence_score", 0.0),
+            vision_analysis=quote.get("vision_results"),
+            options_applied=est.get("options_applied"),
+            scope=quote.get("scope"),
+            phases=quote.get("phases"),
+            risks=quote.get("risks"),
+            created_at=created_dt,
+        )
+    except Exception:
+        # As a fallback, return raw quote dict (will likely 422). Better than 500.
+        return quote
 
-# List all quotes
+# List all quotes (authenticated)
 @app.get("/v1/quotes")
 async def list_quotes(
     limit: int = 10,
     offset: int = 0,
-    project_type: Optional[str] = None
+    project_type: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
 ):
-    """List recent quotes with optional filtering"""
-    quotes = await db_service.list_quotes(limit, offset, project_type)
+    """List recent quotes for the authenticated user with optional filtering"""
+    user_id = current_user.id
+    quotes = await db_service.list_quotes(limit, offset, project_type, user_id=user_id)
     return quotes
 
 # Update quote
@@ -581,6 +1021,348 @@ async def pricing_status():
         "reload_interval_sec": estimation_service._price_list_reload_interval,
         "last_check_timestamp": estimation_service._price_list_last_check,
         "watsonx_enabled": estimation_service.pricing is not None,
+    }
+
+# ============================================================================
+# ASYNC QUOTE PIPELINE (Microservices Orchestration)
+# ============================================================================
+
+async def _run_quote_pipeline(
+    quote_id: str,
+    user_id: str,
+    image_path: str,
+    project_type: str,
+    description: str,
+    options: Dict[str, Any],
+):
+    """Coordinated async pipeline across microservices (vision -> cost -> llm)."""
+    try:
+        # Helper: internal synchronous fallback using built-in services
+        async def _internal_fallback():
+            try:
+                vr = await vision_service.analyze_image(image_path, project_type)
+            except Exception as e:
+                vr = {"error": f"internal vision failed: {e}"}
+            try:
+                reasoning = await llm_service.reason_about_project(vr, project_type, description)
+            except Exception as e:
+                reasoning = {"analysis": "{}", "recommendations": [f"llm fallback: {e}"], "materials_needed": []}
+            estimate = await estimation_service.calculate_estimate(vr, reasoning, project_type, advanced_options=options)
+            await db_service.update_quote(quote_id, {"vision_results": vr, "estimate": estimate, "reasoning": reasoning, "status": "completed"})
+            return True
+
+        # 1) Vision service
+        vision_results: Dict[str, Any] = {}
+        try:
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                file_name = os.path.basename(image_path)
+                mime = "image/jpeg" if file_name.lower().endswith((".jpg", ".jpeg")) else "image/png"
+                with open(image_path, "rb") as f:
+                    files = {"file": (file_name, f.read(), mime)}
+                resp = await client.post(f"{VISION_SERVICE_URL}/infer", files=files)
+                resp.raise_for_status()
+                vision_results = resp.json()
+            await db_service.update_quote(quote_id, {"vision_results": vision_results, "status": "vision_complete"})
+        except Exception as e:
+            # Fallback to internal pipeline
+            await db_service.update_quote(quote_id, {"status": "vision_error", "reasoning": {"warn": f"vision microservice failed: {e}"}})
+            ok = await _internal_fallback()
+            if ok:
+                return
+            else:
+                return
+
+        # 2) Derive coarse materials from vision + project_type
+        summary = vision_results.get("summary", {})
+        total_area = 0.0
+        try:
+            for v in summary.values():
+                total_area += float(v.get("total_area_sqft_est", 0.0))
+        except Exception:
+            total_area = 100.0
+        total_area = max(total_area, 50.0)  # enforce minimum
+        materials: List[Dict[str, Any]] = []
+        if project_type.lower() == "bathroom":
+            materials = [
+                {"name": "Tile", "quantity": round(total_area, 2), "unit": "sqft"},
+                {"name": "Grout", "quantity": round(total_area / 50.0, 2), "unit": "bags"},
+                {"name": "Cement Backer Board", "quantity": round(total_area / 15.0, 2), "unit": "sheet"},
+            ]
+        elif project_type.lower() == "kitchen":
+            materials = [
+                {"name": "Backsplash tile", "quantity": round(min(total_area, 40.0), 2), "unit": "sqft"},
+                {"name": "Cabinets", "quantity": 12, "unit": "linear_foot"},
+                {"name": "Countertop", "quantity": 25, "unit": "sqft"},
+            ]
+        else:
+            materials = [
+                {"name": "Drywall", "quantity": round(total_area, 2), "unit": "sqft"},
+                {"name": "Paint", "quantity": round(total_area / 350.0, 2), "unit": "gallon"},
+            ]
+
+        # 3) Cost service
+        cost_baseline: Dict[str, Any] = {}
+        try:
+            cost_payload = {
+                "zip": options.get("zip"),
+                "region": options.get("region"),
+                "project_type": project_type,
+                "materials": materials,
+            }
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                resp = await client.post(f"{COST_SERVICE_URL}/estimate", json=cost_payload)
+                resp.raise_for_status()
+                cost_baseline = resp.json()
+            await db_service.update_quote(quote_id, {"reasoning": {"cost_baseline": cost_baseline}, "status": "cost_complete"})
+        except Exception as e:
+            # Fallback to internal pipeline
+            await db_service.update_quote(quote_id, {"status": "cost_error", "reasoning": {"warn": f"cost microservice failed: {e}"}})
+            ok = await _internal_fallback()
+            if ok:
+                return
+            else:
+                return
+
+        # 4) LLM service
+        llm_output: Dict[str, Any] = {}
+        try:
+            compose_payload = {
+                "user_inputs": {
+                    "project_type": project_type,
+                    "description": description,
+                    "preferences": {k: v for k, v in options.items() if k in ("quality", "contingency_pct", "profit_pct")},
+                },
+                "vision": vision_results,
+                "costs": cost_baseline,
+                "template": {
+                    "phases": ["inspection", "demolition", "rebuild", "finishing"],
+                    "output": ["materials", "labor", "timeline", "steps", "risks", "total_cost", "notes"],
+                },
+                "model": options.get("llm_model", "gpt-4-turbo"),
+            }
+            async with httpx.AsyncClient(timeout=120.0) as client:
+                resp = await client.post(f"{LLM_SERVICE_URL}/compose", json=compose_payload)
+                resp.raise_for_status()
+                data = resp.json()
+                import json as _json
+                llm_output = _json.loads(data.get("output") or "{}")
+        except Exception as e:
+            # proceed with cost baseline only; if nothing usable, fallback internal
+            llm_output = {"error": str(e)}
+
+        # 5) Build final estimate compatible with QuoteResponse
+        try:
+            materials_items = cost_baseline.get("materials", [])
+            labor_items = cost_baseline.get("labor", [])
+            totals = cost_baseline.get("totals", {})
+
+            # Timeline
+            timeline = llm_output.get("timeline") or {}
+            if not timeline:
+                # derive from labor hours
+                hours = 0.0
+                try:
+                    hours = float(labor_items[0].get("hours", 8.0)) if labor_items else 8.0
+                except Exception:
+                    hours = 8.0
+                timeline = {
+                    "estimated_hours": hours,
+                    "estimated_days": max(1, round(hours / 8.0)),
+                    "min_days": max(1, round(hours / 8.0) - 1),
+                    "max_days": max(1, round(hours / 8.0) + 2),
+                }
+
+            steps = llm_output.get("steps") or [
+                {"order": 1, "description": "Site preparation and protection", "duration": "2 hours"},
+                {"order": 2, "description": "Demolition (if required)", "duration": "4 hours"},
+                {"order": 3, "description": "Installation of materials", "duration": "8 hours"},
+                {"order": 4, "description": "Finishing and cleanup", "duration": "4 hours"},
+            ]
+
+            estimate = {
+                "total_cost": {
+                    "currency": "USD",
+                    "amount": totals.get("total", 0.0),
+                    "breakdown": {
+                        "materials": totals.get("materials", 0.0),
+                        "labor": totals.get("labor", 0.0),
+                        "profit": 0.0,
+                        "contingency": 0.0,
+                    },
+                },
+                "materials": materials_items,
+                "labor": labor_items,
+                "timeline": timeline,
+                "steps": steps,
+                "confidence_score": 0.8,
+                "options_applied": options,
+            }
+
+            await db_service.update_quote(quote_id, {"estimate": estimate, "reasoning": {"cost_baseline": cost_baseline, "llm": llm_output}, "status": "completed"})
+        except Exception as e:
+            # Final fallback to internal if composing failed unexpectedly
+            await db_service.update_quote(quote_id, {"status": "error", "reasoning": {"warn": f"compose failed: {e}"}})
+            await _internal_fallback()
+    except Exception as e:
+        # Catch any unexpected pipeline errors to avoid crashing worker
+        try:
+            await db_service.update_quote(quote_id, {"status": "error", "reasoning": {"error": f"pipeline failed: {e}"}})
+        except Exception:
+            pass
+
+
+@app.post("/v1/quotes/async")
+async def create_quote_async(
+    background_tasks: BackgroundTasks,
+    authorization: str = Header(None),
+    file: Optional[UploadFile] = File(None),
+    project_type: str = "general",
+    description: str = "",
+    options: str = "{}",
+    model: str = "auto",
+):
+    """Start asynchronous quote generation using microservices pipeline.
+
+    Immediately returns a quote_id with status=processing. Client can poll /v1/quotes/{quote_id}.
+    """
+
+    # Authenticate user (same as sync endpoint)
+    authorization_value = authorization.strip() if authorization else ""
+    user: Optional[User] = None
+    if authorization_value:
+        if authorization_value.startswith("Bearer "):
+            token = authorization_value.replace("Bearer ", "", 1).strip()
+            payload = auth_service.verify_token(token)
+            if payload:
+                user = auth_service.get_user_by_id(payload["sub"])
+        else:
+            user = auth_service.get_user_by_api_key(authorization_value)
+    if not user:
+        raise HTTPException(status_code=401, detail="Authentication required. Please login or provide an API key.")
+    if not file:
+        raise HTTPException(status_code=400, detail="File is required for quote generation")
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image")
+
+    # Limits
+    if not user.can_generate_quote():
+        limits = user.get_plan_limits()
+        raise HTTPException(
+            status_code=403,
+            detail=f"Quote limit reached. Your {user.plan} plan allows {limits['quotes_per_month']} quotes per month. Upgrade your plan to continue.",
+        )
+
+    quote_id = f"quote_{uuid.uuid4().hex[:12]}"
+    try:
+        image_path = await vision_service.save_image(file, quote_id)
+        try:
+            advanced_options = json.loads(options) if options else {}
+        except Exception:
+            advanced_options = {}
+        # Save initial record
+        await db_service.save_quote({
+            "id": quote_id,
+            "user_id": user.id,
+            "project_type": project_type,
+            "scope": advanced_options.get("scope"),
+            "phases": advanced_options.get("phases"),
+            "risks": advanced_options.get("risks"),
+            "image_path": image_path,
+            "vision_results": {},
+            "reasoning": {"notes": "async pipeline started"},
+            "estimate": {},
+            "status": "processing",
+            "created_at": datetime.now(timezone.utc),
+        })
+
+        # Increment user usage
+        user.increment_quote_usage()
+        auth_service.update_user_usage(user.id, quotes_used=user.quotes_used)
+
+        # Launch background pipeline
+        background_tasks.add_task(_run_quote_pipeline, quote_id, user.id, image_path, project_type, description, advanced_options)
+
+        return {"quote_id": quote_id, "status": "processing"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to start pipeline: {e}")
+
+# Demo quote endpoint (no authentication required)
+@app.post("/v1/quotes/demo")
+async def generate_demo_quote(project_type: Optional[str] = "general"):
+    """
+    Generate a demo quote without authentication.
+    Used for trial flow to show AI capability without signup.
+    
+    - **project_type**: Type of demo (kitchen, bathroom, deck, custom)
+    
+    Returns mock estimate data for demonstration purposes.
+    """
+    demo_data = {
+        "kitchen": {
+            "estimate_low": 2450,
+            "estimate_high": 3100,
+            "estimate_mid": 2775,
+            "timeline_days": 1.5,
+            "timeline_hours": 16,
+            "confidence_score": 0.87,
+            "materials": [
+                {"name": "Granite countertops", "quantity": 25, "unit": "sq ft", "unit_price": 45},
+                {"name": "Cabinet replacement", "quantity": 1, "unit": "job", "unit_price": 1200},
+                {"name": "Backsplash tile", "quantity": 40, "unit": "sq ft", "unit_price": 15},
+                {"name": "Labor", "quantity": 16, "unit": "hours", "unit_price": 65}
+            ]
+        },
+        "bathroom": {
+            "estimate_low": 1800,
+            "estimate_high": 2600,
+            "estimate_mid": 2200,
+            "timeline_days": 1,
+            "timeline_hours": 12,
+            "confidence_score": 0.84,
+            "materials": [
+                {"name": "Tile", "quantity": 100, "unit": "sq ft", "unit_price": 8},
+                {"name": "Fixtures", "quantity": 3, "unit": "set", "unit_price": 300},
+                {"name": "Mirror", "quantity": 1, "unit": "piece", "unit_price": 200},
+                {"name": "Labor", "quantity": 12, "unit": "hours", "unit_price": 70}
+            ]
+        },
+        "deck": {
+            "estimate_low": 3200,
+            "estimate_high": 4500,
+            "estimate_mid": 3850,
+            "timeline_days": 2,
+            "timeline_hours": 20,
+            "confidence_score": 0.91,
+            "materials": [
+                {"name": "Pressure-treated lumber", "quantity": 400, "unit": "board ft", "unit_price": 2.50},
+                {"name": "Deck screws", "quantity": 5, "unit": "lbs", "unit_price": 12},
+                {"name": "Railings", "quantity": 40, "unit": "linear ft", "unit_price": 30},
+                {"name": "Labor", "quantity": 20, "unit": "hours", "unit_price": 60}
+            ]
+        }
+    }
+    
+    # Get data for requested project type, default to kitchen
+    data = demo_data.get(project_type, demo_data["kitchen"])
+    
+    return {
+        "quote_id": f"demo-{uuid.uuid4()}",
+        "project_type": project_type,
+        "estimate": {
+            "low": data["estimate_low"],
+            "high": data["estimate_high"],
+            "mid": data["estimate_mid"],
+            "currency": "USD"
+        },
+        "timeline": {
+            "days": data["timeline_days"],
+            "hours": data["timeline_hours"],
+            "readable": f"{int(data['timeline_hours'])}-{int(data['timeline_hours'] + 8)} hours"
+        },
+        "confidence": data["confidence_score"],
+        "materials": data["materials"],
+        "disclaimer": "This is a demo estimate for demonstration purposes only. Actual costs may vary based on location, materials, and site conditions. For accurate quotes, consult with local contractors.",
+        "created_at": datetime.now(timezone.utc).isoformat()
     }
 
 if __name__ == "__main__":
