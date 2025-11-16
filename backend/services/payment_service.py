@@ -9,9 +9,9 @@ from typing import Optional, Dict
 _ENV_STRIPE_KEY = os.getenv("STRIPE_SECRET_KEY")
 _ENV_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
-# Set Stripe key only if provided to avoid accidental live calls with placeholders
-stripe.api_key = _ENV_STRIPE_KEY or ""
-STRIPE_WEBHOOK_SECRET = _ENV_WEBHOOK_SECRET or ""
+# Set Stripe key only if provided via environment variable
+stripe.api_key = _ENV_STRIPE_KEY
+STRIPE_WEBHOOK_SECRET = _ENV_WEBHOOK_SECRET
 
 class PaymentService:
     PLANS = {
@@ -28,16 +28,18 @@ class PaymentService:
     }
 
     @staticmethod
-    def is_configured() -> bool:
-        """Return True if Stripe is configured with non-placeholder secrets."""
+    def is_configured(require_webhook: bool = False) -> bool:
+        """Return True if Stripe is configured.
+        For basic checkout we only need a secret key; webhook secret optional.
+        Pass require_webhook=True when verifying webhook operations.
+        """
         key = _ENV_STRIPE_KEY or ""
         wh = _ENV_WEBHOOK_SECRET or ""
-        # Consider configured only when both are present and not obvious placeholders
-        bad_key_prefixes = ("sk_test_your", "sk_live_your", "")
-        bad_wh_prefixes = ("whsec_", "")  # allow any non-empty value but common placeholder starts with whsec_
         key_ok = bool(key) and not key.startswith("sk_test_your") and not key.startswith("sk_live_your")
-        wh_ok = bool(wh) and not (wh.startswith("whsec_") and len(wh) <= 20)
-        return key_ok and wh_ok
+        if require_webhook:
+            wh_ok = bool(wh) and len(wh) > 20
+            return key_ok and wh_ok
+        return key_ok
 
     @staticmethod
     def create_customer(email: str, name: str) -> Optional[str]:
