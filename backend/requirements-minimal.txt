@@ -7,6 +7,9 @@ httpx==0.25.1
 pillow==10.1.0
 python-dotenv==1.0.0
 google-generativeai==0.7.2
+sentry-sdk==1.40.6
 # Authentication and payments
 pyjwt==2.8.0
+python-jose[cryptography]==3.3.0
+auth0-python==4.7.1
 stripe==7.8.0

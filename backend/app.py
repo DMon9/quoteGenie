@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks, Depends, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import uvicorn
@@ -83,6 +84,7 @@ def validate_advanced_options(options: dict) -> dict:
 
     return validated
 from services.auth_service import AuthService, is_valid_email, normalize_email
+from services.auth0_service import Auth0Service
 from services.payment_service import PaymentService
 from models.user import User
 
@@ -191,10 +193,22 @@ llm_service = LLMService()
 multi_model_service = MultiModelService()
 db_service = DatabaseService()
 auth_service = AuthService()
+auth0_service = Auth0Service()
 payment_service = PaymentService()
+
+# Mount static files for Auth0 login pages
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Initialize authentication database on startup
 auth_service.init_database()
+
+# Check if Auth0 is configured
+if auth0_service.is_configured():
+    print("✅ Auth0 configured and ready")
+else:
+    print("⚠️  Auth0 not configured - using local authentication")
 
 # Database path for direct sqlite operations
 DB_PATH = os.getenv("DATABASE_PATH", "estimategenie.db")
@@ -264,7 +278,8 @@ async def root():
         "service": "EstimateGenie API",
         "status": "running",
         "version": "1.0.0",
-        "docs": "/docs"
+        "docs": "/docs",
+        "auth0_enabled": auth0_service.is_configured()
     }
 
 @app.get("/health")
@@ -275,9 +290,22 @@ async def health_check():
         "services": {
             "vision": vision_service.is_ready(),
             "llm": llm_service.is_ready(),
-            "database": db_service.is_connected()
+            "database": db_service.is_connected(),
+            "auth0": auth0_service.is_configured()
         }
     }
+
+# Auth0 Login Pages
+@app.get("/login")
+async def login_page():
+    """Serve Auth0 login page"""
+    return FileResponse(os.path.join(static_dir, "auth0-login.html"))
+
+@app.get("/callback")
+async def callback_page():
+    """Serve Auth0 callback page"""
+    return FileResponse(os.path.join(static_dir, "auth0-callback.html"))
+
 
 # Lightweight ping endpoint for uptime checks and simple connectivity tests
 @app.get("/api/v1/ping")
@@ -473,6 +501,99 @@ async def change_password(request: ChangePasswordRequest, user = Depends(get_cur
     conn.close()
     
     return {"message": "Password changed successfully"}
+
+# Auth0 Endpoints
+@app.get("/api/v1/auth/auth0/login-url")
+async def get_auth0_login_url(redirect_uri: str = "http://localhost:3000/callback"):
+    """Get Auth0 login URL"""
+    if not auth0_service.is_configured():
+        raise HTTPException(status_code=503, detail="Auth0 is not configured")
+    
+    import secrets
+    state = secrets.token_urlsafe(32)
+    auth_url = auth0_service.get_authorization_url(redirect_uri, state)
+    
+    return {
+        "auth_url": auth_url,
+        "state": state
+    }
+
+@app.post("/api/v1/auth/auth0/callback")
+async def auth0_callback(code: str, redirect_uri: str):
+    """Handle Auth0 callback and exchange code for token"""
+    if not auth0_service.is_configured():
+        raise HTTPException(status_code=503, detail="Auth0 is not configured")
+    
+    # Exchange code for token
+    token_data = await auth0_service.exchange_code_for_token(code, redirect_uri)
+    if not token_data:
+        raise HTTPException(status_code=400, detail="Failed to exchange code for token")
+    
+    # Verify the access token
+    payload = await auth0_service.verify_token(token_data.get("access_token", ""))
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    # Get user info from Auth0
+    auth0_user_id = payload.get("sub")
+    user_info = auth0_service.get_user_info(auth0_user_id)
+    
+    if not user_info:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check if user exists in local database, if not create them
+    email = user_info.get("email")
+    name = user_info.get("name", email)
+    
+    # Try to find existing user
+    import sqlite3
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+    row = cursor.fetchone()
+    
+    if row:
+        user = User(
+            id=row["id"],
+            email=row["email"],
+            name=row["name"],
+            password_hash=row["password_hash"],
+            plan=row["plan"],
+            api_key=row["api_key"]
+        )
+    else:
+        # Create new user
+        import uuid
+        user_id = str(uuid.uuid4())
+        api_key = User(id="", email="", name="", password_hash="")._generate_api_key()
+        
+        cursor.execute("""
+            INSERT INTO users (id, email, name, password_hash, plan, api_key, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+        """, (user_id, email, name, "auth0", "free", api_key))
+        conn.commit()
+        
+        user = User(
+            id=user_id,
+            email=email,
+            name=name,
+            password_hash="auth0",
+            plan="free",
+            api_key=api_key
+        )
+    
+    conn.close()
+    
+    # Create our own JWT token for the user
+    access_token = auth_service.create_access_token(user.id, user.email)
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user.to_dict(include_sensitive=True),
+        "auth0_token": token_data.get("access_token")
+    }
 
 @app.post("/api/v1/auth/regenerate-key")
 async def regenerate_api_key(user = Depends(get_current_user)):

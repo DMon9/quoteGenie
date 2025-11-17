@@ -6,11 +6,21 @@ from typing import Optional
 import jwt
 import os
 import sqlite3
+import re
 from models.user import User
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+
+def normalize_email(email: str) -> str:
+    """Normalize email address by converting to lowercase and stripping whitespace"""
+    return email.strip().lower()
+
+def is_valid_email(email: str) -> bool:
+    """Validate email format using regex"""
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return bool(re.match(pattern, email))
 
 class AuthService:
     def __init__(self, db_path="estimategenie.db"):

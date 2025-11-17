@@ -681,6 +681,11 @@
     </footer>
 
     <script>
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM fully loaded - initializing app");
+      });
+
       // Mobile menu functionality
       const mobileMenuBtn = document.getElementById("mobile-menu-btn");
       const closeMenuBtn = document.getElementById("close-menu-btn");
@@ -699,18 +704,31 @@
         document.body.style.overflow = "";
       }
 
-      mobileMenuBtn.addEventListener("click", openMobileMenu);
-      closeMenuBtn.addEventListener("click", closeMobileMenu);
-      mobileBackdrop.addEventListener("click", closeMobileMenu);
+      // Initialize menu listeners after a slight delay to ensure DOM is ready
+      setTimeout(() => {
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openMobileMenu);
+        if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMobileMenu);
+        if (mobileBackdrop) mobileBackdrop.addEventListener("click", closeMobileMenu);
+      }, 0);
 
-      // File upload functionality
-      const uploadArea = document.getElementById("upload-area");
-      const fileInput = document.getElementById("file-input");
-      const uploadIdle = document.getElementById("upload-idle");
-      const imagePreview = document.getElementById("image-preview");
-      const previewImage = document.getElementById("preview-image");
-      const uploadProcessing = document.getElementById("upload-processing");
-      const resultsSection = document.getElementById("results-section");
+      // File upload functionality - wait for DOM to be ready
+      let uploadArea, fileInput, uploadIdle, imagePreview, previewImage, uploadProcessing, resultsSection;
+      
+      // Initialize DOM elements when page is fully loaded
+      window.addEventListener('load', function() {
+        uploadArea = document.getElementById("upload-area");
+        fileInput = document.getElementById("file-input");
+        uploadIdle = document.getElementById("upload-idle");
+        imagePreview = document.getElementById("image-preview");
+        previewImage = document.getElementById("preview-image");
+        uploadProcessing = document.getElementById("upload-processing");
+        resultsSection = document.getElementById("results-section");
+        
+        console.log('Upload elements loaded:', {uploadArea: !!uploadArea, fileInput: !!fileInput});
+        
+        // Initialize file upload handlers now that elements exist
+        initializeFileUpload();
+      });
 
       // Steps
       const uploadStep = document.getElementById("upload-step");
@@ -809,45 +827,54 @@
         });
       });
 
-      // File upload handling
-      // Make both the upload area and its inner button trigger the file picker
-      if (uploadArea && fileInput) {
-        uploadArea.addEventListener(
-          "click",
-          () => fileInput && fileInput.click()
-        );
-        const uploadButton = document.querySelector("#upload-area button");
-        if (uploadButton) {
-          uploadButton.addEventListener("click", (e) => {
+      // File upload handling wrapped in initialization function
+      function initializeFileUpload() {
+        console.log('Initializing file upload handlers');
+        // Make both the upload area and its inner button trigger the file picker
+        if (uploadArea && fileInput) {
+          uploadArea.addEventListener(
+            "click",
+            () => {
+              console.log('Upload area clicked, triggering file input');
+              fileInput.click();
+            }
+          );
+          const uploadButton = document.querySelector("#upload-area button");
+          if (uploadButton) {
+            uploadButton.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Upload button clicked');
+              if (fileInput) fileInput.click();
+            });
+          }
+
+          uploadArea.addEventListener("dragover", (e) => {
             e.preventDefault();
-            e.stopPropagation();
-            if (fileInput) fileInput.click();
+            uploadArea.classList.add("dragover");
           });
+
+          uploadArea.addEventListener("dragleave", () => {
+            uploadArea.classList.remove("dragover");
+          });
+
+          uploadArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove("dragover");
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+              handleFileUpload(files[0]);
+            }
+          });
+
+          fileInput.addEventListener("change", (e) => {
+            if (e.target.files.length > 0) {
+              handleFileUpload(e.target.files[0]);
+            }
+          });
+        } else {
+          console.error('Upload elements not found:', {uploadArea: !!uploadArea, fileInput: !!fileInput});
         }
-
-        uploadArea.addEventListener("dragover", (e) => {
-          e.preventDefault();
-          uploadArea.classList.add("dragover");
-        });
-
-        uploadArea.addEventListener("dragleave", () => {
-          uploadArea.classList.remove("dragover");
-        });
-
-        uploadArea.addEventListener("drop", (e) => {
-          e.preventDefault();
-          uploadArea.classList.remove("dragover");
-          const files = e.dataTransfer.files;
-          if (files.length > 0) {
-            handleFileUpload(files[0]);
-          }
-        });
-
-        fileInput.addEventListener("change", (e) => {
-          if (e.target.files.length > 0) {
-            handleFileUpload(e.target.files[0]);
-          }
-        });
       }
 
       // Handle file upload (just preview, don't process)
@@ -1786,7 +1813,12 @@
           "eg_auth",
           "eg_api_key",
         ];
+        // Check if user is logged in by looking for any auth tokens
         const loggedIn = keys.some((k) => !!localStorage.getItem(k));
+        console.log(
+          "Auth check - tokens found:",
+          keys.filter((k) => localStorage.getItem(k))
+        );
         if (loggedIn) {
           badge.textContent = "Signed In";
           badge.className =

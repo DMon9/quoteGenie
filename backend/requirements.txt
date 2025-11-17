@@ -17,5 +17,7 @@ anthropic==0.40.0
 openai==1.57.4
 trino==0.329.0
 pyjwt==2.8.0
+python-jose[cryptography]==3.3.0
+auth0-python==4.7.1
 stripe==13.2.0
 bcrypt==4.1.2
