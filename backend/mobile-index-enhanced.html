@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EstimateGenie - AI-Powered Construction Quotes</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.svg" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <!-- PDF generator for downloadable quotes -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-YcsIPi6QpQFZqYyTg2Xt8d6+qTW4AGQkB3r5j8q0q1HZpR3m3z0Y8kM4V8w+2oV5bXn0cKQzM8xv7kHOsG1aQw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+      /* Mobile-first optimizations */
+      .mobile-nav {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      .mobile-nav.open {
+        transform: translateX(0);
+      }
+
+      .upload-area {
+        border: 2px dashed #e5e7eb;
+        transition: all 0.3s ease;
+        min-height: 200px;
+      }
+      .upload-area.dragover {
+        border-color: #7c3aed;
+        background-color: #f3f4f6;
+      }
+
+      .quote-card {
+        animation: slideInUp 0.5s ease-out;
+      }
+
+      @keyframes slideInUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .progress-ring {
+        transition: stroke-dasharray 0.3s ease;
+      }
+
+      /* Touch-friendly buttons */
+      .touch-button {
+        min-height: 44px;
+        min-width: 44px;
+        touch-action: manipulation;
+      }
+
+      .step-indicator {
+        transition: all 0.3s ease;
+      }
+
+      .step-indicator.active {
+        background-color: #7c3aed;
+        color: white;
+      }
+
+      .step-indicator.completed {
+        background-color: #10b981;
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <!-- Mobile Navigation Backdrop -->
+    <div
+      id="mobile-backdrop"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+    ></div>
+
+    <!-- Mobile Navigation Menu -->
+    <nav
+      id="mobile-menu"
+      class="mobile-nav fixed left-0 top-0 h-full w-80 bg-white shadow-xl z-50 p-6"
+    >
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center">
+          <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+          <span class="ml-2 text-lg font-bold text-gray-900"
+            >EstimateGenie</span
+          >
+        </div>
+        <button
+          id="close-menu-btn"
+          class="touch-button p-2 hover:bg-gray-100 rounded-lg"
+        >
+          <i data-feather="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <a
+          href="/index.html"
+          class="block py-3 px-4 text-purple-600 bg-purple-50 rounded-lg font-medium"
+        >
+          <i data-feather="home" class="h-4 w-4 inline mr-2"></i>
+          Home
+        </a>
+        <a
+          href="/features.html"
+          class="block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+        >
+          <i data-feather="settings" class="h-4 w-4 inline mr-2"></i>
+          Features
+        </a>
+        <a
+          href="/about.html"
+          class="block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+        >
+          <i data-feather="info" class="h-4 w-4 inline mr-2"></i>
+          About
+        </a>
+        <a
+          href="/contact.html"
+          class="block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+        >
+          <i data-feather="mail" class="h-4 w-4 inline mr-2"></i>
+          Contact
+        </a>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-30">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Mobile menu button -->
+          <button
+            id="mobile-menu-btn"
+            class="touch-button p-2 hover:bg-gray-100 rounded-lg md:hidden"
+          >
+            <i data-feather="menu" class="h-5 w-5"></i>
+          </button>
+
+          <!-- Logo -->
+          <div class="flex items-center">
+            <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+            <span class="ml-2 text-lg font-bold text-gray-900"
+              >EstimateGenie</span
+            >
+            <span
+              id="auth-status-badge"
+              class="ml-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-700"
+              title="Authentication status"
+              >Guest</span
+            >
+          </div>
+
+          <!-- Desktop navigation -->
+          <nav class="hidden md:flex space-x-6">
+            <a href="/index.html" class="text-purple-600 font-medium">Home</a>
+            <a href="/features.html" class="text-gray-500 hover:text-gray-700"
+              >Features</a
+            >
+            <a href="/about.html" class="text-gray-500 hover:text-gray-700"
+              >About</a
+            >
+            <a href="/contact.html" class="text-gray-500 hover:text-gray-700"
+              >Contact</a
+            >
+          </nav>
+
+          <!-- CTA Button -->
+          <button
+            onclick="scrollToUpload()"
+            class="touch-button bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm font-medium transition-colors"
+          >
+            Get Quote
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section
+      class="bg-gradient-to-br from-purple-600 to-blue-600 text-white py-12 px-4"
+    >
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">
+          AI-Powered Construction Quotes
+        </h1>
+        <p class="text-lg md:text-xl mb-8 opacity-90">
+          Upload a photo, get instant professional estimates with detailed
+          material lists and pricing
+        </p>
+        <button
+          onclick="scrollToUpload()"
+          class="touch-button bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center"
+        >
+          <i data-feather="camera" class="h-5 w-5 mr-2"></i>
+          Start Your Quote
+        </button>
+      </div>
+    </section>
+
+    <!-- Step-by-Step Process -->
+    <section class="py-8 px-4 bg-white">
+      <div class="max-w-4xl mx-auto">
+        <!-- Mobile: Simple progress text -->
+        <div class="md:hidden mb-6">
+          <div class="flex items-center justify-between mb-2">
+            <span
+              id="mobile-step-text"
+              class="text-sm font-medium text-purple-600"
+              >Step 1 of 4</span
+            >
+            <span id="mobile-step-percent" class="text-sm text-gray-500"
+              >0%</span
+            >
+          </div>
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              id="mobile-progress-bar"
+              class="h-full bg-purple-600 transition-all duration-500"
+              style="width: 25%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Desktop: Full step indicator -->
+        <div class="hidden md:flex justify-between items-center mb-8">
+          <div class="flex items-center space-x-4">
+            <div
+              id="step-1"
+              class="step-indicator active w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold"
+            >
+              1
+            </div>
+            <div class="flex-1 h-1 bg-gray-200">
+              <div
+                id="progress-1-2"
+                class="h-full bg-purple-600 w-0 transition-all duration-500"
+              ></div>
+            </div>
+            <div
+              id="step-2"
+              class="step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold"
+            >
+              2
+            </div>
+            <div class="flex-1 h-1 bg-gray-200">
+              <div
+                id="progress-2-3"
+                class="h-full bg-purple-600 w-0 transition-all duration-500"
+              ></div>
+            </div>
+            <div
+              id="step-3"
+              class="step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold"
+            >
+              3
+            </div>
+            <div class="flex-1 h-1 bg-gray-200">
+              <div
+                id="progress-3-4"
+                class="h-full bg-purple-600 w-0 transition-all duration-500"
+              ></div>
+            </div>
+            <div
+              id="step-4"
+              class="step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold"
+            >
+              4
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <h3 id="step-title" class="text-lg font-semibold text-gray-900 mb-2">
+            Upload Your Project Image
+          </h3>
+          <p id="step-description" class="text-gray-600">
+            Take or upload a photo of your construction project
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload-section" class="py-8 px-4">
+      <div class="max-w-4xl mx-auto">
+        <!-- Step 1: Image Upload -->
+        <div id="upload-step" class="bg-white rounded-xl shadow-lg p-6 mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Step 1: Upload Project Image
+          </h2>
+
+          <!-- Upload Area -->
+          <div id="upload-idle">
+            <div
+              id="upload-area"
+              class="upload-area flex flex-col items-center justify-center p-8 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <i data-feather="camera" class="h-12 w-12 text-gray-400 mb-4"></i>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                Upload Project Image
+              </h3>
+              <p class="text-gray-600 text-center mb-4">
+                Take a photo or drag & drop an image of your construction
+                project
+              </p>
+              <button
+                class="touch-button bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Choose Photo
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file-input"
+              class="hidden"
+              accept="image/*"
+            />
+          </div>
+
+          <!-- Image Preview -->
+          <div id="image-preview" class="hidden">
+            <div class="text-center mb-4">
+              <img
+                id="preview-image"
+                class="max-w-full h-48 object-cover rounded-lg mx-auto mb-4"
+              />
+              <p class="text-green-600 font-medium">
+                ✓ Image uploaded successfully
+              </p>
+              <button
+                onclick="resetUpload()"
+                class="text-purple-600 hover:text-purple-700 text-sm"
+              >
+                Change image
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Project Details -->
+        <div
+          id="details-step"
+          class="bg-white rounded-xl shadow-lg p-6 mb-6 hidden"
+        >
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Step 2: Project Details
+          </h2>
+
+          <div class="space-y-4">
+            <div>
+              <label
+                for="project-type"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Project Type
+              </label>
+              <select
+                id="project-type"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="kitchen">Kitchen Remodel</option>
+                <option value="bathroom">Bathroom Renovation</option>
+                <option value="flooring">Flooring Installation</option>
+                <option value="roofing">Roofing</option>
+                <option value="painting">Interior/Exterior Painting</option>
+                <option value="electrical">Electrical Work</option>
+                <option value="plumbing">Plumbing</option>
+                <option value="drywall">Drywall Installation</option>
+                <option value="deck">Deck/Patio Construction</option>
+                <option value="landscaping">Landscaping</option>
+                <option value="general">General Construction</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                for="description"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Project Description
+              </label>
+              <textarea
+                id="description"
+                rows="4"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Describe your project in detail... Include specific materials, room dimensions, special requirements, etc."
+              ></textarea>
+            </div>
+
+            <div>
+              <label
+                for="project-size"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Project Size (if known)
+              </label>
+              <input
+                id="project-size"
+                type="text"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="e.g., 200 sq ft, 10x12 room, 1500 sq ft house"
+              />
+            </div>
+
+            <div>
+              <label
+                for="timeline"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Desired Timeline
+              </label>
+              <select
+                id="timeline"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="asap">ASAP</option>
+                <option value="1-2weeks">1-2 weeks</option>
+                <option value="1month">Within 1 month</option>
+                <option value="2-3months">2-3 months</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+
+          <button
+            onclick="goToQuoteOptions()"
+            class="w-full mt-6 touch-button bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+          >
+            Continue to Quote Options
+          </button>
+        </div>
+
+        <!-- Step 3: Quote Options -->
+        <div
+          id="options-step"
+          class="bg-white rounded-xl shadow-lg p-6 mb-6 hidden"
+        >
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Step 3: Choose Quote Type
+          </h2>
+
+          <div class="grid gap-4">
+            <label
+              class="quote-option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-purple-300 transition-colors"
+            >
+              <input
+                type="radio"
+                name="quote-type"
+                value="basic"
+                class="sr-only"
+                checked
+              />
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div
+                    class="w-4 h-4 border-2 border-purple-600 rounded-full bg-purple-600"
+                  ></div>
+                </div>
+                <div class="ml-3">
+                  <h3 class="font-semibold text-gray-900">Basic Quote</h3>
+                  <p class="text-gray-600 text-sm">
+                    Total cost estimate with basic material breakdown
+                  </p>
+                </div>
+              </div>
+            </label>
+
+            <label
+              class="quote-option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-purple-300 transition-colors"
+            >
+              <input
+                type="radio"
+                name="quote-type"
+                value="detailed"
+                class="sr-only"
+              />
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div
+                    class="w-4 h-4 border-2 border-gray-300 rounded-full"
+                  ></div>
+                </div>
+                <div class="ml-3">
+                  <h3 class="font-semibold text-gray-900">
+                    Detailed Quote & Materials
+                  </h3>
+                  <p class="text-gray-600 text-sm">
+                    Comprehensive material list with quantities, pricing, and
+                    labor breakdown
+                  </p>
+                </div>
+              </div>
+            </label>
+
+            <label
+              class="quote-option-card cursor-pointer p-4 border-2 border-gray-200 rounded-lg hover:border-purple-300 transition-colors"
+            >
+              <input
+                type="radio"
+                name="quote-type"
+                value="project-plan"
+                class="sr-only"
+              />
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div
+                    class="w-4 h-4 border-2 border-gray-300 rounded-full"
+                  ></div>
+                </div>
+                <div class="ml-3">
+                  <h3 class="font-semibold text-gray-900">
+                    Complete Project Plan
+                  </h3>
+                  <p class="text-gray-600 text-sm">
+                    Full project phases, timeline, materials, labor, and
+                    step-by-step execution plan
+                  </p>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <button
+            onclick="generateQuote()"
+            class="w-full mt-6 touch-button bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+          >
+            <i data-feather="zap" class="h-4 w-4 inline mr-2"></i>
+            Generate AI Quote
+          </button>
+          <button
+            id="demo-quote-btn"
+            onclick="tryDemoQuote()"
+            class="w-full mt-3 touch-button bg-white border border-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            title="Try a demo quote without signing up"
+          >
+            <i data-feather="play" class="h-4 w-4 inline mr-2"></i>
+            Try Demo Quote (No signup)
+          </button>
+        </div>
+
+        <!-- Step 4: Processing -->
+        <div
+          id="upload-processing"
+          class="bg-white rounded-xl shadow-lg p-8 text-center hidden"
+        >
+          <div class="mb-6">
+            <div class="relative inline-flex">
+              <svg class="w-20 h-20 transform -rotate-90">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="#e5e7eb"
+                  stroke-width="6"
+                  fill="transparent"
+                />
+                <circle
+                  id="progress-bar"
+                  cx="40"
+                  cy="40"
+                  r="32"
+                  stroke="#7c3aed"
+                  stroke-width="6"
+                  fill="transparent"
+                  stroke-dasharray="201.06"
+                  stroke-dashoffset="201.06"
+                  class="progress-ring"
+                />
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <i data-feather="zap" class="h-8 w-8 text-purple-600"></i>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            AI is analyzing your project...
+          </h3>
+          <p id="processing-status" class="text-gray-600 mb-2">
+            Processing your image and requirements...
+          </p>
+          <p id="processing-eta" class="text-sm text-gray-500 mb-4">
+            Estimated time: 45 seconds
+          </p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+          <!-- Results will be populated here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Why EstimateGenie?
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Professional estimation powered by AI, designed for mobile-first
+            experience
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="text-center p-6 rounded-lg bg-white shadow-sm">
+            <div
+              class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-feather="zap" class="h-6 w-6 text-purple-600"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">
+              AI-Powered Analysis
+            </h3>
+            <p class="text-gray-600 text-sm">
+              Advanced AI analyzes your images for accurate material detection
+            </p>
+          </div>
+
+          <div class="text-center p-6 rounded-lg bg-white shadow-sm">
+            <div
+              class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-feather="smartphone" class="h-6 w-6 text-blue-600"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Mobile First</h3>
+            <p class="text-gray-600 text-sm">
+              Designed for on-the-go professionals and homeowners
+            </p>
+          </div>
+
+          <div
+            class="text-center p-6 rounded-lg bg-white shadow-sm sm:col-span-2 lg:col-span-1"
+          >
+            <div
+              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-feather="check-circle" class="h-6 w-6 text-green-600"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Detailed Breakdown</h3>
+            <p class="text-gray-600 text-sm">
+              Complete material lists, labor costs, and project timelines
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 px-4">
+      <div class="max-w-6xl mx-auto text-center">
+        <div class="flex items-center justify-center mb-4">
+          <i data-feather="zap" class="h-6 w-6 text-purple-400"></i>
+          <span class="ml-2 text-lg font-bold text-white">EstimateGenie</span>
+        </div>
+        <p class="text-sm mb-4">
+          AI-powered estimation for modern professionals
+        </p>
+        <div class="flex justify-center space-x-6 text-sm">
+          <a href="/about.html" class="hover:text-white">About</a>
+          <a href="/features.html" class="hover:text-white">Features</a>
+          <a href="/contact.html" class="hover:text-white">Contact</a>
+        </div>
+        <p class="text-xs mt-6">
+          &copy; 2025 EstimateGenie. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM fully loaded - initializing app");
+      });
+
+      // Mobile menu functionality
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const closeMenuBtn = document.getElementById("close-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileBackdrop = document.getElementById("mobile-backdrop");
+
+      function openMobileMenu() {
+        mobileMenu.classList.add("open");
+        mobileBackdrop.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobileMenu() {
+        mobileMenu.classList.remove("open");
+        mobileBackdrop.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+
+      // Initialize menu listeners after a slight delay to ensure DOM is ready
+      setTimeout(() => {
+        if (mobileMenuBtn)
+          mobileMenuBtn.addEventListener("click", openMobileMenu);
+        if (closeMenuBtn)
+          closeMenuBtn.addEventListener("click", closeMobileMenu);
+        if (mobileBackdrop)
+          mobileBackdrop.addEventListener("click", closeMobileMenu);
+      }, 0);
+
+      // File upload functionality - wait for DOM to be ready
+      let uploadArea,
+        fileInput,
+        uploadIdle,
+        imagePreview,
+        previewImage,
+        uploadProcessing,
+        resultsSection;
+
+      // Initialize DOM elements when page is fully loaded
+      window.addEventListener("load", function () {
+        uploadArea = document.getElementById("upload-area");
+        fileInput = document.getElementById("file-input");
+        uploadIdle = document.getElementById("upload-idle");
+        imagePreview = document.getElementById("image-preview");
+        previewImage = document.getElementById("preview-image");
+        uploadProcessing = document.getElementById("upload-processing");
+        resultsSection = document.getElementById("results-section");
+
+        console.log("Upload elements loaded:", {
+          uploadArea: !!uploadArea,
+          fileInput: !!fileInput,
+        });
+
+        // Initialize file upload handlers now that elements exist
+        initializeFileUpload();
+      });
+
+      // Steps
+      const uploadStep = document.getElementById("upload-step");
+      const detailsStep = document.getElementById("details-step");
+      const optionsStep = document.getElementById("options-step");
+
+      let uploadedFile = null;
+
+      // Smooth scroll to upload section
+      function scrollToUpload() {
+        document.getElementById("upload-section").scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+
+      // Step management
+      function updateStepIndicator(currentStep) {
+        const steps = [1, 2, 3, 4];
+        const stepTitle = document.getElementById("step-title");
+        const stepDescription = document.getElementById("step-description");
+
+        const titles = {
+          1: "Upload Your Project Image",
+          2: "Provide Project Details",
+          3: "Choose Quote Options",
+          4: "AI Analysis Complete",
+        };
+
+        const descriptions = {
+          1: "Take or upload a photo of your construction project",
+          2: "Tell us about your project requirements and timeline",
+          3: "Select the type of quote and information you need",
+          4: "Review your personalized estimate and project plan",
+        };
+
+        stepTitle.textContent = titles[currentStep];
+        stepDescription.textContent = descriptions[currentStep];
+
+        // Update mobile progress bar
+        const mobileStepText = document.getElementById("mobile-step-text");
+        const mobileStepPercent = document.getElementById(
+          "mobile-step-percent"
+        );
+        const mobileProgressBar = document.getElementById(
+          "mobile-progress-bar"
+        );
+        if (mobileStepText)
+          mobileStepText.textContent = `Step ${currentStep} of 4`;
+        if (mobileStepPercent)
+          mobileStepPercent.textContent = `${Math.round(
+            (currentStep / 4) * 100
+          )}%`;
+        if (mobileProgressBar)
+          mobileProgressBar.style.width = `${(currentStep / 4) * 100}%`;
+
+        // Update desktop step indicators
+        steps.forEach((step) => {
+          const indicator = document.getElementById(`step-${step}`);
+          if (indicator) {
+            if (step < currentStep) {
+              indicator.className =
+                "step-indicator completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
+            } else if (step === currentStep) {
+              indicator.className =
+                "step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold";
+            } else {
+              indicator.className =
+                "step-indicator w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-sm font-bold";
+            }
+          }
+        });
+
+        // Update desktop progress bars
+        for (let i = 1; i < currentStep; i++) {
+          const progressBar = document.getElementById(`progress-${i}-${i + 1}`);
+          if (progressBar) {
+            progressBar.style.width = "100%";
+          }
+        }
+      }
+
+      // Quote option selection
+      document.querySelectorAll('input[name="quote-type"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+          document.querySelectorAll(".quote-option-card").forEach((card) => {
+            const radio = card.querySelector('input[type="radio"]');
+            const circle = card.querySelector(".flex-shrink-0 > div");
+            if (radio.checked) {
+              circle.className =
+                "w-4 h-4 border-2 border-purple-600 rounded-full bg-purple-600";
+            } else {
+              circle.className =
+                "w-4 h-4 border-2 border-gray-300 rounded-full";
+            }
+          });
+        });
+      });
+
+      // File upload handling wrapped in initialization function
+      function initializeFileUpload() {
+        console.log("Initializing file upload handlers");
+        // Make both the upload area and its inner button trigger the file picker
+        if (uploadArea && fileInput) {
+          uploadArea.addEventListener("click", () => {
+            console.log("Upload area clicked, triggering file input");
+            fileInput.click();
+          });
+          const uploadButton = document.querySelector("#upload-area button");
+          if (uploadButton) {
+            uploadButton.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("Upload button clicked");
+              if (fileInput) fileInput.click();
+            });
+          }
+
+          uploadArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            uploadArea.classList.add("dragover");
+          });
+
+          uploadArea.addEventListener("dragleave", () => {
+            uploadArea.classList.remove("dragover");
+          });
+
+          uploadArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove("dragover");
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+              handleFileUpload(files[0]);
+            }
+          });
+
+          fileInput.addEventListener("change", (e) => {
+            if (e.target.files.length > 0) {
+              handleFileUpload(e.target.files[0]);
+            }
+          });
+        } else {
+          console.error("Upload elements not found:", {
+            uploadArea: !!uploadArea,
+            fileInput: !!fileInput,
+          });
+        }
+      }
+
+      // Handle file upload (just preview, don't process)
+      function handleFileUpload(file) {
+        if (!file.type.startsWith("image/")) {
+          alert("Please upload an image file");
+          return;
+        }
+
+        uploadedFile = file;
+
+        // Show image preview
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImage.src = e.target.result;
+          uploadIdle.classList.add("hidden");
+          imagePreview.classList.remove("hidden");
+
+          // Move to next step
+          setTimeout(() => {
+            goToDetails();
+          }, 1000);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function resetUpload() {
+        uploadedFile = null;
+        uploadIdle.classList.remove("hidden");
+        imagePreview.classList.add("hidden");
+        detailsStep.classList.add("hidden");
+        optionsStep.classList.add("hidden");
+        uploadStep.classList.remove("hidden");
+        updateStepIndicator(1);
+      }
+
+      function goToDetails() {
+        uploadStep.classList.add("hidden");
+        detailsStep.classList.remove("hidden");
+        updateStepIndicator(2);
+      }
+
+      function goToQuoteOptions() {
+        detailsStep.classList.add("hidden");
+        optionsStep.classList.remove("hidden");
+        updateStepIndicator(3);
+      }
+
+      // Generate quote with selected options
+      async function generateQuote() {
+        if (!uploadedFile) {
+          alert("Please upload an image first");
+          return;
+        }
+
+        // Hide options, show processing
+        optionsStep.classList.add("hidden");
+        uploadProcessing.classList.remove("hidden");
+        updateStepIndicator(4);
+
+        // Animate progress with real stages
+        let progress = 0;
+        let elapsedTime = 0;
+        const startTime = Date.now();
+        const estimatedDuration = 45000; // 45 seconds estimated
+
+        const progressBar = document.getElementById("progress-bar");
+        const statusEl = document.getElementById("processing-status");
+        const etaEl = document.getElementById("processing-eta");
+
+        // Define processing stages
+        const stages = [
+          {
+            percentStart: 0,
+            percentEnd: 20,
+            message: "Analyzing image composition...",
+          },
+          {
+            percentStart: 20,
+            percentEnd: 40,
+            message: "Detecting materials and components...",
+          },
+          {
+            percentStart: 40,
+            percentEnd: 60,
+            message: "Calculating labor costs...",
+          },
+          {
+            percentStart: 60,
+            percentEnd: 80,
+            message: "Estimating material costs...",
+          },
+          {
+            percentStart: 80,
+            percentEnd: 95,
+            message: "Generating personalized recommendations...",
+          },
+        ];
+
+        let currentStageIndex = 0;
+
+        const progressInterval = setInterval(() => {
+          elapsedTime = Date.now() - startTime;
+          progress = Math.min(90, (elapsedTime / estimatedDuration) * 100);
+
+          // Update stage based on progress
+          if (progress > 80 && currentStageIndex < stages.length - 1) {
+            currentStageIndex = Math.min(4, Math.floor(progress / 20));
+          }
+
+          // Update progress ring
+          const circumference = 2 * Math.PI * 32;
+          const offset = circumference - (progress / 100) * circumference;
+          progressBar.style.strokeDasharray = `${circumference}`;
+          progressBar.style.strokeDashoffset = offset;
+
+          // Update stage message
+          const stage = stages[currentStageIndex] || stages[stages.length - 1];
+          statusEl.textContent = stage.message;
+
+          // Update ETA
+          const remainingTime = Math.max(0, estimatedDuration - elapsedTime);
+          const remainingSeconds = Math.ceil(remainingTime / 1000);
+          if (remainingSeconds > 0) {
+            etaEl.textContent = `Estimated time: ${remainingSeconds} seconds`;
+          } else {
+            etaEl.textContent = "Almost done...";
+          }
+        }, 200);
+
+        // Track cancel flag so user can stop polling
+        let cancelled = false;
+        function cancelPipeline() {
+          cancelled = true;
+          clearInterval(progressInterval);
+          statusEl.textContent = "Processing cancelled.";
+          uploadProcessing.classList.add("hidden");
+          optionsStep.classList.remove("hidden");
+          updateStepIndicator(3);
+        }
+
+        // Add cancel button while processing (avoid multiple buttons)
+        let cancelBtn = document.getElementById("cancel-quote-btn");
+        if (!cancelBtn) {
+          cancelBtn = document.createElement("button");
+          cancelBtn.id = "cancel-quote-btn";
+          cancelBtn.textContent = "Cancel";
+          cancelBtn.className =
+            "touch-button mt-4 bg-gray-200 px-4 py-2 rounded-lg text-sm";
+          cancelBtn.onclick = cancelPipeline;
+          uploadProcessing.appendChild(cancelBtn);
+        }
+
+        try {
+          // Get selected quote type
+          const quoteType = document.querySelector(
+            'input[name="quote-type"]:checked'
+          ).value;
+
+          // Build description with additional details
+          const description = document.getElementById("description").value;
+          const projectSize = document.getElementById("project-size").value;
+          const timeline = document.getElementById("timeline").value;
+
+          const fullDescription = `${description}${
+            projectSize ? ` Project size: ${projectSize}.` : ""
+          }${
+            timeline !== "flexible" ? ` Timeline: ${timeline}.` : ""
+          } Quote type requested: ${quoteType}.`;
+
+          // Build options object
+          const _scope = document.getElementById("scope")?.value || "";
+          const phases = [];
+          document
+            .querySelectorAll("#phases-list .phase-item")
+            .forEach((el) => {
+              phases.push({
+                name: el.dataset.name,
+                description: el.dataset.desc,
+                estimated_hours: parseFloat(el.dataset.hours || "0"),
+              });
+            });
+
+          const risks = [];
+          document.querySelectorAll("#risks-list .risk-item").forEach((el) => {
+            risks.push({
+              id: el.dataset.id,
+              description: el.dataset.desc,
+              impact: el.dataset.impact,
+            });
+          });
+
+          const optionsObj = { scope: _scope };
+          if (phases.length) optionsObj.phases = phases;
+          if (risks.length) optionsObj.risks = risks;
+
+          // Create form data
+          const formData = new FormData();
+          formData.append("file", uploadedFile);
+          formData.append(
+            "project_type",
+            document.getElementById("project-type").value
+          );
+          formData.append("description", fullDescription);
+          formData.append("quote_type", quoteType);
+          formData.append("options", JSON.stringify(optionsObj));
+
+          // Build endpoint and auth headers using ApiConfig (async pipeline)
+          const endpoint = ApiConfig.url(API.quotesAsync);
+          const token = localStorage.getItem("auth_token");
+          const apiKey = localStorage.getItem("api_key");
+          const headers = {};
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+          else if (apiKey) headers["Authorization"] = apiKey;
+          else {
+            // Friendly prompt when not authenticated: offer demo or login
+            const goLogin = confirm(
+              "You need to be signed in to create a real quote. Add a free account or try a demo quote without signing up.\n\nOK = Login, Cancel = Try Demo"
+            );
+            if (goLogin) {
+              window.location.href = "login.html";
+              return;
+            } else {
+              // Try the demo endpoint instead (no auth required)
+              clearInterval(progressInterval);
+              tryDemoQuote();
+              return;
+            }
+          }
+
+          // Start async pipeline
+          const startResp = await fetch(endpoint, {
+            method: "POST",
+            headers,
+            body: formData,
+          });
+          if (!startResp.ok) {
+            throw new Error(`HTTP ${startResp.status}`);
+          }
+          const started = await startResp.json();
+          const quoteId = started.quote_id;
+
+          // Poll for completion
+          const statusMap = {
+            processing: "Processing your image and requirements...",
+            vision_complete: "Vision analysis complete. Calculating costs...",
+            cost_complete: "Cost baseline ready. Composing detailed quote...",
+            completed: "Quote generated successfully!",
+            vision_error: "Vision service error.",
+            cost_error: "Cost service error.",
+            error: "An error occurred.",
+          };
+
+          let result = null;
+          const pollIntervalMs = 2000;
+          const maxWaitMs = 120000; // 2 minutes safety cap
+          const pollStart = Date.now();
+          if (cancelled) throw new Error("User cancelled");
+          while (Date.now() - pollStart < maxWaitMs) {
+            // Update status message if we have one in DB progressively
+            statusEl.textContent = statusMap.processing;
+            const pollUrl = ApiConfig.url(API.quote(quoteId));
+            const pollResp = await fetch(pollUrl, { headers });
+            if (pollResp.status === 404) {
+              await new Promise((r) => setTimeout(r, pollIntervalMs));
+              continue;
+            }
+            if (cancelled) throw new Error("User cancelled");
+            if (!pollResp.ok) {
+              throw new Error(`Poll HTTP ${pollResp.status}`);
+            }
+            const data = await pollResp.json();
+            // Some DB rows store status field; attempt to read it
+            const statusVal = data.status || "processing";
+            statusEl.textContent = statusMap[statusVal] || statusMap.processing;
+            if (statusVal === "vision_complete") currentStageIndex = 2;
+            if (statusVal === "cost_complete") currentStageIndex = 4;
+            if (statusVal === "completed") {
+              result = data;
+              break;
+            }
+            await new Promise((r) => setTimeout(r, pollIntervalMs));
+          }
+
+          if (!result)
+            throw new Error("Timed out waiting for quote completion");
+
+          // Persist last quote for download and metadata
+          window.__lastQuoteResult = result;
+          window.__lastQuoteType = quoteType;
+
+          // Complete progress
+          clearInterval(progressInterval);
+          // remove cancel button
+          const existingCancel = document.getElementById("cancel-quote-btn");
+          if (existingCancel) existingCancel.remove();
+          progress = 100;
+          progressBar.style.strokeDashoffset = 0;
+          statusEl.textContent = "Quote generated successfully!";
+          etaEl.textContent = "Processing complete";
+
+          setTimeout(() => {
+            displayResults(result, quoteType);
+          }, 800);
+        } catch (error) {
+          // Detect cancelled to avoid showing an error stack
+          if (error && error.message === "User cancelled") {
+            console.info("User cancelled the quote pipeline");
+            return;
+          }
+          clearInterval(progressInterval);
+          // remove cancel button
+          const existingCancelFail =
+            document.getElementById("cancel-quote-btn");
+          if (existingCancelFail) existingCancelFail.remove();
+          console.error("Error generating quote:", error);
+          statusEl.textContent = "Error generating quote. Please try again.";
+          etaEl.textContent = "";
+
+          setTimeout(() => {
+            optionsStep.classList.remove("hidden");
+            uploadProcessing.classList.add("hidden");
+            updateStepIndicator(3);
+          }, 2000);
+        }
+      }
+
+      // Try the demo endpoint — no auth required and fast
+      async function tryDemoQuote() {
+        try {
+          // get a project type from the form, default to 'general'
+          const projectType =
+            document.getElementById("project-type")?.value || "general";
+
+          // visual feedback
+          optionsStep.classList.add("hidden");
+          uploadProcessing.classList.remove("hidden");
+          updateStepIndicator(4);
+
+          // Build demo endpoint & call (no auth required)
+          const demoEndpoint = ApiConfig.url(
+            `/v1/quotes/demo?project_type=${encodeURIComponent(projectType)}`
+          );
+          const resp = await fetch(demoEndpoint, { method: "POST" });
+          if (!resp.ok) throw new Error(`Demo HTTP ${resp.status}`);
+          const data = await resp.json();
+
+          // Transform demo result into the same structure expected by displayResults
+          const totalEstimate =
+            data.estimate?.mid ||
+            data.estimate_mid ||
+            (data.estimate && data.estimate["mid"]);
+          const normalized = {
+            id: data.quote_id,
+            total_cost: {
+              amount:
+                totalEstimate || (data.estimate && data.estimate.mid) || 0,
+              breakdown: {
+                materials: (data.materials || []).reduce(
+                  (acc, m) => acc + (m.quantity || 0) * (m.unit_price || 0),
+                  0
+                ),
+                labor: (data.materials || [])
+                  .filter((m) => m.name && /labor/i.test(m.name))
+                  .reduce(
+                    (acc, m) => acc + (m.quantity || 0) * (m.unit_price || 0),
+                    0
+                  ),
+              },
+            },
+            materials: data.materials || [],
+            labor: [],
+            timeline: {
+              estimated_days: data.timeline?.days || data.timeline_days || null,
+              estimated_hours:
+                data.timeline?.hours || data.timeline_hours || null,
+            },
+            disclaimer: data.disclaimer || null,
+            demo: true,
+          };
+
+          // Store last result for downloads
+          window.__lastQuoteResult = normalized;
+          window.__lastQuoteType = `${projectType}-demo`;
+
+          uploadProcessing.classList.add("hidden");
+          displayResults(normalized, "basic");
+        } catch (err) {
+          console.error("Demo quote failed:", err);
+          alert(
+            "Demo quotes are temporarily unavailable. Please try again or sign in to generate a quote."
+          );
+          uploadProcessing.classList.add("hidden");
+          optionsStep.classList.remove("hidden");
+          updateStepIndicator(3);
+        }
+      }
+
+      // Display results based on quote type
+      function displayResults(result, quoteType) {
+        uploadProcessing.classList.add("hidden");
+        resultsSection.classList.remove("hidden");
+
+        let resultsHTML = `
+          <div class="quote-card bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="flex justify-between items-start mb-6">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900">Your ${
+                  quoteType.charAt(0).toUpperCase() + quoteType.slice(1)
+                } Quote</h2>
+                <p class="text-gray-600">Quote ID: ${result.id}</p>
+              </div>
+              <div class="text-right">
+                <div class="text-3xl font-bold text-purple-600">$${result.total_cost.amount.toLocaleString()}</div>
+                <div class="text-sm text-gray-500">Total Estimate</div>
+              </div>
+            </div>
+        `;
+
+        if (quoteType === "basic") {
+          const breakdown =
+            (result.total_cost && result.total_cost.breakdown) || {};
+          const markupVal =
+            typeof breakdown.markup === "number"
+              ? breakdown.markup
+              : (breakdown.profit || 0) + (breakdown.contingency || 0);
+          resultsHTML += `
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-2">Cost Breakdown</h3>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span>Materials:</span>
+                    <span>$${result.total_cost.breakdown.materials.toLocaleString()}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Labor:</span>
+                    <span>$${result.total_cost.breakdown.labor.toLocaleString()}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Markup:</span>
+                    <span>$${markupVal.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-2">Timeline</h3>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span>Estimated Duration:</span>
+                    <span>${result.timeline.estimated_days} days</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Labor Hours:</span>
+                    <span>${result.timeline.estimated_hours} hrs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (quoteType === "detailed") {
+          resultsHTML += `
+            <div class="grid gap-6">
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Materials List</h3>
+                <div class="space-y-2">
+          `;
+          result.materials.forEach((material) => {
+            resultsHTML += `
+              <div class="flex justify-between items-center py-2 px-3 bg-white rounded">
+                <span class="font-medium">${material.name}</span>
+                <span class="text-gray-600">${material.quantity} ${
+              material.unit
+            } • $${material.total.toFixed(2)}</span>
+              </div>
+            `;
+          });
+          resultsHTML += `
+                </div>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Labor Breakdown</h3>
+                <div class="space-y-2">
+          `;
+          result.labor.forEach((labor) => {
+            resultsHTML += `
+              <div class="flex justify-between items-center py-2 px-3 bg-white rounded">
+                <span class="font-medium">${labor.trade}</span>
+                <span class="text-gray-600">${labor.hours} hrs @ $${
+              labor.rate
+            }/hr = $${labor.total.toFixed(2)}</span>
+              </div>
+            `;
+          });
+          resultsHTML += `
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (quoteType === "project-plan") {
+          resultsHTML += `
+            <div class="grid gap-6">
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Project Timeline</h3>
+                <div class="space-y-3">
+          `;
+          if (result.steps) {
+            result.steps.forEach((step, index) => {
+              resultsHTML += `
+                <div class="flex items-start space-x-3">
+                  <div class="flex-shrink-0 w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                    ${step.order || index + 1}
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900">${step.description}</p>
+                    <p class="text-sm text-gray-600">Duration: ${
+                      step.duration
+                    }</p>
+                  </div>
+                </div>
+              `;
+            });
+          }
+          resultsHTML += `
+                </div>
+              </div>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-gray-50 rounded-lg p-4">
+                  <h3 class="font-semibold text-gray-900 mb-2">Key Materials</h3>
+                  <div class="space-y-1 text-sm">
+          `;
+          result.materials.slice(0, 5).forEach((material) => {
+            resultsHTML += `<div>• ${material.name}: ${material.quantity} ${material.unit}</div>`;
+          });
+          resultsHTML += `
+                  </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                  <h3 class="font-semibold text-gray-900 mb-2">Labor Required</h3>
+                  <div class="space-y-1 text-sm">
+          `;
+          result.labor.forEach((labor) => {
+            resultsHTML += `<div>• ${labor.trade}: ${labor.hours} hours</div>`;
+          });
+          resultsHTML += `
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        resultsHTML += `
+            <div class="flex flex-col sm:flex-row gap-4 mt-6">
+              <button
+                onclick="resetForm()"
+                class="flex-1 touch-button bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+              >
+                New Quote
+              </button>
+
+              <!-- Phase & Risk Controls -->
+              <div class="mt-6 border-t pt-4">
+                <h3 class="font-semibold text-gray-900 mb-2">Project Scope</h3>
+                <textarea id="scope" rows="2" class="w-full p-3 border border-gray-300 rounded-lg mb-3" placeholder="Short summary of the project scope e.g., 'Full roof replacement with new flashing'"></textarea>
+
+                <div id="phases-container" class="mb-3">
+                  <div class="flex items-center space-x-2 mb-2">
+                    <input id="phase-name" class="flex-1 p-2 border border-gray-300 rounded" placeholder="Phase name (demolition, install, finish)" />
+                    <input id="phase-hours" type="number" min="0" class="w-24 p-2 border border-gray-300 rounded" placeholder="hrs" />
+                  </div>
+                  <input id="phase-desc" class="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Phase description" />
+                  <div class="flex gap-2">
+                    <button id="add-phase-btn" class="touch-button bg-purple-600 text-white px-4 py-2 rounded-lg">Add Phase</button>
+                    <div id="phases-list" class="flex-1"></div>
+                  </div>
+                </div>
+
+                <div id="risks-container" class="mb-3">
+                  <h3 class="font-semibold text-gray-900 mb-2">Risks</h3>
+                  <div class="flex items-center space-x-2 mb-2">
+                    <input id="risk-id" class="flex-1 p-2 border border-gray-300 rounded" placeholder="Risk id" />
+                    <select id="risk-impact" class="p-2 border border-gray-300 rounded w-32">
+                      <option value="low">Low</option>
+                      <option value="medium" selected>Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                  <input id="risk-desc" class="w-full p-2 border border-gray-300 rounded mb-2" placeholder="Risk description" />
+                  <div class="flex gap-2">
+                    <button id="add-risk-btn" class="touch-button bg-gray-800 text-white px-4 py-2 rounded-lg">Add Risk</button>
+                    <div id="risks-list" class="flex-1"></div>
+                  </div>
+                </div>
+              </div>
+              <button
+                onclick="downloadQuote()"
+                class="flex-1 touch-button bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+              >
+                <i data-feather="download" class="h-4 w-4 inline mr-2"></i>
+                Download Quote
+              </button>
+              <button
+                onclick="downloadCSV()"
+                class="flex-1 touch-button bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                <i data-feather="file-text" class="h-4 w-4 inline mr-2"></i>
+                Download CSV
+              </button>
+            </div>
+          </div>
+        `;
+
+        resultsSection.innerHTML = resultsHTML;
+        feather.replace();
+
+        // Scroll to results
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Reset form for new quote
+      function resetForm() {
+        uploadedFile = null;
+        uploadIdle.classList.remove("hidden");
+        imagePreview.classList.add("hidden");
+        uploadProcessing.classList.add("hidden");
+        resultsSection.classList.add("hidden");
+        detailsStep.classList.add("hidden");
+        optionsStep.classList.add("hidden");
+        uploadStep.classList.remove("hidden");
+        fileInput.value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("project-size").value = "";
+        updateStepIndicator(1);
+        document
+          .getElementById("upload-section")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function isLoggedInForDownload() {
+        // Gate download: support multiple possible storage keys
+        const keys = [
+          "auth_token",
+          "api_key",
+          "access_token",
+          "user_token",
+          "eg_auth",
+          "eg_api_key",
+        ];
+        return keys.some((k) => !!localStorage.getItem(k));
+      }
+
+      async function downloadQuote() {
+        try {
+          // Gate: must be logged in to download unless this is a demo quote
+          const last = window.__lastQuoteResult;
+          const isDemoQuote = !!(last && last.demo);
+          if (!isLoggedInForDownload() && !isDemoQuote) {
+            const goLogin = confirm(
+              "Login required to download your quote as PDF. Go to login now?"
+            );
+            if (goLogin) {
+              window.location.href = "login.html";
+            }
+            return;
+          }
+
+          // If demo is allowed, warn user about demo limitations
+          if (isDemoQuote && !isLoggedInForDownload()) {
+            const ok = confirm(
+              "You're downloading a demo quote. Demo results are not saved and are for preview only. Continue?"
+            );
+            if (!ok) return;
+          }
+
+          const container = document.getElementById("results-section");
+          if (!container || container.classList.contains("hidden")) {
+            alert("Please generate a quote first.");
+            return;
+          }
+
+          const quoteId =
+            (window.__lastQuoteResult && window.__lastQuoteResult.id) ||
+            new Date().toISOString().replace(/[:.]/g, "-");
+          const rawType = window.__lastQuoteType || "quote";
+          const quoteType = rawType.replace(/\s+/g, "-");
+
+          // Build a full PDF document with cover page, results, and terms/privacy
+          const doc = document.createElement("div");
+          doc.style.fontFamily =
+            "system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
+          doc.style.color = "#111827";
+
+          // Cover page
+          const cover = document.createElement("section");
+          cover.style.minHeight = "100vh";
+          cover.style.display = "flex";
+          cover.style.flexDirection = "column";
+          cover.style.justifyContent = "center";
+          cover.style.alignItems = "center";
+          cover.style.padding = "48px 32px";
+          cover.style.background =
+            "linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)";
+          cover.style.color = "white";
+
+          const logoRow = document.createElement("div");
+          logoRow.style.display = "flex";
+          logoRow.style.alignItems = "center";
+          logoRow.style.gap = "10px";
+          logoRow.style.marginBottom = "16px";
+          const logoIcon = document.createElement("div");
+          logoIcon.textContent = "⚡";
+          logoIcon.style.fontSize = "28px";
+          const brand = document.createElement("div");
+          brand.textContent = "EstimateGenie";
+          brand.style.fontWeight = "800";
+          brand.style.fontSize = "22px";
+          logoRow.appendChild(logoIcon);
+          logoRow.appendChild(brand);
+
+          const title = document.createElement("h1");
+          title.textContent = "Your AI-Powered Project Quote";
+          title.style.fontSize = "28px";
+          title.style.fontWeight = "800";
+          title.style.textAlign = "center";
+          title.style.margin = "8px 0 6px 0";
+          const subtitle = document.createElement("div");
+          subtitle.textContent = rawType
+            ? `Package: ${rawType}`
+            : "Estimate Package";
+          subtitle.style.opacity = "0.95";
+          subtitle.style.fontSize = "14px";
+          subtitle.style.marginBottom = "18px";
+          const meta = document.createElement("div");
+          meta.textContent = `Quote ID: ${quoteId} • Generated: ${new Date().toLocaleString()}`;
+          meta.style.fontSize = "12px";
+          meta.style.opacity = "0.9";
+
+          cover.appendChild(logoRow);
+          cover.appendChild(title);
+          cover.appendChild(subtitle);
+          cover.appendChild(meta);
+
+          // Add demo badge to cover if this is a demo quote
+          if (isDemoQuote) {
+            cover.style.position = "relative";
+            const demoBadge = document.createElement("div");
+            demoBadge.textContent = "DEMO";
+            demoBadge.style.position = "absolute";
+            demoBadge.style.top = "24px";
+            demoBadge.style.right = "24px";
+            demoBadge.style.background = "#ef4444"; /* red */
+            demoBadge.style.color = "white";
+            demoBadge.style.padding = "6px 10px";
+            demoBadge.style.borderRadius = "6px";
+            demoBadge.style.fontWeight = "700";
+            demoBadge.style.fontSize = "12px";
+            cover.appendChild(demoBadge);
+          }
+
+          // Spacer and page break after cover
+          const coverBreak = document.createElement("div");
+          coverBreak.style.pageBreakAfter = "always";
+
+          // Clone results to avoid mutating on-screen UI
+          const resultsWrapper = document.createElement("section");
+          resultsWrapper.style.padding = "24px";
+          resultsWrapper.style.background = "#ffffff";
+          const clone = container.cloneNode(true);
+          resultsWrapper.appendChild(clone);
+
+          // Page break before terms
+          const termsBreak = document.createElement("div");
+          termsBreak.style.pageBreakBefore = "always";
+
+          // Terms and Privacy section (lightweight)
+          const terms = document.createElement("section");
+          terms.style.padding = "24px";
+          terms.style.background = "#ffffff";
+          const termsTitle = document.createElement("h2");
+          termsTitle.textContent = "Terms and Privacy";
+          termsTitle.style.fontSize = "18px";
+          termsTitle.style.fontWeight = "700";
+          termsTitle.style.margin = "0 0 10px 0";
+          const termsBody = document.createElement("div");
+          termsBody.style.fontSize = "11px";
+          termsBody.style.color = "#374151";
+          termsBody.style.lineHeight = "1.5";
+          termsBody.innerHTML = `
+            <p><strong>Use of Estimate:</strong> This document is provided for planning purposes only and does not constitute a binding offer. Costs and timelines may vary based on site conditions and material availability.</p>
+            <p><strong>Data Privacy:</strong> We respect your privacy. Uploaded files and project details are processed to generate your estimate and handled according to our privacy practices. Do not include sensitive personal data in uploads.</p>
+            <p><strong>Liability:</strong> EstimateGenie and its operators are not liable for indirect or consequential damages arising from the use of this estimate. Always verify measurements and material quantities before purchasing.</p>
+            <p><strong>Contact:</strong> For support or questions, please contact us via the website.</p>
+          `;
+          terms.appendChild(termsTitle);
+          terms.appendChild(termsBody);
+
+          // Assemble document
+          doc.appendChild(cover);
+          doc.appendChild(coverBreak);
+          doc.appendChild(resultsWrapper);
+          doc.appendChild(termsBreak);
+          doc.appendChild(terms);
+
+          const opt = {
+            margin: [10, 10, 10, 10],
+            filename: `EstimateGenie-${quoteType}-${quoteId}${
+              isDemoQuote ? "-demo" : ""
+            }.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+          };
+          // Render PDF with footer page numbers
+          html2pdf()
+            .set(opt)
+            .from(doc)
+            .toPdf()
+            .get("pdf")
+            .then(function (pdf) {
+              const pageCount = pdf.getNumberOfPages();
+              for (let i = 1; i <= pageCount; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(9);
+                pdf.setTextColor(100);
+                const footerText = `EstimateGenie • https://estimategenie.net • Page ${i} of ${pageCount}`;
+                pdf.text(
+                  footerText,
+                  pdf.internal.pageSize.getWidth() / 2,
+                  pdf.internal.pageSize.getHeight() - 16,
+                  { align: "center" }
+                );
+              }
+            })
+            .save();
+        } catch (err) {
+          console.error("Download error:", err);
+          alert("Could not create the download. Please try again.");
+        }
+      }
+
+      // CSV export of materials and labor
+      function downloadCSV() {
+        const res = window.__lastQuoteResult;
+        if (!res) {
+          alert("Generate a quote first.");
+          return;
+        }
+        const rows = [];
+        rows.push([
+          "Section",
+          "Name",
+          "Quantity",
+          "Unit",
+          "Rate/Unit",
+          "Total",
+        ]);
+        (res.materials || []).forEach((m) => {
+          rows.push([
+            "Materials",
+            m.name,
+            m.quantity,
+            m.unit,
+            m.unit_price ?? "",
+            m.total ?? "",
+          ]);
+        });
+        (res.labor || []).forEach((l) => {
+          rows.push(["Labor", l.trade, l.hours, "hours", l.rate, l.total]);
+        });
+        rows.push([
+          "Totals",
+          "",
+          "",
+          "",
+          "Materials",
+          res.total_cost?.breakdown?.materials ?? "",
+        ]);
+        rows.push([
+          "Totals",
+          "",
+          "",
+          "",
+          "Labor",
+          res.total_cost?.breakdown?.labor ?? "",
+        ]);
+        const csv = rows
+          .map((r) =>
+            r
+              .map((v) => `${v ?? ""}`.replace(/"/g, '""'))
+              .map((v) => `"${v}"`)
+              .join(",")
+          )
+          .join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const quoteId =
+          res.id || new Date().toISOString().replace(/[:.]/g, "-");
+        a.download = `EstimateGenie-${quoteId}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // Initialize Feather icons
+      feather.replace();
+
+      // Add touch feedback for buttons
+      document.addEventListener("touchstart", function (e) {
+        if (e.target.closest(".touch-button")) {
+          e.target.closest(".touch-button").style.transform = "scale(0.95)";
+        }
+      });
+
+      document.addEventListener("touchend", function (e) {
+        if (e.target.closest(".touch-button")) {
+          setTimeout(() => {
+            e.target.closest(".touch-button").style.transform = "";
+          }, 100);
+        }
+      });
+
+      // Initialize
+      // Set auth status badge
+      (function updateAuthBadge() {
+        const badge = document.getElementById("auth-status-badge");
+        if (!badge) return;
+        const keys = [
+          "auth_token",
+          "api_key",
+          "access_token",
+          "user_token",
+          "eg_auth",
+          "eg_api_key",
+        ];
+        // Check if user is logged in by looking for any auth tokens
+        const loggedIn = keys.some((k) => !!localStorage.getItem(k));
+        console.log(
+          "Auth check - tokens found:",
+          keys.filter((k) => localStorage.getItem(k))
+        );
+        if (loggedIn) {
+          badge.textContent = "Signed In";
+          badge.className =
+            "ml-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700";
+        } else {
+          badge.textContent = "Guest";
+          badge.className =
+            "ml-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-700";
+        }
+      })();
+      updateStepIndicator(1);
+
+      // Add phases and risks handlers
+      function createPhaseNode(name, desc, hours) {
+        const wrapper = document.createElement("div");
+        wrapper.className =
+          "phase-item p-2 rounded bg-gray-50 border border-gray-100 mb-2 flex items-center justify-between";
+        wrapper.dataset.name = name;
+        wrapper.dataset.desc = desc;
+        wrapper.dataset.hours = String(hours);
+        wrapper.innerHTML = `<div class="flex-1 text-sm"><strong>${name}</strong><div class="text-xs text-gray-500">${desc}</div></div><div class="text-xs text-gray-600 mr-2">${hours}h</div><button class="remove-phase touch-button text-red-500">Remove</button>`;
+        return wrapper;
+      }
+
+      function createRiskNode(id, desc, impact) {
+        const wrapper = document.createElement("div");
+        wrapper.className =
+          "risk-item p-2 rounded bg-gray-50 border border-gray-100 mb-2 flex items-center justify-between";
+        wrapper.dataset.id = id;
+        wrapper.dataset.desc = desc;
+        wrapper.dataset.impact = impact;
+        wrapper.innerHTML = `<div class="flex-1 text-sm"><strong>${id}</strong><div class="text-xs text-gray-500">${desc}</div></div><div class="text-xs text-gray-600 mr-2">${impact}</div><button class="remove-risk touch-button text-red-500">Remove</button>`;
+        return wrapper;
+      }
+
+      const addPhaseBtn = document.getElementById("add-phase-btn");
+      if (addPhaseBtn) {
+        addPhaseBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const nameEl = document.getElementById("phase-name");
+          const descEl = document.getElementById("phase-desc");
+          const hoursEl = document.getElementById("phase-hours");
+          const name = nameEl.value.trim();
+          const desc = descEl.value.trim();
+          const hours = parseFloat(hoursEl.value) || 0;
+          if (!name) return;
+          const node = createPhaseNode(name, desc, hours);
+          document.getElementById("phases-list").appendChild(node);
+          nameEl.value = "";
+          descEl.value = "";
+          hoursEl.value = "";
+        });
+      }
+
+      const addRiskBtn = document.getElementById("add-risk-btn");
+      if (addRiskBtn) {
+        addRiskBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const idEl = document.getElementById("risk-id");
+          const descEl = document.getElementById("risk-desc");
+          const impactEl = document.getElementById("risk-impact");
+          const id = idEl.value.trim();
+          const desc = descEl.value.trim();
+          const impact = impactEl.value || "medium";
+          if (!id || !desc) return;
+          const node = createRiskNode(id, desc, impact);
+          document.getElementById("risks-list").appendChild(node);
+          idEl.value = "";
+          descEl.value = "";
+        });
+      }
+
+      document.addEventListener("click", (e) => {
+        if (
+          e.target &&
+          e.target.classList &&
+          e.target.classList.contains("remove-phase")
+        ) {
+          e.target.closest(".phase-item")?.remove();
+        }
+        if (
+          e.target &&
+          e.target.classList &&
+          e.target.classList.contains("remove-risk")
+        ) {
+          e.target.closest(".risk-item")?.remove();
+        }
+      });
+    </script>
+  </body>
+</html>

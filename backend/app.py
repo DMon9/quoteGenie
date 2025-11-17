@@ -271,9 +271,13 @@ async def get_current_user(authorization: str = Header(None)):
     
     return user
 
-# Health check endpoint
+# Home: serve quote builder UI
 @app.get("/")
 async def root():
+    index_path = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    # Fallback JSON if file missing
     return {
         "service": "EstimateGenie API",
         "status": "running",

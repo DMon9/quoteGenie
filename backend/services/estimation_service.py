@@ -267,6 +267,13 @@ class EstimationService:
         # Parse advanced options with defaults
         opts = advanced_options or {}
         material_quality = opts.get("quality", "standard")
+        # Auto-upgrade quality based on vision description if not explicitly provided
+        try:
+            if ("quality" not in opts) and isinstance(vision_results.get("scene_description"), str):
+                if "luxury" in vision_results["scene_description"].lower():
+                    material_quality = "luxury"
+        except Exception:
+            pass
         contingency_pct = self._parse_float(opts.get("contingency_pct"), default=0.0, min_val=0.0, max_val=30.0)
         profit_pct = self._parse_float(opts.get("profit_pct"), default=15.0, min_val=0.0, max_val=50.0)
         region = opts.get("region", "midwest")
@@ -274,15 +281,54 @@ class EstimationService:
         # Extract materials from LLM reasoning
         materials_needed = reasoning.get("materials_needed", [])
 
+        # Scale quantities and labor by estimated area when available to better reflect project size
+        area_factor = 1.0
+        try:
+            est_area = float(vision_results.get("measurements", {}).get("estimated_area_sqft") or 0)
+            # Baseline areas by project type (heuristic) - updated for more accurate ratios
+            baselines = {"bathroom": 60.0, "kitchen": 100.0, "interior": 800.0, "exterior": 200.0}
+            baseline = baselines.get(project_type.lower(), 100.0)
+            if est_area > 0 and baseline > 0:
+                # Use square root scaling to dampen extreme variations
+                raw_ratio = est_area / baseline
+                area_factor = max(0.6, min(3.0, raw_ratio ** 0.7))
+        except Exception:
+            area_factor = 1.0
+
+        if area_factor != 1.0 and isinstance(materials_needed, list):
+            scaled: List[Dict[str, Any]] = []
+            for m in materials_needed:
+                try:
+                    q = m.get("quantity", 0)
+                    # _parse_quantity will be applied later; here just scale numeric values
+                    if isinstance(q, (int, float)):
+                        q = float(q) * area_factor
+                    scaled.append({**m, "quantity": q})
+                except Exception:
+                    scaled.append(m)
+            materials_needed = scaled
+
         # Calculate material costs with quality multiplier
         materials_cost = self._calculate_materials_cost(materials_needed, quality=material_quality)
 
         # Calculate labor costs with region multiplier
-        labor_hours = self._extract_labor_hours(reasoning)
+        labor_hours = self._extract_labor_hours(reasoning) * area_factor
         labor_cost = self._calculate_labor_cost(labor_hours, project_type, region=region)
 
+        # Apply subtype multipliers for specific exterior cases (e.g., roof replacement is materially costlier)
+        subtype_multiplier = 1.0
+        try:
+            if project_type.lower() == "exterior":
+                desc = str(vision_results.get("scene_description", "")).lower()
+                detections = vision_results.get("detections", []) or []
+                has_roof = ("roof" in desc) or any("roof" in str(d.get("class", "")).lower() for d in detections)
+                if has_roof:
+                    subtype_multiplier = 1.6
+        except Exception:
+            pass
+
         # Apply profit margin and contingency
-        subtotal = materials_cost["total"] + labor_cost["total"]
+        subtotal = (materials_cost["total"] + labor_cost["total"]) * subtype_multiplier
         profit = subtotal * (profit_pct / 100.0)
         contingency = subtotal * (contingency_pct / 100.0)
         total = subtotal + profit + contingency

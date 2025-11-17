@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EstimateGenie · Quote Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50">
+    <header class="bg-white border-b">
+      <div
+        class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-2">
+          <span class="text-purple-600 font-extrabold text-xl"
+            >EstimateGenie</span
+          >
+          <span class="text-gray-400">·</span>
+          <span class="text-gray-600">Quote Builder</span>
+        </div>
+        <div id="auth-badge" class="text-sm text-gray-600"></div>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+      <div class="bg-white rounded-xl shadow-sm border p-6">
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">
+          What are you building today?
+        </h1>
+        <p class="text-gray-600 mb-6">
+          Start a quote by describing your project and adding an optional photo.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <label class="block">
+              <span class="block text-sm font-medium text-gray-700"
+                >Project type</span
+              >
+              <select
+                id="projectType"
+                class="mt-1 w-full rounded-md border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+              >
+                <option value="kitchen">Kitchen</option>
+                <option value="bathroom">Bathroom</option>
+                <option value="interior">Interior Painting</option>
+                <option value="exterior">Exterior</option>
+                <option value="roofing">Roofing</option>
+                <option value="deck">Deck</option>
+                <option value="general">Custom</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="block text-sm font-medium text-gray-700"
+                >Describe your project</span
+              >
+              <textarea
+                id="description"
+                rows="5"
+                placeholder="E.g., 10x12 kitchen with island; replace countertops and backsplash."
+                class="mt-1 w-full rounded-md border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+              ></textarea>
+            </label>
+
+            <div
+              id="authWarning"
+              class="hidden text-amber-700 bg-amber-50 border border-amber-200 rounded-md p-3 text-sm"
+            >
+              Sign in required to generate quotes.
+              <a href="/login" class="text-amber-800 underline"
+                >Sign in with Auth0</a
+              >
+            </div>
+
+            <button
+              id="submitBtn"
+              class="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  d="M2.25 12l8.954-8.955c.44-.439 1.193-.128 1.193.488V8.25c4.97 0 9 4.03 9 9 0 1.223-.244 2.387-.686 3.45-.24.566-1.056.59-1.342.069A7.486 7.486 0 0015.75 18c-3.728 0-6.864 2.66-7.592 6.19-.106.495-.81.61-1.106.19A10.5 10.5 0 011.5 12c0-.414.336-.75.75-.75z"
+                />
+              </svg>
+              Generate Quote
+            </button>
+            <div id="status" class="text-sm text-gray-600"></div>
+          </div>
+
+          <div>
+            <span class="block text-sm font-medium text-gray-700 mb-1"
+              >Add a photo (optional)</span
+            >
+            <div
+              id="dropZone"
+              class="mt-1 flex justify-center items-center border-2 border-dashed rounded-lg p-6 h-44 text-center text-gray-500 hover:border-purple-400"
+            >
+              <div>
+                <p class="mb-2">Drag & drop or</p>
+                <button
+                  id="chooseFileBtn"
+                  class="px-3 py-1.5 border rounded-md text-sm hover:bg-gray-50"
+                >
+                  Choose Photo
+                </button>
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept="image/*"
+                  class="hidden"
+                />
+                <p id="fileName" class="mt-2 text-xs text-gray-500"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="resultCard"
+        class="mt-6 hidden bg-white rounded-xl shadow-sm border p-6"
+      >
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Estimate</h2>
+        <pre
+          id="result"
+          class="text-sm bg-gray-50 border rounded p-3 overflow-auto"
+        ></pre>
+      </div>
+    </main>
+
+    <script>
+      const apiBase = window.location.origin;
+      let selectedFile = null;
+
+      function getAuthHeader() {
+        const token = localStorage.getItem("auth_token");
+        const apiKey = localStorage.getItem("api_key");
+        if (token) return `Bearer ${token}`;
+        if (apiKey) return apiKey;
+        return null;
+      }
+
+      function updateAuthBadge() {
+        const badge = document.getElementById("auth-badge");
+        const token = localStorage.getItem("auth_token");
+        const apiKey = localStorage.getItem("api_key");
+        const name = localStorage.getItem("user_name");
+        if (token || apiKey) {
+          badge.innerHTML =
+            `<span class="inline-flex items-center gap-2 text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded-md">` +
+            `<span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span>` +
+            `${name ? name : "Signed in"}</span>`;
+        } else {
+          badge.innerHTML = `<a href="/login" class="text-purple-700 hover:underline">Sign in</a>`;
+        }
+      }
+
+      function setStatus(msg, kind = "info") {
+        const el = document.getElementById("status");
+        el.className =
+          "text-sm " +
+          (kind === "error"
+            ? "text-red-600"
+            : kind === "ok"
+            ? "text-green-700"
+            : "text-gray-600");
+        el.textContent = msg || "";
+      }
+
+      function wireUpload() {
+        const dropZone = document.getElementById("dropZone");
+        const fileInput = document.getElementById("fileInput");
+        const chooseBtn = document.getElementById("chooseFileBtn");
+        const fileName = document.getElementById("fileName");
+
+        chooseBtn.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", () => {
+          selectedFile =
+            fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+          fileName.textContent = selectedFile ? selectedFile.name : "";
+        });
+
+        ["dragenter", "dragover"].forEach((ev) =>
+          dropZone.addEventListener(ev, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add("border-purple-400");
+          })
+        );
+        ["dragleave", "drop"].forEach((ev) =>
+          dropZone.addEventListener(ev, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.remove("border-purple-400");
+          })
+        );
+        dropZone.addEventListener("drop", (e) => {
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files[0]) {
+            selectedFile = dt.files[0];
+            fileName.textContent = selectedFile.name;
+          }
+        });
+      }
+
+      async function generateQuote() {
+        setStatus("");
+        const auth = getAuthHeader();
+        const authWarning = document.getElementById("authWarning");
+        const submitBtn = document.getElementById("submitBtn");
+        if (!auth) {
+          authWarning.classList.remove("hidden");
+          setStatus("Sign in to continue", "error");
+          return;
+        }
+        authWarning.classList.add("hidden");
+
+        const projectType = document.getElementById("projectType").value;
+        const description = document.getElementById("description").value.trim();
+        if (!selectedFile) {
+          setStatus("Please add a photo to continue", "error");
+          return;
+        }
+
+        const form = new FormData();
+        form.append("file", selectedFile);
+        form.append("project_type", projectType);
+        form.append("description", description);
+        form.append("options", "{}");
+
+        submitBtn.disabled = true;
+        setStatus("Generating quote…");
+        try {
+          const res = await fetch(`${apiBase}/v1/quotes`, {
+            method: "POST",
+            headers: { Authorization: auth },
+            body: form,
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(
+              data?.detail || data?.message || "Failed to generate quote"
+            );
+          }
+          setStatus("Quote generated successfully", "ok");
+          const out = document.getElementById("result");
+          const card = document.getElementById("resultCard");
+          out.textContent = JSON.stringify(data, null, 2);
+          card.classList.remove("hidden");
+        } catch (err) {
+          setStatus(err.message || "Error generating quote", "error");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updateAuthBadge();
+        wireUpload();
+        document
+          .getElementById("submitBtn")
+          .addEventListener("click", generateQuote);
+      });
+    </script>
+  </body>
+</html>

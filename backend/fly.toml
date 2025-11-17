@@ -10,13 +10,15 @@ primary_region = 'sjc'
   dockerfile = 'Dockerfile.fly'
 
 [env]
-  ALLOW_ORIGINS = 'https://www.estimategenie.net,https://estimategenie.net,https://api.estimategenie.net,https://f5ed7926.estimategenie.pages.dev'
+  ALLOW_ORIGINS = 'https://www.estimategenie.net,https://estimategenie.net,https://api.estimategenie.net,https://f5ed7926.estimategenie.pages.dev,https://quotegenie-api.fly.dev,http://localhost:3000,http://localhost:8000,http://localhost:8080'
   GEMINI_MODEL = 'gemini-2.5-flash'
   LLM_PROVIDER = 'gemini'
   PORT = '8080'
   PRICE_LIST_FILE = '/app/pricing/materials_pricing_400.json'
   PRICE_LIST_RELOAD_SEC = '10'
   PYTHON_VERSION = '3.11'
+  # Ensure application and migration scripts use the same DB path
+  DATABASE_PATH = '/app/estimategenie.db'
 
 # No mounts needed for initial deployment
 
@@ -34,6 +36,10 @@ primary_region = 'sjc'
     grace_period = '5s'
     method = 'GET'
     path = '/health'
+
+[deploy]
+# Run DB migrations on each deploy to keep schema current
+  release_command = 'python database/migrate_add_quote_scope_phases_risks.py'
 
 [[vm]]
   cpu_kind = 'shared'
