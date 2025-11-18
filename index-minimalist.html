@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://estimategenie.net/" />
+    <meta name="description" content="AI-powered construction estimates in seconds. Upload a photo, get instant pricing, timelines, and materials list." />
+    <meta property="og:title" content="EstimateGenie - Instant AI Construction Estimates" />
+    <meta property="og:description" content="Get professional construction estimates in seconds with AI" />
+    <title>EstimateGenie - Instant AI Construction Estimates</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="./assets/js/api-config.js"></script>
+    <script src="./assets/js/cta-buttons.js"></script>
+    <style>
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+      }
+      .float-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+  </head>
+
+  <body class="font-sans antialiased bg-white">
+    <!-- Minimalist Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div class="max-w-6xl mx-auto px-6 sm:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="index.html" class="flex items-center space-x-2 group">
+            <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
+              <i data-feather="zap" class="h-5 w-5 text-white"></i>
+            </div>
+            <span class="text-lg font-semibold text-gray-900">EstimateGenie</span>
+          </a>
+
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="pricing.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
+            <a href="docs.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Docs</a>
+            <a href="login.html" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">Sign In</a>
+            <button class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">
+              Get Started
+            </button>
+          </div>
+
+          <button class="md:hidden p-2" id="mobile-menu-button">
+            <i data-feather="menu" class="h-5 w-5 text-gray-600"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="hidden md:hidden" id="mobile-menu">
+        <div class="px-6 py-4 space-y-3 bg-white border-t border-gray-100">
+          <a href="pricing.html" class="block text-sm text-gray-600">Pricing</a>
+          <a href="docs.html" class="block text-sm text-gray-600">Docs</a>
+          <a href="login.html" class="block text-sm text-gray-600">Sign In</a>
+          <button class="w-full px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg">Get Started</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 sm:px-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Content -->
+          <div class="space-y-8">
+            <div class="inline-flex items-center space-x-2 px-4 py-2 bg-purple-50 rounded-full text-sm text-purple-700">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+              </span>
+              <span>AI-Powered Estimates</span>
+            </div>
+
+            <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 leading-tight">
+              Instant Construction
+              <span class="gradient-text">Estimates</span>
+            </h1>
+
+            <p class="text-xl text-gray-600 leading-relaxed">
+              Upload a photo. Get professional estimates with pricing, timelines, and materials—all in seconds.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button class="px-8 py-4 text-base font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-all hover:shadow-lg flex items-center justify-center space-x-2">
+                <i data-feather="arrow-right" class="h-5 w-5"></i>
+                <span>Try Quote Builder</span>
+              </button>
+              <button class="px-8 py-4 text-base font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2">
+                <i data-feather="play-circle" class="h-5 w-5"></i>
+                <span>Watch Demo</span>
+              </button>
+            </div>
+
+            <div class="flex items-center space-x-6 pt-4">
+              <div class="flex -space-x-2">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 border-2 border-white"></div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 border-2 border-white"></div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-400 border-2 border-white"></div>
+              </div>
+              <div class="text-sm text-gray-600">
+                <span class="font-semibold text-gray-900">1,000+</span> professionals trust us
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Quote Builder Preview -->
+          <div class="relative float-animation">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">Quick Quote</h3>
+                <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Live Demo</span>
+              </div>
+
+              <!-- Upload Area -->
+              <div id="hero-upload-area" class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50/50 transition-all mb-6">
+                <input type="file" id="hero-file-input" accept="image/*" class="hidden" />
+                <div id="hero-upload-prompt">
+                  <i data-feather="upload-cloud" class="h-12 w-12 text-gray-400 mx-auto mb-3"></i>
+                  <p class="text-sm font-medium text-gray-700 mb-1">Drop your project image</p>
+                  <p class="text-xs text-gray-500">or click to browse</p>
+                </div>
+                <div id="hero-preview" class="hidden">
+                  <img id="hero-preview-img" class="rounded-lg max-h-48 mx-auto mb-3" />
+                  <p id="hero-file-name" class="text-sm text-gray-600"></p>
+                </div>
+              </div>
+
+              <!-- Quick Options -->
+              <div class="space-y-3 mb-6">
+                <select class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                  <option>Kitchen Renovation</option>
+                  <option>Bathroom Remodel</option>
+                  <option>Deck Construction</option>
+                  <option>Roofing</option>
+                  <option>General Contracting</option>
+                </select>
+              </div>
+
+              <!-- Generate Button -->
+              <button id="hero-generate-btn" class="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-500 text-white font-medium rounded-lg hover:shadow-lg transition-all flex items-center justify-center space-x-2">
+                <i data-feather="zap" class="h-5 w-5"></i>
+                <span>Generate Instant Quote</span>
+              </button>
+
+              <!-- Demo Result (initially hidden) -->
+              <div id="hero-result" class="hidden mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-sm font-medium text-gray-700">Estimated Cost</span>
+                  <span class="text-xl font-bold text-gray-900" id="hero-cost">$2,450 - $3,100</span>
+                </div>
+                <div class="flex items-center justify-between text-sm text-gray-600">
+                  <span>Timeline</span>
+                  <span id="hero-timeline">16-24 hours</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Stats -->
+            <div class="absolute -top-6 -left-6 bg-white rounded-xl shadow-lg px-4 py-3 border border-gray-100 hidden lg:block">
+              <div class="flex items-center space-x-2">
+                <i data-feather="clock" class="h-4 w-4 text-purple-600"></i>
+                <span class="text-sm font-medium text-gray-900">~3 sec</span>
+              </div>
+              <p class="text-xs text-gray-500">Average time</p>
+            </div>
+
+            <div class="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-lg px-4 py-3 border border-gray-100 hidden lg:block">
+              <div class="flex items-center space-x-2">
+                <i data-feather="check-circle" class="h-4 w-4 text-green-600"></i>
+                <span class="text-sm font-medium text-gray-900">87% accurate</span>
+              </div>
+              <p class="text-xs text-gray-500">AI precision</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Strip -->
+    <section class="py-12 border-t border-b border-gray-100 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-6 sm:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="text-center">
+            <i data-feather="zap" class="h-8 w-8 text-purple-600 mx-auto mb-2"></i>
+            <p class="text-sm font-medium text-gray-900">Instant Results</p>
+            <p class="text-xs text-gray-500 mt-1">Quotes in seconds</p>
+          </div>
+          <div class="text-center">
+            <i data-feather="dollar-sign" class="h-8 w-8 text-purple-600 mx-auto mb-2"></i>
+            <p class="text-sm font-medium text-gray-900">Accurate Pricing</p>
+            <p class="text-xs text-gray-500 mt-1">Real market rates</p>
+          </div>
+          <div class="text-center">
+            <i data-feather="list" class="h-8 w-8 text-purple-600 mx-auto mb-2"></i>
+            <p class="text-sm font-medium text-gray-900">Detailed BOMs</p>
+            <p class="text-xs text-gray-500 mt-1">Full materials list</p>
+          </div>
+          <div class="text-center">
+            <i data-feather="shield" class="h-8 w-8 text-purple-600 mx-auto mb-2"></i>
+            <p class="text-sm font-medium text-gray-900">Professional</p>
+            <p class="text-xs text-gray-500 mt-1">Ready to share</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simple CTA -->
+    <section class="py-20 px-6 sm:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Ready to get started?</h2>
+        <p class="text-xl text-gray-600 mb-8">Join thousands of professionals creating accurate estimates in seconds.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button class="px-8 py-4 text-base font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-all">
+            Start Free Trial
+          </button>
+          <button class="px-8 py-4 text-base font-medium text-gray-700 border-2 border-gray-200 rounded-lg hover:border-gray-300 transition-all">
+            View Pricing
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer class="border-t border-gray-100 py-12 px-6 sm:px-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <div class="w-6 h-6 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg"></div>
+              <span class="font-semibold text-gray-900">EstimateGenie</span>
+            </div>
+            <p class="text-sm text-gray-600">AI-powered construction estimates</p>
+          </div>
+          <div>
+            <h4 class="font-medium text-gray-900 mb-3">Product</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li><a href="pricing.html" class="hover:text-gray-900">Pricing</a></li>
+              <li><a href="docs.html" class="hover:text-gray-900">Documentation</a></li>
+              <li><a href="#" class="hover:text-gray-900">API</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium text-gray-900 mb-3">Company</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li><a href="about.html" class="hover:text-gray-900">About</a></li>
+              <li><a href="blog.html" class="hover:text-gray-900">Blog</a></li>
+              <li><a href="contact.html" class="hover:text-gray-900">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium text-gray-900 mb-3">Legal</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li><a href="#" class="hover:text-gray-900">Privacy</a></li>
+              <li><a href="#" class="hover:text-gray-900">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="pt-8 border-t border-gray-100 text-center text-sm text-gray-500">
+          © 2025 EstimateGenie. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize Feather icons
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof feather !== 'undefined') {
+          feather.replace();
+        }
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton) {
+          mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+          });
+        }
+
+        // Hero file upload
+        const heroUploadArea = document.getElementById('hero-upload-area');
+        const heroFileInput = document.getElementById('hero-file-input');
+        const heroPreview = document.getElementById('hero-preview');
+        const heroPreviewImg = document.getElementById('hero-preview-img');
+        const heroFileName = document.getElementById('hero-file-name');
+        const heroUploadPrompt = document.getElementById('hero-upload-prompt');
+        const heroGenerateBtn = document.getElementById('hero-generate-btn');
+        const heroResult = document.getElementById('hero-result');
+
+        heroUploadArea.addEventListener('click', () => heroFileInput.click());
+
+        heroUploadArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          heroUploadArea.classList.add('border-purple-400', 'bg-purple-50');
+        });
+
+        heroUploadArea.addEventListener('dragleave', () => {
+          heroUploadArea.classList.remove('border-purple-400', 'bg-purple-50');
+        });
+
+        heroUploadArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          heroUploadArea.classList.remove('border-purple-400', 'bg-purple-50');
+          const file = e.dataTransfer.files[0];
+          if (file && file.type.startsWith('image/')) {
+            handleHeroFile(file);
+          }
+        });
+
+        heroFileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            handleHeroFile(file);
+          }
+        });
+
+        function handleHeroFile(file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            heroPreviewImg.src = e.target.result;
+            heroFileName.textContent = file.name;
+            heroUploadPrompt.classList.add('hidden');
+            heroPreview.classList.remove('hidden');
+            if (typeof feather !== 'undefined') feather.replace();
+          };
+          reader.readAsDataURL(file);
+        }
+
+        // Generate quote demo
+        heroGenerateBtn.addEventListener('click', async function() {
+          const btn = this;
+          const originalHTML = btn.innerHTML;
+          
+          btn.disabled = true;
+          btn.innerHTML = '<svg class="animate-spin h-5 w-5 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+
+          try {
+            const apiConfig = window.ApiConfig || { baseUrl: "/api/v1", url: (p) => "/api/v1" + p };
+            const response = await fetch(apiConfig.url("/v1/quotes/demo"), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ project_type: "kitchen" })
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              document.getElementById('hero-cost').textContent = `$${data.estimate.low.toLocaleString()} - $${data.estimate.high.toLocaleString()}`;
+              document.getElementById('hero-timeline').textContent = data.timeline.readable;
+              heroResult.classList.remove('hidden');
+            } else {
+              alert('Demo quote generation failed. Please try again or sign up for full access.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Unable to connect to API. Please try again later.');
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+            if (typeof feather !== 'undefined') feather.replace();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

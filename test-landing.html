@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstimateGenie - Landing Page Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .test-section {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-pass {
+            color: #10b981;
+            font-weight: bold;
+        }
+        .test-fail {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="gradient-bg text-white p-8 rounded-lg mb-8">
+            <h1 class="text-3xl font-bold mb-2">EstimateGenie Landing Page Tests</h1>
+            <p class="opacity-90">Automated tests for functionality verification</p>
+        </div>
+
+        <div class="test-section bg-white">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i data-feather="check-circle" class="mr-2"></i>
+                JavaScript Libraries
+            </h2>
+            <div id="lib-tests"></div>
+        </div>
+
+        <div class="test-section bg-white">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i data-feather="zap" class="mr-2"></i>
+                API Configuration
+            </h2>
+            <div id="api-tests"></div>
+        </div>
+
+        <div class="test-section bg-white">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i data-feather="upload" class="mr-2"></i>
+                File Upload Simulation
+            </h2>
+            <div class="border-2 border-dashed border-purple-300 rounded-lg p-8 text-center">
+                <input type="file" id="test-file-input" accept="image/*" class="hidden">
+                <button onclick="document.getElementById('test-file-input').click()" 
+                        class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                    <i data-feather="folder" class="inline-block mr-2"></i> Test File Select
+                </button>
+                <div id="file-test-result" class="mt-4"></div>
+            </div>
+        </div>
+
+        <div class="test-section bg-white">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i data-feather="server" class="mr-2"></i>
+                Backend Connectivity
+            </h2>
+            <div id="backend-tests">
+                <button id="test-health" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mr-2">
+                    Test Health Endpoint
+                </button>
+                <button id="test-demo" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Test Demo Quote
+                </button>
+                <div id="backend-results" class="mt-4"></div>
+            </div>
+        </div>
+
+        <div class="test-section bg-white">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i data-feather="layout" class="mr-2"></i>
+                Responsive Design Test
+            </h2>
+            <div class="space-y-2">
+                <p>Current viewport: <span id="viewport-size" class="font-mono font-bold"></span></p>
+                <p>Device type: <span id="device-type" class="font-mono font-bold"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/api-config.js"></script>
+    <script>
+        // Initialize Feather icons
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+
+        // Test 1: JavaScript Libraries
+        const libTests = document.getElementById('lib-tests');
+        let libTestHTML = '<ul class="space-y-2">';
+        
+        libTestHTML += `<li>Feather Icons: <span class="${typeof feather !== 'undefined' ? 'test-pass' : 'test-fail'}">
+            ${typeof feather !== 'undefined' ? '✓ Loaded' : '✗ Not loaded'}
+        </span></li>`;
+        
+        libTestHTML += `<li>Tailwind CSS: <span class="test-pass">✓ Loaded (if you see styling)</span></li>`;
+        
+        libTestHTML += '</ul>';
+        libTests.innerHTML = libTestHTML;
+
+        // Test 2: API Configuration
+        const apiTests = document.getElementById('api-tests');
+        let apiTestHTML = '<ul class="space-y-2">';
+        
+        if (typeof window.ApiConfig !== 'undefined') {
+            apiTestHTML += `<li class="test-pass">✓ ApiConfig object exists</li>`;
+            apiTestHTML += `<li>Base URL: <code class="bg-gray-100 px-2 py-1 rounded">${window.ApiConfig.baseUrl}</code></li>`;
+            apiTestHTML += `<li>Health endpoint: <code class="bg-gray-100 px-2 py-1 rounded">${window.ApiConfig.url('/health')}</code></li>`;
+        } else {
+            apiTestHTML += `<li class="test-fail">✗ ApiConfig not found</li>`;
+        }
+        
+        apiTestHTML += '</ul>';
+        apiTests.innerHTML = apiTestHTML;
+
+        // Test 3: File Upload
+        document.getElementById('test-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const resultDiv = document.getElementById('file-test-result');
+            
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    resultDiv.innerHTML = `
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <p class="test-pass">✓ File selected successfully</p>
+                            <p class="text-sm mt-2">Name: ${file.name}</p>
+                            <p class="text-sm">Type: ${file.type}</p>
+                            <p class="text-sm">Size: ${(file.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <p class="test-fail">✗ Please select an image file</p>
+                        </div>
+                    `;
+                }
+                if (typeof feather !== 'undefined') feather.replace();
+            }
+        });
+
+        // Test 4: Backend Connectivity
+        document.getElementById('test-health').addEventListener('click', async function() {
+            const resultsDiv = document.getElementById('backend-results');
+            resultsDiv.innerHTML = '<p class="text-blue-600">Testing health endpoint...</p>';
+            
+            try {
+                const response = await fetch(window.ApiConfig.url('/health'));
+                const data = await response.json();
+                
+                resultsDiv.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                        <p class="test-pass">✓ Health check successful</p>
+                        <pre class="text-sm mt-2 bg-gray-100 p-2 rounded overflow-x-auto">${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+                        <p class="test-fail">✗ Health check failed</p>
+                        <p class="text-sm mt-2">${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById('test-demo').addEventListener('click', async function() {
+            const resultsDiv = document.getElementById('backend-results');
+            resultsDiv.innerHTML = '<p class="text-blue-600">Testing demo quote endpoint...</p>';
+            
+            try {
+                const response = await fetch(window.ApiConfig.url('/v1/quotes/demo'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ project_type: 'kitchen' })
+                });
+                const data = await response.json();
+                
+                resultsDiv.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                        <p class="test-pass">✓ Demo quote generated successfully</p>
+                        <div class="mt-2">
+                            <p class="font-semibold">Estimate: $${data.estimate.low} - $${data.estimate.high}</p>
+                            <p class="text-sm">Timeline: ${data.timeline.readable}</p>
+                            <p class="text-sm">Confidence: ${(data.confidence * 100).toFixed(0)}%</p>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+                        <p class="test-fail">✗ Demo quote failed</p>
+                        <p class="text-sm mt-2">${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Test 5: Responsive Design
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            document.getElementById('viewport-size').textContent = `${width} x ${height}`;
+            
+            let deviceType = 'Desktop';
+            if (width < 640) deviceType = 'Mobile';
+            else if (width < 1024) deviceType = 'Tablet';
+            
+            document.getElementById('device-type').textContent = deviceType;
+        }
+        
+        updateViewportInfo();
+        window.addEventListener('resize', updateViewportInfo);
+    </script>
+</body>
+</html>

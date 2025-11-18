@@ -155,6 +155,7 @@ The AI estimation engine uses:
 
 - [AI_STACK.md](AI_STACK.md) – Complete AI architecture and implementation
 - [MODELS_GUIDE.md](MODELS_GUIDE.md) – Model download, SD card setup, and Docker deployment
+- Fly.io Backend Deploy: see backend/fly.toml and backend/deploy_fly.ps1 (deploy from backend/)
 
 ### Quick Model Setup
 

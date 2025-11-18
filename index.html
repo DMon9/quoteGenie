@@ -38,12 +38,12 @@
     <title>EstimateGenie - AI-Powered Estimation Wizard</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
     <script src="./assets/js/api-config.js"></script>
     <script src="./assets/js/nav.js"></script>
     <script src="./assets/js/cta-buttons.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
     <link rel="stylesheet" href="assets/css/main.css" />
   </head>
   <body class="font-sans antialiased text-gray-800">
@@ -128,6 +128,60 @@
                 aria-expanded="false"
               >
                 <i data-feather="menu"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile menu, hidden by default -->
+        <div class="hidden sm:hidden" id="mobile-menu">
+          <div class="pt-2 pb-3 space-y-1">
+            <a
+              href="index.html"
+              class="border-purple-500 text-purple-600 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >Home</a
+            >
+            <a
+              href="features.html"
+              class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >Features</a
+            >
+            <a
+              href="about.html"
+              class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >About</a
+            >
+            <a
+              href="blog.html"
+              class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >Blog</a
+            >
+            <a
+              href="case-studies.html"
+              class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >Case Studies</a
+            >
+            <a
+              href="docs.html"
+              class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >Docs</a
+            >
+            <a
+              href="contact.html"
+              class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+              >Contact</a
+            >
+          </div>
+          <div class="pt-4 pb-3 border-t border-gray-200">
+            <div class="flex items-center px-4 space-x-3">
+              <button
+                class="flex-1 bg-purple-100 text-purple-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-200"
+              >
+                Log In
+              </button>
+              <button
+                class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700"
+              >
+                Start Free Trial
               </button>
             </div>
           </div>
@@ -306,47 +360,77 @@
             </p>
           </div>
           <div class="bg-white shadow rounded-lg p-6">
+            <form id="demo-quote-form">
+              <div
+                class="file-upload rounded-lg p-8 text-center cursor-pointer mb-6 border-2 border-dashed border-gray-300 hover:border-purple-500 transition-colors"
+                id="upload-area"
+              >
+                <input
+                  type="file"
+                  id="file-input"
+                  accept="image/*"
+                  class="hidden"
+                />
+                <i
+                  data-feather="upload-cloud"
+                  class="w-12 h-12 text-purple-500 mx-auto mb-4"
+                ></i>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">
+                  Drag & Drop Project Files
+                </h3>
+                <p class="text-gray-500 mb-4">
+                  Upload images, videos, or text descriptions of your project
+                </p>
+                <button
+                  type="button"
+                  id="browse-button"
+                  class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                  <i data-feather="folder" class="mr-2"></i> Browse Files
+                </button>
+                <p class="text-xs text-gray-500 mt-2">
+                  Supports JPG, PNG, MP4, PDF, DOCX (Max 50MB)
+                </p>
+                <div id="file-preview" class="mt-4 hidden">
+                  <img
+                    id="preview-image"
+                    class="mx-auto rounded-lg max-h-48"
+                    alt="Preview"
+                  />
+                  <p id="file-name" class="text-sm text-gray-600 mt-2"></p>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label
+                  for="project-description"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Project Description</label
+                >
+                <textarea
+                  id="project-description"
+                  rows="4"
+                  class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Add any additional details about your project..."
+                ></textarea>
+              </div>
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  id="generate-quote-btn"
+                  class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <i data-feather="zap" class="mr-2"></i> Generate Quote (Free)
+                </button>
+              </div>
+            </form>
             <div
-              class="file-upload rounded-lg p-8 text-center cursor-pointer mb-6"
+              id="quote-result"
+              class="hidden mt-6 p-6 bg-gray-50 rounded-lg"
             >
-              <i
-                data-feather="upload-cloud"
-                class="w-12 h-12 text-purple-500 mx-auto mb-4"
-              ></i>
-              <h3 class="text-lg font-medium text-gray-900 mb-2">
-                Drag & Drop Project Files
+              <h3 class="text-xl font-bold text-gray-900 mb-4">
+                Your Estimate
               </h3>
-              <p class="text-gray-500 mb-4">
-                Upload images, videos, or text descriptions of your project
-              </p>
-              <button
-                class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-              >
-                <i data-feather="folder" class="mr-2"></i> Browse Files
-              </button>
-              <p class="text-xs text-gray-500 mt-2">
-                Supports JPG, PNG, MP4, PDF, DOCX (Max 50MB)
-              </p>
-            </div>
-            <div class="mb-6">
-              <label
-                for="project-description"
-                class="block text-sm font-medium text-gray-700 mb-1"
-                >Project Description</label
-              >
-              <textarea
-                id="project-description"
-                rows="4"
-                class="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                placeholder="Add any additional details about your project..."
-              ></textarea>
-            </div>
-            <div class="flex justify-end">
-              <button
-                class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300 flex items-center justify-center"
-              >
-                <i data-feather="zap" class="mr-2"></i> Generate Quote (Free)
-              </button>
+              <div id="quote-content"></div>
             </div>
           </div>
           <p class="text-center text-sm text-gray-500 mt-4">
@@ -885,25 +969,232 @@
     </div>
 
     <script>
-      // Initialize Vanta.js background
-      VANTA.NET({
-        el: "#vanta-bg",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0x7c5cf1,
-        backgroundColor: 0x0,
-        points: 10.0,
-        maxDistance: 22.0,
-        spacing: 17.0,
+      // Initialize Feather icons first
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof feather !== "undefined") {
+          feather.replace();
+        }
       });
-    </script>
-    <script>
-      feather.replace();
+
+      // Initialize Vanta.js background with error handling
+      window.addEventListener("load", function () {
+        try {
+          if (typeof VANTA !== "undefined" && VANTA.NET) {
+            VANTA.NET({
+              el: "#vanta-bg",
+              mouseControls: true,
+              touchControls: true,
+              gyroControls: false,
+              minHeight: 200.0,
+              minWidth: 200.0,
+              scale: 1.0,
+              scaleMobile: 1.0,
+              color: 0x7c5cf1,
+              backgroundColor: 0x0,
+              points: 10.0,
+              maxDistance: 22.0,
+              spacing: 17.0,
+            });
+          }
+        } catch (e) {
+          console.log("Vanta.js not available, using fallback background");
+        }
+      });
+
+      // Add mobile menu toggle functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuButton = document.querySelector(
+          '[aria-controls="mobile-menu"]'
+        );
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        if (mobileMenuButton) {
+          mobileMenuButton.addEventListener("click", function () {
+            const isExpanded = this.getAttribute("aria-expanded") === "true";
+            this.setAttribute("aria-expanded", !isExpanded);
+            if (mobileMenu) {
+              mobileMenu.classList.toggle("hidden");
+            }
+          });
+        }
+
+        // File upload functionality
+        const fileInput = document.getElementById("file-input");
+        const browseButton = document.getElementById("browse-button");
+        const uploadArea = document.getElementById("upload-area");
+        const filePreview = document.getElementById("file-preview");
+        const previewImage = document.getElementById("preview-image");
+        const fileName = document.getElementById("file-name");
+        const demoForm = document.getElementById("demo-quote-form");
+        const generateBtn = document.getElementById("generate-quote-btn");
+        const quoteResult = document.getElementById("quote-result");
+        const quoteContent = document.getElementById("quote-content");
+
+        let selectedFile = null;
+
+        // Browse button click
+        if (browseButton) {
+          browseButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            fileInput.click();
+          });
+        }
+
+        // File input change
+        if (fileInput) {
+          fileInput.addEventListener("change", function (e) {
+            handleFile(e.target.files[0]);
+          });
+        }
+
+        // Drag and drop
+        if (uploadArea) {
+          uploadArea.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            this.classList.add("border-purple-500", "bg-purple-50");
+          });
+
+          uploadArea.addEventListener("dragleave", function (e) {
+            e.preventDefault();
+            this.classList.remove("border-purple-500", "bg-purple-50");
+          });
+
+          uploadArea.addEventListener("drop", function (e) {
+            e.preventDefault();
+            this.classList.remove("border-purple-500", "bg-purple-50");
+            handleFile(e.dataTransfer.files[0]);
+          });
+        }
+
+        function handleFile(file) {
+          if (!file) return;
+
+          if (file.type.startsWith("image/")) {
+            selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              previewImage.src = e.target.result;
+              fileName.textContent = file.name;
+              filePreview.classList.remove("hidden");
+              if (typeof feather !== "undefined") {
+                feather.replace();
+              }
+            };
+            reader.readAsDataURL(file);
+          } else {
+            alert("Please select an image file (JPG or PNG)");
+          }
+        }
+
+        // Form submission
+        if (demoForm) {
+          demoForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const description = document.getElementById(
+              "project-description"
+            ).value;
+
+            // Show loading state
+            generateBtn.disabled = true;
+            generateBtn.innerHTML =
+              '<svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...';
+
+            try {
+              // Generate demo quote
+              const apiConfig = window.ApiConfig || { baseUrl: "/api/v1", url: (p) => "/api/v1" + p };
+              const response = await fetch(
+                apiConfig.url("/v1/quotes/demo"),
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    project_type: "kitchen",
+                  }),
+                }
+              );
+
+              if (!response.ok) {
+                throw new Error("Failed to generate quote");
+              }
+
+              const data = await response.json();
+
+              // Display result
+              quoteContent.innerHTML = `
+                <div class="space-y-4">
+                  <div class="flex justify-between items-center pb-4 border-b">
+                    <span class="text-lg font-semibold text-gray-700">Estimated Cost</span>
+                    <span class="text-3xl font-bold text-purple-600">$${data.estimate.low.toLocaleString()} - $${data.estimate.high.toLocaleString()}</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-lg border">
+                      <p class="text-sm text-gray-500 mb-1">Timeline</p>
+                      <p class="text-xl font-semibold text-gray-900">${
+                        data.timeline.readable
+                      }</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border">
+                      <p class="text-sm text-gray-500 mb-1">Confidence</p>
+                      <p class="text-xl font-semibold text-gray-900">${(
+                        data.confidence * 100
+                      ).toFixed(0)}%</p>
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">Materials Breakdown</h4>
+                    <ul class="space-y-2">
+                      ${data.materials
+                        .map(
+                          (m) => `
+                        <li class="flex justify-between text-sm">
+                          <span>${m.name} (${m.quantity} ${m.unit})</span>
+                          <span class="font-medium">$${(
+                            m.quantity * m.unit_price
+                          ).toLocaleString()}</span>
+                        </li>
+                      `
+                        )
+                        .join("")}
+                    </ul>
+                  </div>
+                  <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p class="text-sm text-yellow-800">${data.disclaimer}</p>
+                  </div>
+                  <div class="mt-6 flex space-x-4">
+                    <button onclick="window.location.href='signup.html'" class="flex-1 px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+                      Sign Up for Full Access
+                    </button>
+                  </div>
+                </div>
+              `;
+              quoteResult.classList.remove("hidden");
+              quoteResult.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+            } catch (error) {
+              console.error("Error generating quote:", error);
+              quoteContent.innerHTML = `
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <p class="text-red-800">Failed to generate quote. Please try again or <a href="signup.html" class="underline font-semibold">sign up</a> for full access.</p>
+                </div>
+              `;
+              quoteResult.classList.remove("hidden");
+            } finally {
+              // Reset button
+              generateBtn.disabled = false;
+              generateBtn.innerHTML =
+                '<i data-feather="zap" class="mr-2"></i> Generate Quote (Free)';
+              if (typeof feather !== "undefined") {
+                feather.replace();
+              }
+            }
+          });
+        }
+      });
     </script>
   </body>
 </html>

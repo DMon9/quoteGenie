@@ -1,0 +1,48 @@
+# DEPRECATED: Do not use this file for deployment.
+# The backend Fly.io app is configured under backend/fly.toml and should be deployed from the backend/ directory.
+# This file is kept only for reference to previous settings.
+
+# Fly.io deployment config for EstimateGenie backend (deprecated)
+# Deploy from backend/: fly deploy --config backend/fly.toml --app quotegenie-api
+
+app = "estimategenie-backend"
+primary_region = "sea"
+
+[build]
+  builder = "paketobuildpacks/builder:base"
+  buildpacks = ["gcr.io/paketo-buildpacks/python"]
+
+[env]
+  PORT = "8000"
+  OLLAMA_URL = "http://localhost:11434"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8000
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512
