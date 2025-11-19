@@ -81,6 +81,7 @@
 
       // Quotes
       quotes: '/v1/quotes',
+      quotesAsync: '/v1/quotes/async',
       quote: function (id) { return `/v1/quotes/${id}`; }
     },
 
