@@ -12,8 +12,13 @@ import json
 import asyncio
 
 import httpx
-import sentry_sdk
-from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+
+try:
+    import sentry_sdk
+    from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+except ImportError:  # Sentry is optional; backend must still boot without it
+    sentry_sdk = None
+    SentryAsgiMiddleware = None
 
 from services.vision_service import VisionService
 from services.estimation_service import EstimationService
@@ -98,7 +103,7 @@ app = FastAPI(
 # Initialize Sentry if DSN present (should be set in deployment environment)
 try:
     _sentry_dsn = os.getenv('SENTRY_DSN') or os.getenv('SENTRY_DSN_URL')
-    if _sentry_dsn:
+    if _sentry_dsn and sentry_sdk and SentryAsgiMiddleware:
         sentry_sdk.init(
             dsn=_sentry_dsn,
             traces_sample_rate=0.0,
@@ -107,6 +112,8 @@ try:
         # Attach Sentry to ASGI app for automatic error capture
         app.add_middleware(SentryAsgiMiddleware)
         print('Sentry initialized with DSN')
+    elif _sentry_dsn:
+        print('Sentry DSN provided but sentry-sdk is not installed; skipping Sentry initialization')
     else:
         print('Sentry DSN not set; skipping Sentry initialization')
 except Exception as e:

@@ -33,6 +33,10 @@ function Set-AppSecrets {
     if ($env:STRIPE_SECRET_KEY) { $secrets["STRIPE_SECRET_KEY"] = $env:STRIPE_SECRET_KEY }
     if ($env:STRIPE_PUBLISHABLE_KEY) { $secrets["STRIPE_PUBLISHABLE_KEY"] = $env:STRIPE_PUBLISHABLE_KEY }
     if ($env:STRIPE_WEBHOOK_SECRET) { $secrets["STRIPE_WEBHOOK_SECRET"] = $env:STRIPE_WEBHOOK_SECRET }
+    if ($env:AUTH0_DOMAIN) { $secrets["AUTH0_DOMAIN"] = $env:AUTH0_DOMAIN }
+    if ($env:AUTH0_CLIENT_ID) { $secrets["AUTH0_CLIENT_ID"] = $env:AUTH0_CLIENT_ID }
+    if ($env:AUTH0_CLIENT_SECRET) { $secrets["AUTH0_CLIENT_SECRET"] = $env:AUTH0_CLIENT_SECRET }
+    if ($env:AUTH0_AUDIENCE) { $secrets["AUTH0_AUDIENCE"] = $env:AUTH0_AUDIENCE }
     if ($env:SENTRY_DSN) { $secrets["SENTRY_DSN"] = $env:SENTRY_DSN }
     if ($env:ENV) { $secrets["ENV"] = $env:ENV } else { $secrets["ENV"] = "production" }
 

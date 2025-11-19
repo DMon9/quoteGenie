@@ -21,3 +21,4 @@ python-jose[cryptography]==3.3.0
 auth0-python==4.7.1
 stripe==13.2.0
 bcrypt==4.1.2
+sentry-sdk==1.45.0
