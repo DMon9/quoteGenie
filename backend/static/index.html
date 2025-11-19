@@ -134,7 +134,12 @@
     </main>
 
     <script>
-      const apiBase = window.location.origin;
+      // Use Fly backend for production hosts; fall back to same-origin locally
+      const prodApiBase = "https://quotegenie-api.fly.dev";
+      const prodHost =
+        window.location.hostname.endsWith("estimategenie.net") ||
+        window.location.hostname.endsWith("estimategenie.pages.dev");
+      const apiBase = prodHost ? prodApiBase : window.location.origin;
       let selectedFile = null;
 
       function getAuthHeader() {

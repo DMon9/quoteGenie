@@ -61,7 +61,7 @@ def validate_advanced_options(options: dict) -> dict:
         for p in phases:
             try:
                 ph = OptionPhase(**p)
-                out_phases.append(ph.dict())
+                out_phases.append(ph.model_dump())
             except ValidationError:
                 # skip invalid phase
                 continue
@@ -79,7 +79,7 @@ def validate_advanced_options(options: dict) -> dict:
                 impact = rk.impact.lower()
                 if impact not in ("low", "medium", "high"):
                     impact = "medium"
-                obj = rk.dict()
+                obj = rk.model_dump()
                 obj["impact"] = impact
                 out_risks.append(obj)
             except ValidationError:
@@ -985,18 +985,9 @@ async def create_quote(
                 description
             )
         
-        # Parse advanced options
+        # Parse and validate advanced options
         try:
             advanced_options = json.loads(options) if options else {}
-        except Exception:
-            advanced_options = {}
-        try:
-            advanced_options = validate_advanced_options(advanced_options)
-        except Exception:
-            advanced_options = {}
-
-        # Validate advanced options (phases, risks, scope)
-        try:
             advanced_options = validate_advanced_options(advanced_options)
         except Exception:
             advanced_options = {}
@@ -1031,18 +1022,90 @@ async def create_quote(
         user.increment_quote_usage()
         auth_service.update_user_usage(user.id, quotes_used=user.quotes_used)
         
+        # Convert estimate data to proper types
+        from models.quote import Material, LaborItem, Timeline, WorkStep, Phase, RiskItem
+        
+        # Build timeline object
+        timeline_data = estimate["timeline"]
+        timeline_obj = Timeline(
+            estimated_hours=timeline_data.get("estimated_hours", 0),
+            estimated_days=timeline_data.get("estimated_days", 1),
+            min_days=timeline_data.get("min_days", 1),
+            max_days=timeline_data.get("max_days", 1)
+        )
+        
+        # Build materials list
+        materials_list = [
+            Material(
+                name=m.get("name", ""),
+                quantity=m.get("quantity", 0),
+                unit=m.get("unit", "unit"),
+                unit_price=m.get("unit_price", 0),
+                total=m.get("total", 0)
+            )
+            for m in estimate.get("materials", [])
+        ]
+        
+        # Build labor list
+        labor_list = [
+            LaborItem(
+                trade=l.get("trade", ""),
+                hours=l.get("hours", 0),
+                rate=l.get("rate", 0),
+                total=l.get("total", 0)
+            )
+            for l in estimate.get("labor", [])
+        ]
+        
+        # Build steps list
+        steps_list = [
+            WorkStep(
+                order=s.get("order", 0),
+                description=s.get("description", ""),
+                duration=s.get("duration", "")
+            )
+            for s in estimate.get("steps", [])
+        ]
+        
+        # Build phases list if present
+        phases_list = None
+        if advanced_options.get("phases"):
+            phases_list = [
+                Phase(
+                    name=p.get("name", ""),
+                    description=p.get("description", ""),
+                    estimated_hours=p.get("estimated_hours", 0)
+                )
+                for p in advanced_options.get("phases", [])
+            ]
+        
+        # Build risks list if present
+        risks_list = None
+        if advanced_options.get("risks"):
+            risks_list = [
+                RiskItem(
+                    id=r.get("id", ""),
+                    description=r.get("description", ""),
+                    impact=r.get("impact", "medium")
+                )
+                for r in advanced_options.get("risks", [])
+            ]
+        
         # Return response
         return QuoteResponse(
             id=quote_id,
             status="completed",
             total_cost=estimate["total_cost"],
-            timeline=estimate["timeline"],
-            materials=estimate["materials"],
-            labor=estimate["labor"],
-            steps=estimate["steps"],
+            timeline=timeline_obj,
+            materials=materials_list,
+            labor=labor_list,
+            steps=steps_list,
             confidence_score=estimate["confidence_score"],
             vision_analysis=vision_results,
             options_applied=estimate.get("options_applied"),
+            scope=advanced_options.get("scope"),
+            phases=phases_list,
+            risks=risks_list,
             created_at=datetime.now(timezone.utc)
         )
         
@@ -1054,37 +1117,101 @@ async def create_quote(
 @app.get("/v1/quotes/{quote_id}", response_model=QuoteResponse)
 async def get_quote(quote_id: str):
     """Retrieve a previously generated quote"""
+    from models.quote import Material, LaborItem, Timeline, WorkStep, Phase, RiskItem
+    
     quote = await db_service.get_quote(quote_id)
     if not quote:
         raise HTTPException(status_code=404, detail="Quote not found")
-    # Adapt stored schema { estimate: {...} } to QuoteResponse shape
+    
     est = quote.get("estimate") or {}
     try:
         created_at = quote.get("created_at")
-        from datetime import datetime
         created_dt = datetime.fromisoformat(created_at) if isinstance(created_at, str) else datetime.now(timezone.utc)
     except Exception:
         created_dt = datetime.now(timezone.utc)
-    try:
-        return QuoteResponse(
-            id=quote.get("id"),
-            status=quote.get("status", "processing"),
-            total_cost=est.get("total_cost") or {},
-            timeline=est.get("timeline") or {"estimated_hours": 0, "estimated_days": 1, "min_days": 1, "max_days": 1},
-            materials=est.get("materials") or [],
-            labor=est.get("labor") or [],
-            steps=est.get("steps") or [],
-            confidence_score=est.get("confidence_score", 0.0),
-            vision_analysis=quote.get("vision_results"),
-            options_applied=est.get("options_applied"),
-            scope=quote.get("scope"),
-            phases=quote.get("phases"),
-            risks=quote.get("risks"),
-            created_at=created_dt,
+    
+    # Build timeline object
+    timeline_data = est.get("timeline") or {"estimated_hours": 0, "estimated_days": 1, "min_days": 1, "max_days": 1}
+    timeline_obj = Timeline(
+        estimated_hours=timeline_data.get("estimated_hours", 0),
+        estimated_days=timeline_data.get("estimated_days", 1),
+        min_days=timeline_data.get("min_days", 1),
+        max_days=timeline_data.get("max_days", 1)
+    )
+    
+    # Build materials list
+    materials_list = [
+        Material(
+            name=m.get("name", ""),
+            quantity=m.get("quantity", 0),
+            unit=m.get("unit", "unit"),
+            unit_price=m.get("unit_price", 0),
+            total=m.get("total", 0)
         )
-    except Exception:
-        # As a fallback, return raw quote dict (will likely 422). Better than 500.
-        return quote
+        for m in est.get("materials", [])
+    ]
+    
+    # Build labor list
+    labor_list = [
+        LaborItem(
+            trade=l.get("trade", ""),
+            hours=l.get("hours", 0),
+            rate=l.get("rate", 0),
+            total=l.get("total", 0)
+        )
+        for l in est.get("labor", [])
+    ]
+    
+    # Build steps list
+    steps_list = [
+        WorkStep(
+            order=s.get("order", 0),
+            description=s.get("description", ""),
+            duration=s.get("duration", "")
+        )
+        for s in est.get("steps", [])
+    ]
+    
+    # Build phases list if present
+    phases_list = None
+    if quote.get("phases"):
+        phases_list = [
+            Phase(
+                name=p.get("name", ""),
+                description=p.get("description", ""),
+                estimated_hours=p.get("estimated_hours", 0)
+            )
+            for p in quote.get("phases", [])
+        ]
+    
+    # Build risks list if present
+    risks_list = None
+    if quote.get("risks"):
+        risks_list = [
+            RiskItem(
+                id=r.get("id", ""),
+                description=r.get("description", ""),
+                impact=r.get("impact", "medium")
+            )
+            for r in quote.get("risks", [])
+        ]
+    
+    return QuoteResponse(
+        id=quote.get("id"),
+        status=quote.get("status", "processing"),
+        total_cost=est.get("total_cost") or {},
+        timeline=timeline_obj,
+        materials=materials_list,
+        labor=labor_list,
+        steps=steps_list,
+        confidence_score=est.get("confidence_score", 0.0),
+        vision_analysis=quote.get("vision_results"),
+        options_applied=est.get("options_applied"),
+        scope=quote.get("scope"),
+        phases=phases_list,
+        risks=risks_list,
+        created_at=created_dt
+    )
 
 # List all quotes (authenticated)
 @app.get("/v1/quotes")

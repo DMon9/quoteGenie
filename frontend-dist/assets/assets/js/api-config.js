@@ -51,8 +51,11 @@
 
     // Helper to build full endpoint URLs
     url: function (path) {
-      // Ensure path starts with /
-      const cleanPath = path.startsWith('/') ? path : '/' + path;
+      const safePath = typeof path === 'string' ? path.trim() : '';
+      if (!safePath) {
+        return this.baseUrl;
+      }
+      const cleanPath = safePath.startsWith('/') ? safePath : '/' + safePath;
       return this.baseUrl + cleanPath;
     },
 
@@ -83,9 +86,9 @@
 
     // Fetch wrapper with automatic auth header injection
     fetch: async function (endpoint, options = {}) {
-      const url = typeof endpoint === 'string' && endpoint.startsWith('http')
-        ? endpoint
-        : this.url(endpoint);
+      const endpointStr = typeof endpoint === 'string' ? endpoint : '';
+      const isAbsolute = endpointStr.startsWith('http://') || endpointStr.startsWith('https://') || endpointStr.startsWith('//');
+      const url = isAbsolute ? endpointStr : this.url(endpointStr);
 
       // Auto-inject auth token if available
       const token = localStorage.getItem('auth_token');

@@ -1,51 +1,49 @@
-from dataclasses import dataclass, field, asdict
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 
-@dataclass
-class Material:
+
+class Material(BaseModel):
     name: str
     quantity: float
     unit: str
     unit_price: float
     total: float
 
-@dataclass
-class LaborItem:
+
+class LaborItem(BaseModel):
     trade: str
     hours: float
     rate: float
     total: float
 
-@dataclass
-class Timeline:
+
+class Timeline(BaseModel):
     estimated_hours: float
     estimated_days: int
     min_days: int
     max_days: int
 
-@dataclass
-class WorkStep:
+
+class WorkStep(BaseModel):
     order: int
     description: str
     duration: str
 
 
-@dataclass
-class Phase:
+class Phase(BaseModel):
     name: str
     description: str
     estimated_hours: float
 
 
-@dataclass
-class RiskItem:
+class RiskItem(BaseModel):
     id: str
     description: str
     impact: str  # low/medium/high
 
-@dataclass
-class QuoteResponse:
+
+class QuoteResponse(BaseModel):
     id: str
     status: str
     total_cost: Dict[str, Any]
@@ -59,11 +57,6 @@ class QuoteResponse:
     scope: Optional[str] = None
     phases: Optional[List[Phase]] = None
     risks: Optional[List[RiskItem]] = None
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
-    # Lightweight serializer: ensure datetime is ISO 8601 when converting to dict
-    def to_dict(self) -> Dict[str, Any]:
-        result = asdict(self)
-        if isinstance(self.created_at, datetime):
-            result["created_at"] = self.created_at.isoformat()
-        return result
+    model_config = {"from_attributes": True}
